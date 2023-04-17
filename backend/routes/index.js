@@ -4,10 +4,12 @@ const apiRouter = require('./api');
 router.use('/api', apiRouter);
 
 //maybe it needs function declaration....?
-router.get('/api/csrf/restore', (req, res) => {
+router.get("/api/csrf/restore", (req, res) => {
     const csrfToken = req.csrfToken();
-    res.cookie("XSRF_TOKEN", csrfToken);
-    res.status(200).json({'XSRF_Token': csrfToken})
-});
+    res.cookie("XSRF-TOKEN", csrfToken);
+    res.status(200).json({
+      'XSRF-Token': csrfToken
+    });
+  });
 module.exports = router; 
 //
