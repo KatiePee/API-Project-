@@ -27,6 +27,8 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   User.init({
+    firstName: DataTypes.STRING,
+    lastName: DataTypes.STRING,
     username: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -54,8 +56,7 @@ module.exports = (sequelize, DataTypes) => {
         len: [60, 60]
       }
     },
-    firstName: DataTypes.STRING,
-    lastName: DataTypes.STRING,
+   
   }, {
     sequelize,
     modelName: "User",
