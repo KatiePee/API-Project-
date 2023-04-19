@@ -31,10 +31,11 @@ module.exports = (sequelize, DataTypes) => {
     spotId: DataTypes.INTEGER,
     userId: DataTypes.INTEGER,
     review: {
-      type: DataTypes.TEXT,
+      type: DataTypes.STRING(2048),
       allowNull: false,
       validate: {
         notEmpty: true,
+        len: [5, 2048]
       }
     },
     stars: {
