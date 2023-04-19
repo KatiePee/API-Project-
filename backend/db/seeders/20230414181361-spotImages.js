@@ -19,12 +19,12 @@ const spotImagesData = [
   {
     spotId: 2, 
     url: 'StudRockCastlePhoto2.jpg',
-    preview: true,
+    preview: false,
   },
   {
     spotId: 2, 
     url: 'StudRockCastlePhoto3.jpg',
-    preview: true,
+    preview: false,
   },
   {
     spotId: 3, 
@@ -39,7 +39,7 @@ const spotImagesData = [
   {
     spotId: 4, 
     url: "SatansPalacePhoto2.jpg",
-    preview: true,
+    preview: false,
   },
   {
     spotId: 5, 
@@ -49,12 +49,12 @@ const spotImagesData = [
   {
     spotId: 5, 
     url: "Millie'sPurrfectCatTreePhoto2.jpg",
-    preview: true,
+    preview: false,
   },
   {
     spotId: 5, 
     url: "Millie'sPurrfectCatTreePhoto3.jpg",
-    preview: true,
+    preview: false,
   },
   {
     spotId: 6, 
