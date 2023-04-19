@@ -6,7 +6,42 @@ if (process.env.NODE_ENV === 'production') {
   options.schema = process.env.SCHEMA;
 }
 const usersData = [
-  {}
+  {
+    firstName: "Katie" ,
+    lastName: "Piele" ,
+    username: "katiepee",
+    email: "katie.pee@gmail.com",
+    hashedPassword: bcrypt.hashSync('katiepeePassword'),
+  },
+  {
+    firstName: "Chris" ,
+    lastName: "Rohrbeck" ,
+    username: "mr.handsome",
+    email: "chris.rohrbeck@gmail.com",
+    hashedPassword: bcrypt.hashSync('mr.handsomePassword'),
+  },
+  {
+    firstName: "Harrison" ,
+    lastName: "Murdock" ,
+    username: "harri",
+    email: "harrison.murdock@gmail.com",
+    hashedPassword: bcrypt.hashSync('harriPassword'),
+  },
+  {
+    firstName: "Millie" ,
+    lastName: "MewMew" ,
+    username: "milliemewmew",
+    email: "millie@gmail.com",
+    hashedPassword: bcrypt.hashSync('milliemewmewPassword'),
+  },
+  {
+    firstName: "Megan" ,
+    lastName: "Hildreth" ,
+    username: "meggiedough",
+    email: "megan.hildreth@gmail.com",
+    hashedPassword: bcrypt.hashSync('meggiedoughPassword'),
+  },
+
 ]
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
