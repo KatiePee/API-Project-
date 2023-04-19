@@ -80,7 +80,7 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     description: {
-      type: DataTypes.STRING(2048),
+      type: DataTypes.TEXT,
       allowNull: false,
       validate: {
         len: [5, 2048]
