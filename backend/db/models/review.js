@@ -16,12 +16,12 @@ module.exports = (sequelize, DataTypes) => {
         {foreignKey:'reviewId',  onDelete:'CASCASE', hooks: true}
       );
 
-      Review.belongTo(
+      Review.belongsTo(
         models.Spot,
         {foreignKey:'spotId'}
       );
 
-      Review.belongTo(
+      Review.belongsTo(
         models.User,
         {foreignKey:'userId'}
       );
