@@ -5,6 +5,21 @@ if (process.env.NODE_ENV === 'production') {
   options.schema = process.env.SCHEMA;
 }
 
+const reviewImagesData = [
+  {
+    reviewId: 1,
+    url: 'review 1 image - Karen reviews Millies purrfect cat tree',
+  },
+  {
+    reviewId: 3,
+    url: 'review 3 image - harrison reviews stud rock castle',
+  },
+  {
+    reviewId: 4,
+    url: 'review 4 image - katie reviews Millies purrfect cat tree',
+  },
+]
+
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
