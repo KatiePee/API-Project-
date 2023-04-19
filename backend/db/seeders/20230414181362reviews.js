@@ -18,7 +18,7 @@ const reviewsData = [
     stars: 1
   },
   {
-    spotId: 2 ,
+    spotId: 2,
     userId: 3,
     review: "Stud Rock Castle was a dream come true for me! The private gym had everything I needed to stay fit, and the mirror was so good that I almost fell in love with myself. The shared dormitory and showers were great for bonding with other handsome hunks who love to pump iron. And let's face it, with no girls allowed the protein bar wasnt the only way to get a protien shake, if you catch my drift. Stud Rock Castle is the ultimate destination for fitness fanatics and handsome stud muffins. I'll be back for sure!",
     stars: 5, 
