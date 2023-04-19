@@ -53,8 +53,8 @@ if (process.env.NODE_ENV === 'production') {
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-  //  options.tableName = 'Users';
-  //  await queryInterface.bulkInsert(options, usersData, {});
+//    options.tableName = 'Users';
+//    await queryInterface.bulkInsert(options, usersData, {});
   //  await queryInterface.bulkInsert(options, [
     // {
     //   email: 'demo@user.io',
