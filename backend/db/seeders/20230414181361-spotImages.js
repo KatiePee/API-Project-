@@ -12,43 +12,43 @@ const spotImagesData = [
   },
   {
     spotId: 2, 
-    url: 'Stud Rock Castle image number 1 dot jpg'
+    url: 'StudRockCastlePhoto1.jpg'
   },
   {
     spotId: 2, 
-    url: 'Stud Rock Castle image number 2 dot jpg'
+    url: 'StudRockCastlePhoto2.jpg'
   },
   {
     spotId: 2, 
-    url: 'Stud Rock Castle image number 3 dot jpg'
+    url: 'StudRockCastlePhoto3.jpg'
   },
   {
     spotId: 3, 
-    url: "DropZone Bunk House image number 1 dot jpg"
+    url: "DropZoneBunkHousePhoto1.jpg"
   },
   {
     spotId: 4, 
-    url: "Satans Palace image number 1"
+    url: "SatansPalacePhoto1.jpg"
   },
   {
     spotId: 4, 
-    url: "Satans Palace image number 2"
+    url: "SatansPalacePhoto2.jpg"
   },
   {
     spotId: 5, 
-    url: "Millie's Purrfect Cat Tree image number 1"
+    url: "Millie'sPurrfectCatTreePhoto1.jpg"
   },
   {
     spotId: 5, 
-    url: "Millie's Purrfect Cat Tree image number 2"
+    url: "Millie'sPurrfectCatTreePhoto2.jpg"
   },
   {
     spotId: 5, 
-    url: "Millie's Purrfect Cat Tree image number 3"
+    url: "Millie'sPurrfectCatTreePhoto3.jpg"
   },
   {
     spotId: 6, 
-    url: "Megan's Moms House Image number 1"
+    url: "Megan'sMomHousePhoto1.jpg"
   }
 ]
 /** @type {import('sequelize-cli').Migration} */

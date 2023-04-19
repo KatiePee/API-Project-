@@ -8,15 +8,15 @@ if (process.env.NODE_ENV === 'production') {
 const reviewImagesData = [
   {
     reviewId: 1,
-    url: 'review 1 image - Karen reviews Millies purrfect cat tree',
+    url: 'review1-karen-millies-purrfect-cat-tree.jpg',
   },
   {
     reviewId: 3,
-    url: 'review 3 image - harrison reviews stud rock castle',
+    url: 'review3-harrison-stud-rock-castle.jpg',
   },
   {
     reviewId: 4,
-    url: 'review 4 image - katie reviews Millies purrfect cat tree',
+    url: 'review4-katie-reviews-Millies-purrfect-cat-tree.jpg',
   },
 ]
 
