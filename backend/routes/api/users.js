@@ -27,9 +27,9 @@ const validateSignup = [
   ];
 
 router.post('/', validateSignup, async(req, res, next) => {
-    const { email, username, password } = req.body;
+    const { firstName, lastName, email, username, password } = req.body;
     const hashedPassword = bcrypt.hashSync(password);
-    const user = await User.create({email, username, hashedPassword});
+    const user = await User.create({firstName, lastName, email, username, hashedPassword});
 
     const safeUser = {
         id: user.id,
@@ -39,8 +39,9 @@ router.post('/', validateSignup, async(req, res, next) => {
         username: user.username,
         
     };
-
-    await setTokenCookie(res, safeUser);
+    //testing to see if we need the await...god speed.
+    // await setTokenCookie(res, safeUser);
+    setTokenCookie(res, safeUser);
 
     return res.json({user:safeUser})
 });
