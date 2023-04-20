@@ -136,6 +136,31 @@ router.get('/:spotId', async (req, res, next) => {
 
 const validateSpot = [
     check('address')
+        .not().isEmpty().withMessage('address is required')
+        .isLength({min: 1, max: 30}).withMessage('address must be between 1 and 30 character'),
+    check('city')
+        .not().isEmpty().withMessage('city is required')
+        .isLength({min: 1, max: 30}).withMessage('city must be between 1 and 30 character'),
+    check('state')
+        .not().isEmpty().withMessage('state is required')
+        .isLength({min: 1, max: 30}).withMessage('state must be between 1 and 30 character'),
+    check('country')
+        .not().isEmpty().withMessage('country is required')
+        .isLength({min: 1, max: 30}).withMessage('country must be between 1 and 30 character'),
+    check('lat')
+        .not().isEmpty().withMessage('lat is required')
+        .isFloat({min: -90, max: 90}).withMessage('Invalid latitude. lat must be between -90 and 90'),
+    check('lng')
+        .not().isEmpty().withMessage('lng is required')
+        .isFloat({min: -180, max: 180}).withMessage('Invalid longitude. lng must be between -180 and 180'),
+    check('name')
+        .not().isEmpty().withMessage('name is required')
+        .isLength({min: 1, max: 30}).withMessage('name must be between 1 and 30 character'),
+    check('description')
+        .not().isEmpty().withMessage('description is required'),
+    check('price')
+        .not().isEmpty().withMessage('price is required')
+        .isFloat({min: 0}).withMessage('price must be more than 0'),
 ]
 
 router.post('/', requireAuth, async (req, res, next) => {
