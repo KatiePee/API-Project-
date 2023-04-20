@@ -120,7 +120,7 @@ router.get('/:spotId', async (req, res, next) => {
         starAvg = spot.Reviews.reduce((acc, curr) => acc + (curr.stars)/spot.Reviews.length, 0)
     };
     spot.numReviews = spot.Reviews.length;
-    spot.avgRating = starAvg;
+    spot.avgStarRating = starAvg;
     // spot[Owner] = spot[User]
     delete spot.Reviews;    
    
