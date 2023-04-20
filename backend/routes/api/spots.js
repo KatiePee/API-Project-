@@ -1,14 +1,10 @@
-//make a router
-//find all spots
-//lazy load the aggrate data for avg reviews
-//lazy load preview image
-//append those bad boys to the obj
 const express = require('express');
 const router = express.Router();
 const { Spot, Review, SpotImage } = require('../../db/models');
 const Sequelize =require('../../db/models')
+const cookieParser = require('cookie-parser');
 
-router.get('/', async(_req, res, next) => {
+router.get('/', async(_req, res) => {
     const spotsPromise = await Spot.findAll({
         include: [
            {
@@ -44,4 +40,44 @@ router.get('/', async(_req, res, next) => {
     res.json({Spots: spots})
 })
 
+router.get('/current', async (req, res, next) => {
+    const token = req.cookies.token;
+    const currentUser = req.user.toJSON();
+    const currentUserSpotsPromise = await Spot.findAll({
+        include: [
+            {
+             model: Review,
+             attributes: ['stars']
+            },
+            {
+             model: SpotImage,
+             where: { preview: true },
+             attributes: ['url']
+            }
+         ],
+         where: { ownerId: currentUser.id }  
+    })
+
+    const currentUserSpots = currentUserSpotsPromise.map(spot => {
+        spot = spot.toJSON();
+
+        let starAvg = null;
+        if(spot.Reviews.length) {
+            starAvg = spot.Reviews.reduce((acc, curr) => acc + (curr.stars)/spot.Reviews.length, 0)
+        };
+        spot.avgRating = starAvg;
+
+        let url = null
+        if(spot.SpotImages.length){
+            url = spot.SpotImages[0].url
+        }
+
+        spot.previewImage = url
+        delete spot.Reviews;
+        delete spot.SpotImages;
+        return spot
+    })
+    res.json({Spots: currentUserSpots})
+    
+})
 module.exports = router;
