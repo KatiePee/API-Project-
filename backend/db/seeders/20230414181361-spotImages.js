@@ -9,46 +9,57 @@ const spotImagesData = [
   {
     spotId: 1, 
     url: 'ThePleasurePalacePhoto1.jpg',
+    preview: true,
   },
   {
     spotId: 2, 
-    url: 'StudRockCastlePhoto1.jpg'
+    url: 'StudRockCastlePhoto1.jpg',
+    preview: true,
   },
   {
     spotId: 2, 
-    url: 'StudRockCastlePhoto2.jpg'
+    url: 'StudRockCastlePhoto2.jpg',
+    preview: false,
   },
   {
     spotId: 2, 
-    url: 'StudRockCastlePhoto3.jpg'
+    url: 'StudRockCastlePhoto3.jpg',
+    preview: false,
   },
   {
     spotId: 3, 
-    url: "DropZoneBunkHousePhoto1.jpg"
+    url: "DropZoneBunkHousePhoto1.jpg",
+    preview: true,
   },
   {
     spotId: 4, 
-    url: "SatansPalacePhoto1.jpg"
+    url: "SatansPalacePhoto1.jpg",
+    preview: true,
   },
   {
     spotId: 4, 
-    url: "SatansPalacePhoto2.jpg"
+    url: "SatansPalacePhoto2.jpg",
+    preview: false,
   },
   {
     spotId: 5, 
-    url: "Millie'sPurrfectCatTreePhoto1.jpg"
+    url: "Millie'sPurrfectCatTreePhoto1.jpg",
+    preview: true,
   },
   {
     spotId: 5, 
-    url: "Millie'sPurrfectCatTreePhoto2.jpg"
+    url: "Millie'sPurrfectCatTreePhoto2.jpg",
+    preview: false,
   },
   {
     spotId: 5, 
-    url: "Millie'sPurrfectCatTreePhoto3.jpg"
+    url: "Millie'sPurrfectCatTreePhoto3.jpg",
+    preview: false,
   },
   {
     spotId: 6, 
-    url: "Megan'sMomHousePhoto1.jpg"
+    url: "Megan'sMomHousePhoto1.jpg",
+    preview: true,
   }
 ]
 /** @type {import('sequelize-cli').Migration} */

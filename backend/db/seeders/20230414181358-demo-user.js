@@ -18,7 +18,7 @@ const usersData = [
     lastName: "Rohrbeck" ,
     username: "studmuffin69",
     email: "chris.rohrbeck@gmail.com",
-    hashedPassword: bcrypt.hashSync('mr.handsomePassword'),
+    hashedPassword: bcrypt.hashSync('studmuffin69Password'),
   },
   {
     firstName: "Harrison" ,

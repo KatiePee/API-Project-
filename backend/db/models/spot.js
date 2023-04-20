@@ -28,13 +28,16 @@ module.exports = (sequelize, DataTypes) => {
 
       Spot.belongsTo(
         models.User,
-        {foreignKey: 'ownerId'}
+        {foreignKey: 'ownerId', as: 'Owner'}
       )
       
     }
   }
   Spot.init({
-    ownerId: DataTypes.INTEGER,
+    ownerId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
     address: {
       type: DataTypes.STRING(30),
        validate: {
