@@ -16,29 +16,35 @@ module.exports = {
       },
       ownerId: {
         type: Sequelize.INTEGER,
-        ownerId: false,
+        allowNull: false,
         references: {
           model: 'Users',
           key: 'id'
         }
       },
       address: {
-        type: Sequelize.STRING(30)
+        type: Sequelize.STRING(30),
+        allowNull: false,
       },
       city: {
-        type: Sequelize.STRING(30)
+        type: Sequelize.STRING(30),
+        allowNull: false,
       },
       state: {
-        type: Sequelize.STRING(30)
+        type: Sequelize.STRING(30),
+        allowNull: false,
       },
       country: {
-        type: Sequelize.STRING(30)
+        type: Sequelize.STRING(30),
+        allowNull: false,
       },
       lat: {
-        type: Sequelize.DECIMAL
+        type: Sequelize.DECIMAL,
+        allowNull: false,
       },
       lng: {
-        type: Sequelize.DECIMAL
+        type: Sequelize.DECIMAL,
+        allowNull: false,
       },
       name: {
         type: Sequelize.STRING(30),
