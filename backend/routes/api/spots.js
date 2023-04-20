@@ -3,6 +3,7 @@ const router = express.Router();
 const { Spot, Review, SpotImage, User } = require('../../db/models');
 const Sequelize =require('../../db/models')
 const cookieParser = require('cookie-parser');
+const {requireAuth} = require('../../utils/auth.js')
 
 router.get('/', async(_req, res) => {
     const spotsPromise = await Spot.findAll({
@@ -40,7 +41,7 @@ router.get('/', async(_req, res) => {
     res.json({Spots: spots})
 })
 
-router.get('/current', async (req, res, next) => {
+router.get('/current', requireAuth,  async (req, res, next) => {
     if(!req.user){
         const err = new Error('There is currently no user logged in');
         err.title = 'There is currently no user logged in';
