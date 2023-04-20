@@ -16,10 +16,12 @@ router.get('/', async(_req, res) => {
            },
            {
             model: SpotImage,
+            attributes: ['url'],
             where: { preview: true },
-            attributes: ['url']
-           }
-        ],  
+            required: false,
+           },
+        ],
+        // subQuery: false,  
     });
     const spots = spotsPromise.map(spot => {
         spot = spot.toJSON();
@@ -60,8 +62,9 @@ router.get('/current', requireAuth,  async (req, res, next) => {
             },
             {
              model: SpotImage,
+             attributes: ['url'],
              where: { preview: true },
-             attributes: ['url']
+             required: false,
             }
          ],
          where: { ownerId: currentUser.id }  
@@ -123,13 +126,7 @@ router.get('/:spotId', async (req, res, next) => {
     };
     spot.numReviews = spot.Reviews.length;
     spot.avgStarRating = starAvg;
-    // spot[Owner] = spot[User]
     delete spot.Reviews;    
-   
-
-
-
-    console.log(spot);
     res.json(spot)
 
 })
@@ -140,13 +137,13 @@ const validateSpot = [
         .isLength({min: 1, max: 30}).withMessage('address must be between 1 and 30 character'),
     check('city')
         .not().isEmpty().withMessage('city is required')
-        .isLength({min: 1, max: 30}).withMessage('city must be between 1 and 30 character'),
+        .isLength({min: 1, max: 30}).withMessage('city must be between 1 and 30 characters'),
     check('state')
         .not().isEmpty().withMessage('state is required')
-        .isLength({min: 1, max: 30}).withMessage('state must be between 1 and 30 character'),
+        .isLength({min: 1, max: 30}).withMessage('state must be between 1 and 30 characters'),
     check('country')
         .not().isEmpty().withMessage('country is required')
-        .isLength({min: 1, max: 30}).withMessage('country must be between 1 and 30 character'),
+        .isLength({min: 1, max: 30}).withMessage('country must be between 1 and 30 characters'),
     check('lat')
         .not().isEmpty().withMessage('lat is required')
         .isFloat({min: -90, max: 90}).withMessage('Invalid latitude. lat must be between -90 and 90'),
@@ -155,17 +152,23 @@ const validateSpot = [
         .isFloat({min: -180, max: 180}).withMessage('Invalid longitude. lng must be between -180 and 180'),
     check('name')
         .not().isEmpty().withMessage('name is required')
-        .isLength({min: 1, max: 30}).withMessage('name must be between 1 and 30 character'),
+        .isLength({min: 1, max: 30}).withMessage('name must be between 1 and 30 characters'),
     check('description')
-        .not().isEmpty().withMessage('description is required'),
+        .not().isEmpty().withMessage('description is required')
+        .isLength({min: 1, max: 2048}).withMessage('description must be between 1 and 2048 characters'),
     check('price')
         .not().isEmpty().withMessage('price is required')
         .isFloat({min: 0}).withMessage('price must be more than 0'),
+    handleValidationErrors
 ]
 
-router.post('/', requireAuth, async (req, res, next) => {
-    const owner = req.user.toJSON();
+router.post('/', validateSpot, requireAuth, async (req, res, next) => {
+    const user = req.user.toJSON();
+    const ownerId = user.id;
     const { address, city, state, country, lat, lng, name, description, price } = req.body;
+    const newSpot = await Spot.create({ ownerId, address, city, state, country, lat, lng, name, description, price});
+
+    return res.json(newSpot)
 
 
 })
