@@ -92,9 +92,20 @@ const validateCreateReview = [
     .isInt({min: 1, max: 5}).withMessage('stars is required and must be an integer between 1 and 5'),
   handleValidationErrors
 ]
+
+const validateEditReview = [
+  check('review')
+    .isLength({min: 5, max: 2048}).withMessage('review is required and must be between 5 and 2048 characters')
+    .optional(),
+  check('stars')
+    .isInt({min: 1, max: 5}).withMessage('stars is required and must be an integer between 1 and 5')
+    .optional(),
+  handleValidationErrors
+]
 module.exports = {
   handleValidationErrors,
   validateEditSpot,
   validateCreateSpot,
-  validateCreateReview
+  validateCreateReview,
+  validateEditReview
 };
