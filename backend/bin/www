@@ -11,12 +11,9 @@ const db = require('../db/models');
 db.sequelize
     .authenticate()
     .then(() => {
-     
-
         app.listen(port);
     })
-    .catch((err) => {
-        
+    .catch((err) => { 
         console.error(err);
     });
     
