@@ -13,17 +13,17 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       Spot.hasMany(
         models.Booking,
-        {foreignKey:'spotId',  onDelete:'CASCASE', hooks: true}
+        {foreignKey:'spotId',  onDelete:'CASCADE', hooks: true}
       );
 
       Spot.hasMany(
         models.Review,
-        {foreignKey:'spotId',  onDelete:'CASCASE', hooks: true}
+        {foreignKey:'spotId',  onDelete:'CASCADE', hooks: true}
       );
       
       Spot.hasMany(
         models.SpotImage,
-        {foreignKey:'spotId',  onDelete:'CASCASE', hooks: true}
+        {foreignKey:'spotId',  onDelete:'CASCADE', hooks: true}
       );
 
       Spot.belongsTo(
@@ -40,30 +40,36 @@ module.exports = (sequelize, DataTypes) => {
     },
     address: {
       type: DataTypes.STRING(30),
+      allowNull: false,
        validate: {
-        len: [1, 30]
+        len: [1,30],
+        // len: {args: [1, 30], msg: ''}
       },
     },
     city: {
       type: DataTypes.STRING(30),
+      allowNull: false,
        validate: {
         len: [1, 30]
       },
     },
     state: {
       type: DataTypes.STRING(30),
+      allowNull: false,
        validate: {
         len: [1, 30]
       },
     },
     country: {
       type: DataTypes.STRING(30),
+      allowNull: false,
        validate: {
         len: [1, 30]
       },
     },
     lat: {
       type: DataTypes.DECIMAL,
+      allowNull: false,
       validate: {
         max: 90,
         min: -90,
@@ -71,6 +77,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     lng: {
       type: DataTypes.DECIMAL,
+      allowNull: false,
       validate: {
         max: 180,
         min: -180,
@@ -93,6 +100,9 @@ module.exports = (sequelize, DataTypes) => {
     price: {
       type: DataTypes.DECIMAL,
       allowNull: false,
+      validate: {
+        min: 0,
+      },
     }
   }, {
     sequelize,

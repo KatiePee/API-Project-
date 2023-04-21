@@ -3,7 +3,10 @@ const router = express.Router();
 const { Spot, Review, SpotImage, User } = require('../../db/models');
 const Sequelize =require('../../db/models')
 const cookieParser = require('cookie-parser');
-const {requireAuth} = require('../../utils/auth.js')
+const {requireAuth} = require('../../utils/auth.js');
+const { handleValidationErrors, validateCreateSpot, validateEditSpot} = require('../../utils/validation');
+const { Op } = require('sequelize');
+const { spotNotFound, userNotFound, unauthorized } = require('../../utils/errors')
 
 router.get('/', async(_req, res) => {
     const spotsPromise = await Spot.findAll({
@@ -14,10 +17,12 @@ router.get('/', async(_req, res) => {
            },
            {
             model: SpotImage,
+            attributes: ['url'],
             where: { preview: true },
-            attributes: ['url']
-           }
-        ],  
+            required: false,
+           },
+        ],
+        // subQuery: false,  
     });
     const spots = spotsPromise.map(spot => {
         spot = spot.toJSON();
@@ -43,11 +48,7 @@ router.get('/', async(_req, res) => {
 
 router.get('/current', requireAuth,  async (req, res, next) => {
     if(!req.user){
-        const err = new Error('There is currently no user logged in');
-        err.title = 'There is currently no user logged in';
-        err.errors = { message: 'There is currently no user logged in' };
-        err.status = 401;
-        return next(err);
+    return userNotFound(next)
     }
     const currentUser = req.user.toJSON();
     const currentUserSpotsPromise = await Spot.findAll({
@@ -58,8 +59,9 @@ router.get('/current', requireAuth,  async (req, res, next) => {
             },
             {
              model: SpotImage,
+             attributes: ['url'],
              where: { preview: true },
-             attributes: ['url']
+             required: false,
             }
          ],
          where: { ownerId: currentUser.id }  
@@ -85,7 +87,15 @@ router.get('/current', requireAuth,  async (req, res, next) => {
         return spot
     })
     res.json({Spots: currentUserSpots})
-    
+})
+
+router.post('/', validateCreateSpot, requireAuth, async (req, res, next) => {
+    const user = req.user.toJSON();
+    const ownerId = user.id;
+    const { address, city, state, country, lat, lng, name, description, price } = req.body;
+    const newSpot = await Spot.create({ ownerId, address, city, state, country, lat, lng, name, description, price});
+
+    return res.status(201).json(newSpot)
 })
 
 router.get('/:spotId', async (req, res, next) => {
@@ -107,11 +117,7 @@ router.get('/:spotId', async (req, res, next) => {
         ]
     });
     if(!spot){
-        const err = new Error("Spot couldn't be found");
-        err.title = "Spot couldn't be found";
-        err.errors = { message: "Spot couldn't be found"};
-        err.status = 404;
-        return next(err);
+        return spotNotFound(next)
     }
     
     spot = spot.toJSON();
@@ -120,15 +126,57 @@ router.get('/:spotId', async (req, res, next) => {
         starAvg = spot.Reviews.reduce((acc, curr) => acc + (curr.stars)/spot.Reviews.length, 0)
     };
     spot.numReviews = spot.Reviews.length;
-    spot.avgRating = starAvg;
-    // spot[Owner] = spot[User]
+    spot.avgStarRating = starAvg;
     delete spot.Reviews;    
-   
-
-
-
-    console.log(spot);
-    res.json(spot)
-
+    return res.json(spot)
 })
+
+router.put('/:spotId', validateEditSpot, requireAuth, async (req, res, next) => {
+    const user = req.user.toJSON();
+    const spotId = req.params.spotId;
+    const spot = await Spot.findByPk(spotId)
+
+    if(!spot) return spotNotFound(next);
+    if(spot.ownerId !== user.id) return unauthorized(next);
+
+    const keys = Object.keys(req.body);
+    keys.forEach(key => {
+        spot[key] = req.body[key]
+        console.log(req.body[key])
+    })
+
+    await spot.save();
+    res.json(spot)
+})
+
+router.post('/:spotId/images', requireAuth, async (req, res, next) => {
+    const user = req.user.toJSON();
+    const spotId = req.params.spotId;
+    const { url, preview } = req.body;
+    const spot = await Spot.findByPk(spotId);
+
+    if(!spot) return spotNotFound(next);
+    if(spot.ownerId !== user.id) return unauthorized(next);
+    
+    const spotImage = await SpotImage.create({spotId, url, preview})  
+    console.log(spotId)
+    res.json({
+        "id": spotImage.id,
+        "url": spotImage.url,
+        "preview": spotImage.preview
+      })
+})
+
+router.delete('/:spotId', requireAuth, async (req, res, next) => {
+    const user = req.user.toJSON();
+    const spotId = req.params.spotId;
+    const spot = await Spot.findByPk(spotId);
+    
+    if(!spot) return spotNotFound(next);
+    if(spot.ownerId !== user.id) return unauthorized(next);
+
+    await spot.destroy();
+    res.json({"message": "Successfully deleted"})
+})
+
 module.exports = router;
