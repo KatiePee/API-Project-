@@ -3,7 +3,7 @@ const router = express.Router();
 const { Spot, Review, SpotImage, User, ReviewImage } = require('../../db/models');
 const {requireAuth} = require('../../utils/auth.js');
 const { validateCreateSpot, validateEditSpot, validateCreateReview} = require('../../utils/validation');
-const { spotNotFound, userNotFound, unauthorized } = require('../../utils/errors')
+const { spotNotFound, userNotFound, unauthorized, userAlreadyReviewed } = require('../../utils/errors')
 
 router.get('/', async(_req, res) => {
     const spotsPromise = await Spot.findAll({
@@ -188,7 +188,8 @@ router.post('/:spotId/reviews', validateCreateReview, requireAuth, async (req, r
     const user = req.user.toJSON();
     const {review, stars} = req.body;
 
-    if(!(await Spot.findByPk(spotId))) return spotNotFound(next)
+    if(!(await Spot.findByPk(spotId))) return spotNotFound(next);
+    if(await Review.findOne({where: {userId: user.id, spotId: spotId}})) return userAlreadyReviewed(next);
 
     const newReview = await Review.create({userId: user.id, spotId, review, stars})
     res.status(201).json(newReview)

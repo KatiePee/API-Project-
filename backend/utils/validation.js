@@ -76,7 +76,7 @@ const validateCreateSpot = [
       .isLength({min: 1, max: 30}).withMessage('name is required and must be between 1 and 30 characters'),
   check('description')
       .not().isEmpty()
-      .isLength({min: 1, max: 2048}).withMessage('description is required and must be between 1 and 2048 characters'),
+      .isLength({min: 5, max: 2048}).withMessage('description is required and must be between 5 and 2048 characters'),
   check('price')
       .not().isEmpty()
       .isFloat({min: 0}).withMessage('price is required and  must be more than 0'),
@@ -86,10 +86,11 @@ const validateCreateSpot = [
 const validateCreateReview = [
   check('review')
     .not().isEmpty()
-    .isLength({min: 5, max: 2048}).withMessage('review is required and must be between 1 and 2048 characters'),
+    .isLength({min: 5, max: 2048}).withMessage('review is required and must be between 5 and 2048 characters'),
   check('stars')
     .not().isEmpty()
-    .isInt({min: 1, max: 5}).withMessage('stars is required and must be an integer between 1 and 5')
+    .isInt({min: 1, max: 5}).withMessage('stars is required and must be an integer between 1 and 5'),
+  handleValidationErrors
 ]
 module.exports = {
   handleValidationErrors,
