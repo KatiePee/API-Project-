@@ -1,11 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const { Spot, Review, SpotImage, User } = require('../../db/models');
-const Sequelize =require('../../db/models')
-const cookieParser = require('cookie-parser');
+const { Spot, Review, SpotImage, User, ReviewImage } = require('../../db/models');
 const {requireAuth} = require('../../utils/auth.js');
-const { handleValidationErrors, validateCreateSpot, validateEditSpot} = require('../../utils/validation');
-const { Op } = require('sequelize');
+const { validateCreateSpot, validateEditSpot} = require('../../utils/validation');
 const { spotNotFound, userNotFound, unauthorized } = require('../../utils/errors')
 
 router.get('/', async(_req, res) => {
@@ -22,7 +19,6 @@ router.get('/', async(_req, res) => {
             required: false,
            },
         ],
-        // subQuery: false,  
     });
     const spots = spotsPromise.map(spot => {
         spot = spot.toJSON();
@@ -129,6 +125,26 @@ router.get('/:spotId', async (req, res, next) => {
     spot.avgStarRating = starAvg;
     delete spot.Reviews;    
     return res.json(spot)
+})
+
+router.get('/:spotId/reviews', async (req, res, next) => {
+    const spotId = req.params.spotId;
+    if(!(await Spot.findByPk(spotId))) spotNotFound(next)
+    const reviews = await Review.findAll({
+        where: {spotId},
+        include: [
+            {
+                model: User,
+                attributes: ['id', 'firstName', 'lastName']
+            },
+            {
+                model: ReviewImage
+            }
+        ]
+    });
+
+    res.json({Reviews: reviews})
+
 })
 
 router.put('/:spotId', validateEditSpot, requireAuth, async (req, res, next) => {

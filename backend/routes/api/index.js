@@ -14,6 +14,8 @@ router.use('/users', usersRouter);
 
 router.use('/spots', spotsRouter);
 
+router.use('/reviews', require('./reviews.js'))
+
 router.post('/test', (req, res) => {
   res.json({ requestBody: req.body });
 });
