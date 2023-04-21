@@ -137,16 +137,16 @@ router.put('/:spotId', validateEditSpot, requireAuth, async (req, res, next) => 
     const spot = await Spot.findByPk(spotId)
 
     if(!spot) return spotNotFound(next);
-    if(spot.ownerId !== user.id) return unauthorizedUser(next);
+    if(spot.ownerId !== user.id) return unauthorized(next);
 
-    const {address, city, state, country, lat, lng, name, description, price} = req.body;
     const keys = Object.keys(req.body);
-
     keys.forEach(key => {
         spot[key] = req.body[key]
         console.log(req.body[key])
     })
-    res.json('test')
+
+    await spot.save();
+    res.json(spot)
 })
 
 router.post('/:spotId/images', requireAuth, async (req, res, next) => {
@@ -158,7 +158,6 @@ router.post('/:spotId/images', requireAuth, async (req, res, next) => {
     if(!spot) return spotNotFound(next);
     if(spot.ownerId !== user.id) return unauthorized(next);
     
-    
     const spotImage = await SpotImage.create({spotId, url, preview})  
     console.log(spotId)
     res.json({
@@ -168,6 +167,16 @@ router.post('/:spotId/images', requireAuth, async (req, res, next) => {
       })
 })
 
+router.delete('/:spotId', requireAuth, async (req, res, next) => {
+    const user = req.user.toJSON();
+    const spotId = req.params.spotId;
+    const spot = await Spot.findByPk(spotId);
+    
+    if(!spot) return spotNotFound(next);
+    if(spot.ownerId !== user.id) return unauthorized(next);
 
+    await spot.destroy();
+    res.json({"message": "Successfully deleted"})
+})
 
 module.exports = router;
