@@ -218,7 +218,7 @@ router.post('/:spotId/bookings',  validateCreateBooking, validateCreateBookingsO
 
     const booking = await Booking.findOne({where: {userId: user.id, spotId: spotId}})
     if(booking) return unauthorizedBooking(next)
-    
+
     const newBooking = await Booking.create({userId: user.id, spotId, startDate, endDate})
     res.status(200).json(newBooking)
 

@@ -3,7 +3,7 @@ const router = express.Router();
 const { Spot, Review, SpotImage, User, ReviewImage, Booking } = require('../../db/models');
 const {requireAuth} = require('../../utils/auth.js');
 const { validateCreateBooking, validateCreateBookingsOverlap, validateEditBookingsOverlap } = require('../../utils/validation');
-const { unauthorized, reviewNotFound, maxImages, bookingNotFound } = require('../../utils/errors')
+const { unauthorized, reviewNotFound, maxImages, bookingNotFound, pastBooking } = require('../../utils/errors')
 
 router.get('/current', requireAuth, async (req, res, next) => {
     const user = req.user.toJSON();
@@ -53,5 +53,16 @@ router.put('/:bookingId', validateCreateBooking, validateEditBookingsOverlap, re
     res.status(200).json(booking)
 })
 
+router.delete('/:bookingId', requireAuth, async (req, res, next) => {
+    const user = req.user.toJSON();
+    const bookingId = req.params.bookingId;
+    const booking = await Booking.findByPk(bookingId);
+    
+    if(!booking) return bookingNotFound(next);
+    if(booking.userId !== user.id) return unauthorized(next);
+    if(new Date(booking.startDate) < new Date()) return pastBooking(next)
 
+    await booking.destroy();
+    res.json({"message": "Successfully deleted"})
+})
 module.exports = router;

@@ -26,9 +26,9 @@ const err = new Error("Review couldn't be found");
 };
 
 const bookingNotFound = (next) =>{
-    const err = new Error("Review couldn't be found");
-        err.title = "Review couldn't be found";
-        err.errors = { message: "Review couldn't be found"};
+    const err = new Error("Booking couldn't be found");
+        err.title = "Booking couldn't be found";
+        err.errors = { message: "Booking couldn't be found"};
         err.status = 404;
         return next(err);
 };
@@ -62,7 +62,15 @@ const maxImages = (next) => {
     err.errors = { message: "Maximum number of images for this resource was reached"};
     err.status = 403;
     return next(err);
-}
+};
+
+const pastBooking = (next) => {
+    const err = new Error("Bookings that have been started can't be deleted");
+    err.title = "Bookings that have been started can't be deleted";
+    err.errors = { message: "Bookings that have been started can't be deleted"};
+    err.status = 403;
+    return next(err);
+};
 
 
 module.exports = {
@@ -73,5 +81,6 @@ module.exports = {
     unauthorizedBooking,
     userAlreadyReviewed,
     reviewNotFound,
-    maxImages    
+    maxImages,
+    pastBooking    
 }
