@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const { Spot, Review, SpotImage, User, ReviewImage } = require('../../db/models');
+const { Spot, Review, SpotImage, User, ReviewImage, Booking } = require('../../db/models');
 const {requireAuth} = require('../../utils/auth.js');
-const { validateCreateSpot, validateEditSpot, validateCreateReview} = require('../../utils/validation');
-const { spotNotFound, userNotFound, unauthorized, userAlreadyReviewed } = require('../../utils/errors')
+const { validateCreateSpot, validateEditSpot, validateCreateReview, validateCreateBooking, validateCreateBookingsOverlap} = require('../../utils/validation');
+const { spotNotFound, userNotFound, unauthorized, userAlreadyReviewed, unauthorizedBooking } = require('../../utils/errors')
 
 router.get('/', async(_req, res) => {
     const spotsPromise = await Spot.findAll({
@@ -147,6 +147,18 @@ router.get('/:spotId/reviews', async (req, res, next) => {
 
 })
 
+router.get('/:spotId/bookings', async (req, res, next) => {
+    const spotId = req.params.spotId;
+    if(!(await Spot.findByPk(spotId))) return spotNotFound(next)
+    const bookings = await Booking.findAll({
+        where: {spotId},
+        attributes: ['spotId', 'startDate', 'endDate']
+    });
+
+    res.json({Bookings: bookings})
+
+})
+
 router.put('/:spotId', validateEditSpot, requireAuth, async (req, res, next) => {
     const user = req.user.toJSON();
     const spotId = req.params.spotId;
@@ -193,6 +205,22 @@ router.post('/:spotId/reviews', validateCreateReview, requireAuth, async (req, r
 
     const newReview = await Review.create({userId: user.id, spotId, review, stars})
     res.status(201).json(newReview)
+
+})
+
+router.post('/:spotId/bookings',  validateCreateBooking, validateCreateBookingsOverlap, requireAuth, async (req, res, next) => {
+    const spotId = req.params.spotId;
+    const user = req.user.toJSON();
+    const {startDate, endDate} = req.body;
+
+    const spot = await Spot.findByPk(spotId)
+    if(!spot) return spotNotFound(next);
+
+    const booking = await Booking.findOne({where: {userId: user.id, spotId: spotId}})
+    if(booking) return unauthorizedBooking(next)
+    
+    const newBooking = await Booking.create({userId: user.id, spotId, startDate, endDate})
+    res.status(200).json(newBooking)
 
 })
 

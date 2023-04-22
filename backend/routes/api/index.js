@@ -2,19 +2,18 @@
 const router = require('express').Router();
 const { setTokenCookie, restoreUser, requireAuth } = require('../../utils/auth.js');
 const { User } = require('../../db/models');
-const sessionRouter = require('./session.js');
-const usersRouter = require('./users.js');
-const spotsRouter = require('./spots.js')
 
 router.use(restoreUser);
 
-router.use('/session', sessionRouter);
+router.use('/session', require('./session.js'));
 
-router.use('/users', usersRouter);
+router.use('/users', require('./users.js'));
 
-router.use('/spots', spotsRouter);
+router.use('/spots', require('./spots.js'));
 
 router.use('/reviews', require('./reviews.js'))
+
+router.use('/bookings', require('./bookings.js'))
 
 router.post('/test', (req, res) => {
   res.json({ requestBody: req.body });

@@ -3,7 +3,7 @@ const router = express.Router();
 const { Spot, Review, SpotImage, User, ReviewImage } = require('../../db/models');
 const {requireAuth} = require('../../utils/auth.js');
 const {validateEditReview} = require('../../utils/validation');
-const { spotNotFound, userNotFound, unauthorized, reviewNotFound, maxImages } = require('../../utils/errors')
+const { unauthorized, reviewNotFound, maxImages } = require('../../utils/errors')
 
 router.get('/current', requireAuth, async (req, res, next) => {
     const user = req.user.toJSON();

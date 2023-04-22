@@ -1,7 +1,8 @@
 // backend/utils/validation.js
 const { validationResult } = require('express-validator');
 const { check } = require('express-validator');
-
+const { Op } = require('sequelize')
+const {Booking } = require('../db/models');
 // middleware for formatting errors from express-validator middleware
 // (to customize, see express-validator's documentation)
 const handleValidationErrors = (req, _res, next) => {
@@ -11,7 +12,7 @@ const handleValidationErrors = (req, _res, next) => {
     validationErrors
       .array()
       .forEach(error => errors[error.path] = error.msg);
-    
+    console.log(errors)
     const err = Error("Bad request.");
     err.errors = errors;
     err.status = 400;
@@ -21,6 +22,22 @@ const handleValidationErrors = (req, _res, next) => {
   next();
 };
 
+const handleOverlapErrors = (req, _res, next) => {
+  const validationErrors = validationResult(req);
+  if (!validationErrors.isEmpty()) { 
+    const errors = {};
+    validationErrors
+      .array()
+      .forEach(error => errors[error.path] = error.msg);
+    console.log(errors)
+    const err = Error("Sorry, this spot is already booked for the specified dates");
+    err.errors = errors;
+    err.status = 403;
+    err.title = "Conflicting Dates";
+    next(err);
+  }
+  next();
+}
 const validateEditSpot = [
   check('address')
       .optional()
@@ -102,10 +119,72 @@ const validateEditReview = [
     .optional(),
   handleValidationErrors
 ]
+
+const validateCreateBooking = [
+  check('endDate')
+    .not().isEmpty()
+    .isDate().withMessage('End Date must be a date in the form YYYY-MM-DD'),
+  check('startDate')
+    .not().isEmpty()
+    .isDate().withMessage('Start Date must be a date in the form YYYY-MM-DD'),
+  check('startDate')
+    .custom((value, {req}) => {
+      if (new Date(value) > new Date(req.body.endDate)) {
+        throw new Error('End date must be after start date.');
+      }
+      return true;
+    }),
+    handleValidationErrors
+]
+
+const validateCreateBookingsOverlap = [
+  check('startDate')
+    .custom( async (value, {req}) => {
+      const { spotId } = req.params;
+      const overlap = await Booking.findOne({
+        where: {
+          spotId,
+          [Op.or]: [
+            {
+              startDate: {[Op.lte]: value},
+              endDate: {[Op.gte]: value}
+            },
+          ]
+        }
+      });
+      if(overlap) {
+        throw new Error('Start date conflicts with an existing booking')
+      }
+      return true;
+    }),
+    check('endDate')
+    .custom( async (value, {req}) => {
+      const { spotId } = req.params;
+      const overlap = await Booking.findOne({
+        where: {
+          spotId,
+          [Op.or]: [
+            {
+              startDate: {[Op.lte]: value},
+              endDate: {[Op.gte]: value}
+            },
+          ]
+        }
+      });
+      if(overlap) {
+        throw new Error('End date conflicts with an existing booking')
+      }
+      return true;
+    }),
+  handleOverlapErrors
+]
+
 module.exports = {
   handleValidationErrors,
   validateEditSpot,
   validateCreateSpot,
   validateCreateReview,
-  validateEditReview
+  validateEditReview,
+  validateCreateBooking,
+  validateCreateBookingsOverlap
 };
