@@ -2,8 +2,8 @@ const express = require('express');
 const router = express.Router();
 const { Spot, Review, SpotImage, User, ReviewImage, Booking } = require('../../db/models');
 const {requireAuth} = require('../../utils/auth.js');
-const {validateEditReview, } = require('../../utils/validation');
-const { unauthorized, reviewNotFound, maxImages } = require('../../utils/errors')
+const { validateCreateBooking, validateCreateBookingsOverlap, validateEditBookingsOverlap } = require('../../utils/validation');
+const { unauthorized, reviewNotFound, maxImages, bookingNotFound } = require('../../utils/errors')
 
 router.get('/current', requireAuth, async (req, res, next) => {
     const user = req.user.toJSON();
@@ -36,6 +36,21 @@ router.get('/current', requireAuth, async (req, res, next) => {
         return booking
     })
     res.json({Bookings: bookings})
+})
+
+router.put('/:bookingId', validateCreateBooking, validateEditBookingsOverlap, requireAuth, async (req, res, next) => {
+    const bookingId = req.params.bookingId;
+    const user = req.user.toJSON();
+    const {startDate, endDate} = req.body;
+
+    const booking = await Booking.findByPk(bookingId)
+    if(!booking) return bookingNotFound(next);
+
+    if(booking.userId !== user.id) return unauthorized(next)
+    booking.startDate = startDate;
+    booking.endDate = endDate
+    await booking.save()
+    res.status(200).json(booking)
 })
 
 

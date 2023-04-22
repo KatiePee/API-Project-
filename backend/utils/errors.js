@@ -24,6 +24,15 @@ const err = new Error("Review couldn't be found");
     err.status = 404;
     return next(err);
 };
+
+const bookingNotFound = (next) =>{
+    const err = new Error("Review couldn't be found");
+        err.title = "Review couldn't be found";
+        err.errors = { message: "Review couldn't be found"};
+        err.status = 404;
+        return next(err);
+};
+
 const unauthorized = (next) => {
     const err = new Error("Unauthorized User");
     err.title = "Unauthorized User";
@@ -56,8 +65,10 @@ const maxImages = (next) => {
 }
 
 
-module.exports = {spotNotFound, 
+module.exports = {
+    spotNotFound, 
     userNotFound,
+    bookingNotFound,
     unauthorized,
     unauthorizedBooking,
     userAlreadyReviewed,

@@ -1,6 +1,6 @@
 // backend/utils/validation.js
 const { validationResult } = require('express-validator');
-const { check } = require('express-validator');
+const { check, param } = require('express-validator');
 const { Op } = require('sequelize')
 const {Booking } = require('../db/models');
 // middleware for formatting errors from express-validator middleware
@@ -179,6 +179,62 @@ const validateCreateBookingsOverlap = [
   handleOverlapErrors
 ]
 
+const validateEditBookingsOverlap = [
+  check('startDate')
+    .custom( async (value, {req}) => {
+      const { bookingId } = req.params;
+      const booking = await Booking.findByPk(bookingId);
+      const spotId = booking.spotId;
+      const overlap = await Booking.findOne({
+        where: {
+          spotId,
+          id: { [Op.ne]: bookingId},
+          [Op.or]: [
+            {
+              startDate: {[Op.lte]: value},
+              endDate: {[Op.gte]: value}
+            },
+          ]
+        }
+      });
+      if(overlap) {
+        throw new Error('Start date conflicts with an existing booking')
+      }
+      return true;
+    }),
+    check('endDate')
+    .custom( async (value, {req}) => {
+      const { bookingId } = req.params;
+      const booking = await Booking.findByPk(bookingId);
+      const spotId = booking.spotId;
+      const overlap = await Booking.findOne({
+        where: {
+          spotId,
+          id: { [Op.ne]: bookingId},
+          [Op.or]: [
+            {
+              startDate: {[Op.lte]: value},
+              endDate: {[Op.gte]: value}
+              
+            },
+          ]
+        }
+      });
+      if(overlap) {
+        throw new Error('End date conflicts with an existing booking')
+      }
+      return true;
+    }),
+  param('bookingId')
+    .custom(async (value, {req}) => {
+      const booking = await Booking.findByPk(value)
+      if(new Date(booking.endDate) < new Date()) {
+        throw new Error("Past bookings can not be modified")
+      }
+      return true;
+    }),
+  handleOverlapErrors
+]
 module.exports = {
   handleValidationErrors,
   validateEditSpot,
@@ -186,5 +242,6 @@ module.exports = {
   validateCreateReview,
   validateEditReview,
   validateCreateBooking,
-  validateCreateBookingsOverlap
+  validateCreateBookingsOverlap,
+  validateEditBookingsOverlap
 };
