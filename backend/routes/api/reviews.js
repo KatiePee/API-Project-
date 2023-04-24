@@ -67,7 +67,7 @@ router.post('/:reviewId/images', requireAuth, async (req, res, next) => {
     
 })
 
-router.put('/:reviewId', validateEditReview, requireAuth, async(req, res, next) => {
+router.put('/:reviewId', requireAuth, validateEditReview,  async(req, res, next) => {
     const user = req.user.toJSON();
     const reviewId = req.params.reviewId;
     const review = await Review.findByPk(reviewId)

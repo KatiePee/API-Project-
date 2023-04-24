@@ -38,6 +38,23 @@ const handleOverlapErrors = (req, _res, next) => {
   }
   next();
 }
+
+const handleCannotBeFound = (req, _res, next) => {
+  const validationErrors = validationResult(req);
+  if (!validationErrors.isEmpty()) { 
+    const errors = {};
+    validationErrors
+      .array()
+      .forEach(error => errors[error.path] = error.msg);
+    console.log(errors)
+    const err = Error("Could not be found");
+    err.errors = errors;
+    err.status = 404;
+    err.title = "Could not be found";
+    next(err);
+  }
+  next();
+}
 const validateEditSpot = [
   check('address')
       .optional()
@@ -59,7 +76,7 @@ const validateEditSpot = [
       .isFloat({min: -180, max: 180}).withMessage('Invalid longitude. lng must be between -180 and 180'),
   check('name')
       .optional()
-      .isLength({min: 1, max: 30}).withMessage('name must be between 1 and 30 characters'),
+      .isLength({min: 1, max: 50}).withMessage('name must be between 1 and 50 characters'),
   check('description')
       .optional()
       .isLength({min: 1, max: 2048}).withMessage('description must be between 1 and 2048 characters'),
@@ -90,7 +107,7 @@ const validateCreateSpot = [
       .isFloat({min: -180, max: 180}).withMessage('Invalid longitude. lng must be between -180 and 180'),
   check('name')
       .not().isEmpty()
-      .isLength({min: 1, max: 30}).withMessage('name is required and must be between 1 and 30 characters'),
+      .isLength({min: 1, max: 50}).withMessage('name is required and must be between 1 and 50 characters'),
   check('description')
       .not().isEmpty()
       .isLength({min: 5, max: 2048}).withMessage('description is required and must be between 5 and 2048 characters'),
@@ -177,6 +194,17 @@ const validateCreateBookingsOverlap = [
       return true;
     }),
   handleOverlapErrors
+]
+const checkBooking = [
+  param('bookingId')
+    .custom( async (value, {req}) => {
+      const booking = await Booking.findByPk(value)
+      if(!booking){
+       throw new Error('Booking cannot be found')
+      }
+      return true
+    }),
+  handleCannotBeFound
 ]
 
 const validateEditBookingsOverlap = [
@@ -272,5 +300,6 @@ module.exports = {
   validateCreateBooking,
   validateCreateBookingsOverlap,
   validateEditBookingsOverlap,
-  validateSpotQuery
+  validateSpotQuery,
+  checkBooking
 };

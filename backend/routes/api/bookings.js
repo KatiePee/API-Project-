@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { Spot, Review, SpotImage, User, ReviewImage, Booking } = require('../../db/models');
 const {requireAuth} = require('../../utils/auth.js');
-const { validateCreateBooking, validateCreateBookingsOverlap, validateEditBookingsOverlap } = require('../../utils/validation');
+const { validateCreateBooking, validateCreateBookingsOverlap, checkBooking, validateEditBookingsOverlap } = require('../../utils/validation');
 const { unauthorized, reviewNotFound, maxImages, bookingNotFound, pastBooking } = require('../../utils/errors')
 
 router.get('/current', requireAuth, async (req, res, next) => {
@@ -38,7 +38,8 @@ router.get('/current', requireAuth, async (req, res, next) => {
     res.json({Bookings: bookings})
 })
 
-router.put('/:bookingId', validateCreateBooking, validateEditBookingsOverlap, requireAuth, async (req, res, next) => {
+
+router.put('/:bookingId', requireAuth, checkBooking,  validateCreateBooking, validateEditBookingsOverlap,  async (req, res, next) => {
     const bookingId = req.params.bookingId;
     const user = req.user.toJSON();
     const {startDate, endDate} = req.body;

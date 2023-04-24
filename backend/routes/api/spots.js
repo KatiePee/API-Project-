@@ -140,7 +140,7 @@ router.get('/current', requireAuth,  async (req, res, next) => {
     res.json({Spots: currentUserSpots})
 })
 
-router.post('/', validateCreateSpot, requireAuth, async (req, res, next) => {
+router.post('/', requireAuth, validateCreateSpot, async (req, res, next) => {
     const user = req.user.toJSON();
     const ownerId = user.id;
     const { address, city, state, country, lat, lng, name, description, price } = req.body;
@@ -202,19 +202,39 @@ router.get('/:spotId/reviews', async (req, res, next) => {
 
 })
 
-router.get('/:spotId/bookings', async (req, res, next) => {
+router.get('/:spotId/bookings', requireAuth,  async (req, res, next) => {
+    const user = req.user.toJSON();
     const spotId = req.params.spotId;
     if(!(await Spot.findByPk(spotId))) return spotNotFound(next)
-    const bookings = await Booking.findAll({
+    const bookingsPromise = await Booking.findAll({
         where: {spotId},
-        attributes: ['spotId', 'startDate', 'endDate']
+        // attributes: ['spotId', 'startDate', 'endDate']
+        include: [
+            {model: User, attributes: ['id', 'firstName', 'lastName']},
+            {model: Spot, attributes: ['ownerId']}
+    ]
     });
 
-    res.json({Bookings: bookings})
+    const bookings = bookingsPromise.map(booking => {
+        booking = booking.toJSON()
+        if(user.id === booking.Spot.ownerId){
+            delete booking.Spot
+            return booking;
+        } else {
+            delete booking.User;
+            delete booking.id;
+            delete booking.userId;
+            delete booking.createdAt;
+            delete booking.updatedAt;
+            delete booking.Spot
+            return booking
+        }
+    })
 
+    res.json({Bookings: bookings})
 })
 
-router.put('/:spotId', validateEditSpot, requireAuth, async (req, res, next) => {
+router.put('/:spotId', requireAuth, validateEditSpot,  async (req, res, next) => {
     const user = req.user.toJSON();
     const spotId = req.params.spotId;
     const spot = await Spot.findByPk(spotId)
@@ -250,7 +270,7 @@ router.post('/:spotId/images', requireAuth, async (req, res, next) => {
       })
 })
 
-router.post('/:spotId/reviews', validateCreateReview, requireAuth, async (req, res, next) => {
+router.post('/:spotId/reviews', requireAuth, validateCreateReview,  async (req, res, next) => {
     const spotId = req.params.spotId;
     const user = req.user.toJSON();
     const {review, stars} = req.body;
@@ -263,7 +283,7 @@ router.post('/:spotId/reviews', validateCreateReview, requireAuth, async (req, r
 
 })
 
-router.post('/:spotId/bookings',  validateCreateBooking, validateCreateBookingsOverlap, requireAuth, async (req, res, next) => {
+router.post('/:spotId/bookings', requireAuth, validateCreateBooking, validateCreateBookingsOverlap,  async (req, res, next) => {
     const spotId = req.params.spotId;
     const user = req.user.toJSON();
     const {startDate, endDate} = req.body;

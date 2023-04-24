@@ -83,10 +83,10 @@ module.exports = (sequelize, DataTypes) => {
         min: -180,
       }},
     name: {
-      type: DataTypes.STRING(30),
+      type: DataTypes.STRING(50),
       allowNull: false,
       validate: {
-        len: [1, 30]
+        len: [1, 50]
       }
     },
     description: {
