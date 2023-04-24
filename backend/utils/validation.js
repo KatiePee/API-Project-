@@ -1,6 +1,6 @@
 // backend/utils/validation.js
 const { validationResult } = require('express-validator');
-const { check, param } = require('express-validator');
+const { check, param, query } = require('express-validator');
 const { Op } = require('sequelize')
 const {Booking } = require('../db/models');
 // middleware for formatting errors from express-validator middleware
@@ -235,6 +235,34 @@ const validateEditBookingsOverlap = [
     }),
   handleOverlapErrors
 ]
+
+const validateSpotQuery = [
+  query('page')
+    .optional()
+    .isInt({min:1}).withMessage("Page must be an integer greater than or equal to 1"),
+  query('size')
+    .optional()
+    .isInt({min:1}).withMessage("Size must be an integer greater than or equal to 1"),
+  query('minLat')
+    .optional()
+    .isFloat({min: -90, max: 90}).withMessage('Invalid latitude. minLat must be between -90 and 90'),
+  query('maxLat')
+    .optional()
+    .isFloat({min: -90, max: 90}).withMessage('Invalid latitude. maxLat must be between -90 and 90'),
+  query('minLng')
+    .optional()
+    .isFloat({min: -180, max: 180}).withMessage('Invalid longitude. minLng must be between -90 and 90'),
+  query('minLat')
+    .optional()
+    .isFloat({min: -180, max: 180}).withMessage('Invalid longitude. maxLng must be between -90 and 90'),
+  query('minPrice')
+    .optional()
+    .isFloat({min: 0}).withMessage('Minimum price must be greater than or equal to 0'),
+  query('maxPrice')
+    .optional()
+    .isFloat({min: 0}).withMessage('Maximun price must be greater than or equal to 0'),
+  handleValidationErrors
+]
 module.exports = {
   handleValidationErrors,
   validateEditSpot,
@@ -243,5 +271,6 @@ module.exports = {
   validateEditReview,
   validateCreateBooking,
   validateCreateBookingsOverlap,
-  validateEditBookingsOverlap
+  validateEditBookingsOverlap,
+  validateSpotQuery
 };

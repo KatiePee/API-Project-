@@ -2,10 +2,56 @@ const express = require('express');
 const router = express.Router();
 const { Spot, Review, SpotImage, User, ReviewImage, Booking } = require('../../db/models');
 const {requireAuth} = require('../../utils/auth.js');
-const { validateCreateSpot, validateEditSpot, validateCreateReview, validateCreateBooking, validateCreateBookingsOverlap} = require('../../utils/validation');
-const { spotNotFound, userNotFound, unauthorized, userAlreadyReviewed, unauthorizedBooking } = require('../../utils/errors')
+const { validateCreateSpot, validateEditSpot, validateCreateReview, validateCreateBooking, validateCreateBookingsOverlap, validateSpotQuery} = require('../../utils/validation');
+const { spotNotFound, userNotFound, unauthorized, userAlreadyReviewed, unauthorizedBooking } = require('../../utils/errors');
+const { Op } = require('sequelize')
 
-router.get('/', async(_req, res) => {
+router.get('/', validateSpotQuery, async(req, res, next) => {
+    let {page, size, minLat,maxLat, minLng, maxLng, minPrice, maxPrice } = req.query;
+
+    const pagination = {};
+    if( size ) {
+        size = parseInt(size)
+        if(size <= 20){
+          pagination.limit = parseInt(size)
+        } else pagination.limit = 20;
+      } else {
+        pagination.limit = 20
+      };
+    if(page){
+        page = parseInt(page);
+        if(page >= 10){
+            page = 10;
+        }
+        pagination.offset = pagination.limit * (page - 1)
+    }
+
+    const where = {};
+    if(minLat){
+        minLat = parseInt(minLat)
+        where.lat = {[Op.gte]: minLat}
+    }
+    if(maxLat){
+        maxLat = parseInt(maxLat)
+        where.lat = {[Op.lte]: maxLat}
+    }
+    if(minLng){
+        minLng = parseInt(minLng)
+        where.lng = {[Op.gte]: minLng}
+    }
+    if(maxLng){
+        maxLng = parseInt(maxLng);
+        where.lng = {[Op.lte]: maxLng}
+    }
+    if(minPrice){
+        minPrice = parseFloat(minPrice);
+        where.price = {[Op.gte]: minPrice}
+    }
+    if(maxPrice){
+        maxPrice = parseFloat(maxPrice);
+        where.price = {[Op.lte]: maxPrice}
+    }
+
     const spotsPromise = await Spot.findAll({
         include: [
            {
@@ -19,6 +65,8 @@ router.get('/', async(_req, res) => {
             required: false,
            },
         ],
+        ...pagination,
+        where
     });
     const spots = spotsPromise.map(spot => {
         spot = spot.toJSON();
@@ -39,7 +87,14 @@ router.get('/', async(_req, res) => {
         delete spot.SpotImages;
         return spot
     })
-    res.json({Spots: spots})
+
+    const Spots = {Spots: spots};
+    if(page || size){
+        Spots.page = page || 1;
+        Spots.size = size || 20;
+    }
+    
+    res.json(Spots)
 })
 
 router.get('/current', requireAuth,  async (req, res, next) => {
