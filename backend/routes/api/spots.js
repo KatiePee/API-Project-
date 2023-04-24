@@ -1,14 +1,57 @@
 const express = require('express');
 const router = express.Router();
-const { Spot, Review, SpotImage, User } = require('../../db/models');
-const Sequelize =require('../../db/models')
-const cookieParser = require('cookie-parser');
+const { Spot, Review, SpotImage, User, ReviewImage, Booking } = require('../../db/models');
 const {requireAuth} = require('../../utils/auth.js');
-const { handleValidationErrors, validateCreateSpot, validateEditSpot} = require('../../utils/validation');
-const { Op } = require('sequelize');
-const { spotNotFound, userNotFound, unauthorized } = require('../../utils/errors')
+const { validateCreateSpot, validateEditSpot, validateCreateReview, validateCreateBooking, validateCreateBookingsOverlap, validateSpotQuery} = require('../../utils/validation');
+const { spotNotFound, userNotFound, unauthorized, userAlreadyReviewed, unauthorizedBooking } = require('../../utils/errors');
+const { Op } = require('sequelize')
 
-router.get('/', async(_req, res) => {
+router.get('/', validateSpotQuery, async(req, res, next) => {
+    let {page, size, minLat,maxLat, minLng, maxLng, minPrice, maxPrice } = req.query;
+
+    const pagination = {};
+    if( size ) {
+        size = parseInt(size)
+        if(size <= 20){
+          pagination.limit = parseInt(size)
+        } else pagination.limit = 20;
+      } else {
+        pagination.limit = 20
+      };
+    if(page){
+        page = parseInt(page);
+        if(page >= 10){
+            page = 10;
+        }
+        pagination.offset = pagination.limit * (page - 1)
+    }
+
+    const where = {};
+    if(minLat){
+        minLat = parseInt(minLat)
+        where.lat = {[Op.gte]: minLat}
+    }
+    if(maxLat){
+        maxLat = parseInt(maxLat)
+        where.lat = {[Op.lte]: maxLat}
+    }
+    if(minLng){
+        minLng = parseInt(minLng)
+        where.lng = {[Op.gte]: minLng}
+    }
+    if(maxLng){
+        maxLng = parseInt(maxLng);
+        where.lng = {[Op.lte]: maxLng}
+    }
+    if(minPrice){
+        minPrice = parseFloat(minPrice);
+        where.price = {[Op.gte]: minPrice}
+    }
+    if(maxPrice){
+        maxPrice = parseFloat(maxPrice);
+        where.price = {[Op.lte]: maxPrice}
+    }
+
     const spotsPromise = await Spot.findAll({
         include: [
            {
@@ -22,7 +65,8 @@ router.get('/', async(_req, res) => {
             required: false,
            },
         ],
-        // subQuery: false,  
+        ...pagination,
+        where
     });
     const spots = spotsPromise.map(spot => {
         spot = spot.toJSON();
@@ -43,7 +87,14 @@ router.get('/', async(_req, res) => {
         delete spot.SpotImages;
         return spot
     })
-    res.json({Spots: spots})
+
+    const Spots = {Spots: spots};
+    if(page || size){
+        Spots.page = page || 1;
+        Spots.size = size || 20;
+    }
+    
+    res.json(Spots)
 })
 
 router.get('/current', requireAuth,  async (req, res, next) => {
@@ -89,7 +140,7 @@ router.get('/current', requireAuth,  async (req, res, next) => {
     res.json({Spots: currentUserSpots})
 })
 
-router.post('/', validateCreateSpot, requireAuth, async (req, res, next) => {
+router.post('/', requireAuth, validateCreateSpot, async (req, res, next) => {
     const user = req.user.toJSON();
     const ownerId = user.id;
     const { address, city, state, country, lat, lng, name, description, price } = req.body;
@@ -131,7 +182,59 @@ router.get('/:spotId', async (req, res, next) => {
     return res.json(spot)
 })
 
-router.put('/:spotId', validateEditSpot, requireAuth, async (req, res, next) => {
+router.get('/:spotId/reviews', async (req, res, next) => {
+    const spotId = req.params.spotId;
+    if(!(await Spot.findByPk(spotId))) return spotNotFound(next)
+    const reviews = await Review.findAll({
+        where: {spotId},
+        include: [
+            {
+                model: User,
+                attributes: ['id', 'firstName', 'lastName']
+            },
+            {
+                model: ReviewImage
+            }
+        ]
+    });
+
+    res.json({Reviews: reviews})
+
+})
+
+router.get('/:spotId/bookings', requireAuth,  async (req, res, next) => {
+    const user = req.user.toJSON();
+    const spotId = req.params.spotId;
+    if(!(await Spot.findByPk(spotId))) return spotNotFound(next)
+    const bookingsPromise = await Booking.findAll({
+        where: {spotId},
+        // attributes: ['spotId', 'startDate', 'endDate']
+        include: [
+            {model: User, attributes: ['id', 'firstName', 'lastName']},
+            {model: Spot, attributes: ['ownerId']}
+    ]
+    });
+
+    const bookings = bookingsPromise.map(booking => {
+        booking = booking.toJSON()
+        if(user.id === booking.Spot.ownerId){
+            delete booking.Spot
+            return booking;
+        } else {
+            delete booking.User;
+            delete booking.id;
+            delete booking.userId;
+            delete booking.createdAt;
+            delete booking.updatedAt;
+            delete booking.Spot
+            return booking
+        }
+    })
+
+    res.json({Bookings: bookings})
+})
+
+router.put('/:spotId', requireAuth, validateEditSpot,  async (req, res, next) => {
     const user = req.user.toJSON();
     const spotId = req.params.spotId;
     const spot = await Spot.findByPk(spotId)
@@ -165,6 +268,35 @@ router.post('/:spotId/images', requireAuth, async (req, res, next) => {
         "url": spotImage.url,
         "preview": spotImage.preview
       })
+})
+
+router.post('/:spotId/reviews', requireAuth, validateCreateReview,  async (req, res, next) => {
+    const spotId = req.params.spotId;
+    const user = req.user.toJSON();
+    const {review, stars} = req.body;
+
+    if(!(await Spot.findByPk(spotId))) return spotNotFound(next);
+    if(await Review.findOne({where: {userId: user.id, spotId: spotId}})) return userAlreadyReviewed(next);
+
+    const newReview = await Review.create({userId: user.id, spotId, review, stars})
+    res.status(201).json(newReview)
+
+})
+
+router.post('/:spotId/bookings', requireAuth, validateCreateBooking, validateCreateBookingsOverlap,  async (req, res, next) => {
+    const spotId = req.params.spotId;
+    const user = req.user.toJSON();
+    const {startDate, endDate} = req.body;
+
+    const spot = await Spot.findByPk(spotId)
+    if(!spot) return spotNotFound(next);
+
+    const booking = await Spot.findOne({where: {ownerId: user.id, id: spotId}})
+    if(booking) return unauthorizedBooking(next)
+
+    const newBooking = await Booking.create({userId: user.id, spotId, startDate, endDate})
+    res.status(200).json(newBooking)
+
 })
 
 router.delete('/:spotId', requireAuth, async (req, res, next) => {
