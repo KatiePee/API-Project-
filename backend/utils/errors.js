@@ -33,6 +33,14 @@ const bookingNotFound = (next) =>{
         return next(err);
 };
 
+const imageNotFound = (next) =>{
+    const err = new Error("Image couldn't be found");
+        err.title = "Image couldn't be found";
+        err.errors = { message: "Image couldn't be found"};
+        err.status = 404;
+        return next(err);
+};
+
 const unauthorized = (next) => {
     const err = new Error("Unauthorized User");
     err.title = "Unauthorized User";
@@ -77,6 +85,7 @@ module.exports = {
     spotNotFound, 
     userNotFound,
     bookingNotFound,
+    imageNotFound,
     unauthorized,
     unauthorizedBooking,
     userAlreadyReviewed,

@@ -1,9 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const { Spot, Review, SpotImage, User, ReviewImage, Booking } = require('../../db/models');
+const { Spot, SpotImage } = require('../../db/models');
 const {requireAuth} = require('../../utils/auth.js');
-const { validateCreateSpot, validateEditSpot, validateCreateReview, validateCreateBooking, validateCreateBookingsOverlap} = require('../../utils/validation');
-const { spotNotFound, userNotFound, unauthorized, userAlreadyReviewed, unauthorizedBooking } = require('../../utils/errors')
+const {  unauthorized, imageNotFound} = require('../../utils/errors')
 
 router.delete('/:imageId', requireAuth, async(req, res, next) => {
     const user = req.user.toJSON();
@@ -15,6 +14,8 @@ router.delete('/:imageId', requireAuth, async(req, res, next) => {
     if(!image) return imageNotFound(next);
     if(image.Spot.ownerId !== user.id) return unauthorized(next)
     await image.destroy()
-    res.json(image)
+    res.json({
+        "message": "Successfully deleted"
+      })
 })
 module.exports = router;
