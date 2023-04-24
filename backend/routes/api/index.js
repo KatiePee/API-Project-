@@ -17,6 +17,8 @@ router.use('/bookings', require('./bookings.js'))
 
 router.use('/spot-images', require('./spot-images.js'))
 
+router.use('/review-images', require('./review-images.js'))
+
 router.post('/test', (req, res) => {
   res.json({ requestBody: req.body });
 });
