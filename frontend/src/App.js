@@ -6,6 +6,7 @@ import LoginFormPage from "./components/LoginFormPage";
 function App() {
   return (
     <Switch>
+      <Route path='/'>Hello from app!</Route>
       <Route path="/login">
         <LoginFormPage />
       </Route>
