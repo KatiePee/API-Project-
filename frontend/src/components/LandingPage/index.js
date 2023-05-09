@@ -1,16 +1,21 @@
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAllSpots } from "../../store/spots";
 import { useEffect } from "react";
+import { useHistory } from "react-router-dom";
 
 const LandingPage = () => {
   const spots = useSelector((state => state.spots.allSpots))
   const dispatch = useDispatch();
-  console.log('right before useefect')
+  const history = useHistory();
+
+
   useEffect(() => {
-    console.log('useeffect ***********************')
     dispatch(fetchAllSpots());
   }, [dispatch])
-  console.log('------------------test------------------ ')
+
+  const handleSpotClick = (spotId) => {
+
+  }
   return (
     // <h1>test test</h1>
     <div className="landing-page-wrapper"> test
