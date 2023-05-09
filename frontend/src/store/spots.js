@@ -1,5 +1,5 @@
 import { csrfFetch } from "./csrf";
-
+console.log('??????????       HITS STORE FILE!!       ????????????')
 const GET_ALL_SPOTS = 'spots/allSpots';
 const GET_SPOT = 'spots/singleSpot'
 
@@ -8,14 +8,18 @@ const getAllSpots = (spots) => ({
   payload: spots
 })
 
-const getSpot = (spot) => ({
-  type: GET_SPOT,
-  payload: spot
-})
+const getSpot = (spot) => {
+
+  console.log('^^^^^^^     getSpot    ^^^^^^^^');
+  return {
+    type: GET_SPOT,
+    payload: spot
+  }
+}
 
 export const fetchAllSpots = () => async dispatch => {
   const res = await csrfFetch('/api/spots');
-  console.log('hits fetch****************************')
+  console.log('hits fetch all spots ****************************')
   if (res.ok) {
     const spots = await res.json()
     dispatch(getAllSpots(spots.Spots))
@@ -24,7 +28,7 @@ export const fetchAllSpots = () => async dispatch => {
 }
 
 export const fetchSpot = (spotId) => async dispatch => {
-  console.log('~~~~~~~~~~~~~~~~~~~~ fetch spot ~~~~~~~~~~~~~~~~~~~~~~~~~~')
+  console.log('~~~~~~~~~~~~~~~~~~~~ hits fetch spot ~~~~~~~~~~~~~~~~~~~~~~~~~~')
   const res = await csrfFetch(`/api/spots/${spotId}`);
 
   if (res.ok) {
@@ -69,6 +73,7 @@ const spotReducer = (state = initialState, action) => {
       // newState.allSpots = action.payload
       return newState;
     case GET_SPOT:
+      console.log('----- get spot reducer ------')
       newState = { ...state, allSpots: {}, singleSpot: {} };
       newState.singleSpot = action.payload
       return newState;
