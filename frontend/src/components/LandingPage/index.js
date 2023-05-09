@@ -5,13 +5,14 @@ import { useEffect } from "react";
 const LandingPage = () => {
   const spots = useSelector((state => state.spots.allSpots))
   const dispatch = useDispatch();
-
+  console.log('right before useefect')
   useEffect(() => {
+    console.log('useeffect ***********************')
     dispatch(fetchAllSpots());
   }, [dispatch])
-  console.log(spots)
+  console.log('------------------test------------------ ')
   return (
-
+    // <h1>test test</h1>
     <div className="landing-page-wrapper"> test
       {spots.map(spot => (
         <div className='spots' key={spot.id}>
