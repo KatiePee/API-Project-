@@ -1,21 +1,28 @@
+import { useHistory } from "react-router-dom";
+
 export default function SpotCard({ spot }) {
-  const { id, name, previewImage, city, state, avgRating, price } = spot
+  const { id, name, previewImage, city, state, avgRating, price } = spot;
+  const history = useHistory()
+  const handleClick = () => {
+    history.push(`/spots/${id}`)
+  }
+
   return (
-    <div className='spots' key={id}>
-      <div className='spots__image'>
+    <div className='spotsCard' key={id} onClick={handleClick}>
+      <div className='spotsCard__image'>
         <img src={previewImage} alt={`${name} image`} />
       </div>
-      <div className='spots__city-state'>
-        <span className='spots_details bold'>{city}</span>, <span className='spots_details bold'>{state}</span>
+      <div className='spotsCard__place'>
+        <span>{city}</span>, <span>{state}</span>
       </div>
-      <div className='spots__star-rating'>
-        <span className='spots_details'><i className="fa-sharp fa-solid fa-star"></i></span>
-        <span className='spots_details'>{avgRating ? avgRating : 0}</span>
+      <div className='spotsCard__star-rating'>
+        <span ><i className="fa-sharp fa-solid fa-star"></i></span>
+        <span >{avgRating ? avgRating : 0}</span>
       </div>
-      <div className='spots__price'>
-        <span classname='spots_details bold'>${price}</span>
-        <span className='spots_details'> night</span>
+      <div className='spotsCard__price'>
+        <span className='spotsCard__price--price'>${price}</span>
+        <span > night</span>
       </div>
-    </div>
+    </div >
   )
 }

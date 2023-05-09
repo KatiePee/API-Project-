@@ -9,23 +9,16 @@ const LandingPage = () => {
   const spots = Object.values(spotsState)
   const dispatch = useDispatch();
   const history = useHistory();
-  // console.log('------spotsState- landing page----', spotsState)
-  console.log('------spots- landing page----', spots)
+  console.log(spotsState)
   useEffect(() => {
     dispatch(fetchAllSpots());
   }, [dispatch])
 
-  const handleSpotClick = (spotId) => {
-    console.log('handle spot landing page=======================', spotId)
-    history.push(`/spots/${spotId}`)
-  }
-
-  if (!spots.length) return null;
+  // if (!spots.length) return null;
   return (
-    // <h1>test test</h1>
     <div className="landing-page-wrapper">
       {spots.map(spot => (
-        <SpotCard spot={spot} />
+        <SpotCard spot={spot} key={spot.id} />
       ))}
     </div>
   )

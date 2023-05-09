@@ -15,7 +15,7 @@ const getSpot = (spot) => ({
 
 export const fetchAllSpots = () => async dispatch => {
   const res = await csrfFetch('/api/spots');
-  console.log('hits fetch')
+  console.log('hits fetch****************************')
   if (res.ok) {
     const spots = await res.json()
     dispatch(getAllSpots(spots.Spots))
@@ -64,12 +64,12 @@ const spotReducer = (state = initialState, action) => {
   let newState;
   switch (action.type) {
     case GET_ALL_SPOTS:
-      newState = { ...state };
+      newState = { ...state, allSpots: {}, singleSpot: {} };
       action.payload.forEach(el => newState.allSpots[el.id] = el)
       // newState.allSpots = action.payload
       return newState;
     case GET_SPOT:
-      newState = { ...state };
+      newState = { ...state, allSpots: {}, singleSpot: {} };
 
       newState.singleSpot = action.payload
       return newState;
