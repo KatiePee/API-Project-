@@ -10,7 +10,7 @@ export default function SpotCard({ spot }) {
   return (
     <div className='spotsCard' key={id} onClick={handleClick}>
       <div className='spotsCard__image'>
-        <img src={previewImage} alt={`${name} image`} />
+        <img src={previewImage} alt={`${name} image`} className="spot-image" />
       </div>
       <div className='spotsCard__place'>
         <span>{city}</span>, <span>{state}</span>
