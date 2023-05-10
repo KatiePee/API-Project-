@@ -1,4 +1,7 @@
 import { useState } from "react";
+import { useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { createSpot } from "../../store/spots";
 
 export default function SpotForm({ spot, formType }) {
   // const {
@@ -12,6 +15,7 @@ export default function SpotForm({ spot, formType }) {
   //   name,
   //   price,
   // } = spot;
+  // const history = useHistory();
   const history = useHistory();
 
   const [country, setCountry] = useState(spot?.country)
@@ -23,7 +27,39 @@ export default function SpotForm({ spot, formType }) {
   const [description, setDescription] = useState(spot?.description)
   const [name, setName] = useState(spot?.name)
   const [price, setPrice] = useState(spot?.price)
+  const [errors, setErrors] = useState({});
 
+  const dispatch = useDispatch();
+
+  const handleSubmit = async (e) => {
+
+    e.preventDefault();
+
+    setErrors({});
+    try {
+      // const newSpot = await dispatch(createSpot({
+
+      //   "address": "123 Disney Lane",
+      //   "city": "San Francisco1",
+      //   "state": "California1",
+      //   "country": "United States of America1",
+      //   "lat": 37.7645358,
+      //   "lng": -122.4730327,
+      //   "name": "App Academy",
+      //   "description": "Place where web developers are created1",
+      //   "price": 123
+
+      // }))
+      const newSpot = await dispatch(createSpot({}))
+      console.log(newSpot)
+    } catch (er) {
+      console.log('---error---> ', er)
+    }
+  }
+
+  // return (
+  //   <h1>test spot form</h1>
+  // )
 
   return (
     <form className='creat-spot'>
@@ -155,7 +191,7 @@ export default function SpotForm({ spot, formType }) {
         />
       </div>
 
-      <button type="submit">{formType}</button>
+      <button type="submit" onClick={handleSubmit}>{formType}</button>
 
 
 
