@@ -29,9 +29,15 @@ export default function SpotForm({ spot, formType }) {
   const [description, setDescription] = useState(spot?.description)
   const [name, setName] = useState(spot?.name)
   const [price, setPrice] = useState(spot?.price)
+  const [image0, setImage0] = useState()
+  const [image1, setImage1] = useState()
+  const [image2, setImage2] = useState()
+  const [image3, setImage3] = useState()
+  const [image4, setImage4] = useState()
   const [errors, setErrors] = useState({});
   const [hasErrors, setHasErrors] = useState(false)
 
+  console.log('...................imag url on blur.................', image0)
 
 
   const dispatch = useDispatch();
@@ -56,7 +62,22 @@ export default function SpotForm({ spot, formType }) {
     const previewImg = { url: 'https://bit.ly/fcc-relaxing-cat', "preview": false }
     const testImages = [previewImg, previewImg, previewImg, previewImg]
 
-    const newSpot = await dispatch(createSpot({}, testImages))
+
+
+
+    const addSpot = {
+      country,
+      address,
+      city,
+      state,
+      lat,
+      lng,
+      description,
+      name,
+      price,
+    }
+    console.log('~~~~~~spot state~~~~~~', addSpot)
+    const newSpot = await dispatch(createSpot(addSpot, testImages))
 
     if (newSpot.errors) {
       setErrors(newSpot.errors)
@@ -66,30 +87,29 @@ export default function SpotForm({ spot, formType }) {
 
 
 
+    const imageUrls = [image0, image1, image2, image3, image4]
 
+    const _handelImages = (imageUrls) => {
+      const validEndings = ['png', 'jpg', 'jpeg'];
+      imageUrls.map((img, i) => {
 
+        if (img) {
+          let arr = img.split('.')
 
+          if (!(arr.length === 2 && validEndings.includes(arr[1]))) {
+            console.log(i, 'failed!---------', arr);
+            setErrors({ ...errors, i: 'Image URL must end in .png, .jpg, or .jpeg' })
+          }
 
+        }
+      })
 
+    }
 
-
-    // .catch(async res => {
-    //   console.log('~~~~~~~~~~~~ res-  inside catch~~~~~~~~~~>', res)
-
-    //   const data = await res.json();
-    //   if (data && data.errors);
-    //   setErrors(data.errors)
-    //   console.log('data errors inside catch---->', data.errors)
-    //   console.log('data rrors city inside catch ---------> ', data.errors.city)
-    // })
-
-
+    _handelImages(imageUrls)
   }
 
-  // return (
-  //   <h1>test spot form</h1>
-  // )
-
+  console.log(errors)
   return (
     <form className='creat-spot'>
       <h1>create spot form!</h1>
@@ -196,34 +216,35 @@ export default function SpotForm({ spot, formType }) {
         <p>Submit a link to at least one photo to publish your spot.</p>
         <input
           type="text"
-          // value={?}
-          // onChange={(e) => set?(e.target.value)}
+          value={image0}
+          onChange={(e) => setImage0(e.target.value)}
           placeholder='Preview Image URL'
         />
+        <p className='errors spot-form__errors'>{errors[0]}</p>
         <input
           type="text"
-          // value={?}
-          // onChange={(e) => set?(e.target.value)}
+          value={image1}
+          onChange={(e) => setImage1(e.target.value)}
           placeholder='Image URL'
-        />
+        /> <p className='errors spot-form__errors'>{errors[1]}</p>
         <input
           type="text"
-          // value={?}
-          // onChange={(e) => set?(e.target.value)}
+          value={image2}
+          onChange={(e) => setImage2(e.target.value)}
           placeholder='Image URL'
-        />
+        /> <p className='errors spot-form__errors'>{errors[2]}</p>
         <input
           type="text"
-          // value={?}
-          // onChange={(e) => set?(e.target.value)}
+          value={image3}
+          onChange={(e) => setImage3(e.target.value)}
           placeholder='Image URL'
-        />
+        /> <p className='errors spot-form__errors'>{errors[3]}</p>
         <input
           type="text"
-          // value={?}
-          // onChange={(e) => set?(e.target.value)}
+          value={image4}
+          onChange={(e) => setImage4(e.target.value)}
           placeholder='Image URL'
-        />
+        /> <p className='errors spot-form__errors'>{errors[4]}</p>
       </div>
 
       <button type="submit" onClick={handleSubmit} disabled={hasErrors}>{formType}</button>
