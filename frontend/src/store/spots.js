@@ -1,7 +1,8 @@
 import { csrfFetch } from "./csrf";
 
 const GET_ALL_SPOTS = 'spots/allSpots';
-const GET_SPOT = 'spots/singleSpot'
+const GET_SPOT = 'spots/singleSpot';
+const ADD_SPOT = 'spots/addSpot';
 
 const getAllSpots = (spots) => ({
   type: GET_ALL_SPOTS,
@@ -11,6 +12,13 @@ const getAllSpots = (spots) => ({
 const getSpot = (spot) => {
   return {
     type: GET_SPOT,
+    payload: spot
+  }
+}
+
+const addSpot = (spot) => {
+  return {
+    type: ADD_SPOT,
     payload: spot
   }
 }
@@ -37,6 +45,22 @@ export const fetchSpot = (spotId) => async dispatch => {
   }
 }
 
+export const createSpot = spot => async (dispatch) => {
+  const res = await csrfFetch('/api/spots', {
+    method: 'POST',
+    body: JSON.stringify(spot)
+  });
+
+  if (res.ok) {
+    const newSpot = await res.json();
+    dispatch(addSpot(newSpot))
+    return newSpot;
+  } else {
+    const errors = await res.json();
+    return errors;
+  }
+}
+
 const initialState = { allSpots: {}, singleSpot: {} }
 const spotReducer = (state = initialState, action) => {
   let newState;
@@ -48,6 +72,10 @@ const spotReducer = (state = initialState, action) => {
     case GET_SPOT:
       newState = { ...state, allSpots: {}, singleSpot: {} };
       newState.singleSpot = action.payload
+      return newState;
+    case ADD_SPOT:
+      newState = { ...state, allSpots: { ...state.allSpots }, singleSpot: { ...action.payload } };
+      newState.allSpots[action.payload.id] = action.payload
       return newState;
     default:
       return state;
