@@ -21,8 +21,8 @@ export default function SpotReviews({ spotId }) {
     return `${month} ${year}`
   }
   return (
+    // <h1>TES TEST TEST</h1>
     <div className='spotDetails__reviews reviews'>
-      <h1>TES TEST TEST</h1>
       {reviews.map(review => {
         return (
           <div className='reviews__card'>

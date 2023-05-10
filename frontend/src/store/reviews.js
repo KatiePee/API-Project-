@@ -3,6 +3,7 @@ import { csrfFetch } from "./csrf";
 const GET_SPOT_REVIEWS = 'reviews/spot';
 const GET_USER_REVIEWS = 'reviews/user';
 
+console.log('hits review store file')
 const getSpotReviews = (reviews) => {
   return {
     type: GET_SPOT_REVIEWS,
@@ -48,6 +49,7 @@ const reviewReducer = (state = initialState, action) => {
   let newState;
   switch (action.type) {
     case GET_SPOT_REVIEWS:
+      console.log('')
       newState = { ...state, spot: {}, user: {} }
       action.payload.forEach(el => newState.spot[el.id] = el);
       return newState;
