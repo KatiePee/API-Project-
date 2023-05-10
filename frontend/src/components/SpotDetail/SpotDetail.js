@@ -32,6 +32,7 @@ export default function SpotDetail() {
 
   // SpotImages = [{ url: 'https://bit.ly/fcc-relaxing-cat' }]
   // const previewImg = SpotImages.find(img => img.preview === true) ? SpotImages.find(img => img.preview === true) : SpotImages[0]
+  // console.log('---------', previewImg)
   //for testing code above works! -- replace SpotImages1 with actual Spotimages
   const previewImg = { url: 'https://bit.ly/fcc-relaxing-cat' }
   const SpotImages1 = [previewImg, previewImg, previewImg, previewImg]
@@ -47,13 +48,13 @@ export default function SpotDetail() {
           <img src={previewImg.url} className="spot-image" />
         </div>
         <div className='spotDetails__image-tiles'>
-          {SpotImages1.map((el, i) => {
+          {/* {SpotImages1.map((el, i) => {
             if (i <= 4) {
               return (
                 <img src={el.url} />
               )
             }
-          })}
+          })} */}
         </div>
       </div>
       <div className='spotDetails__details'>
