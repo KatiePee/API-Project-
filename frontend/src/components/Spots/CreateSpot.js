@@ -1,5 +1,25 @@
-export default function CreatSpot() {
+import SpotForm from "./SpotForm";
+
+const CreateSpot = () => {
+  const spot = {
+    country: '',
+    address: '',
+    city: '',
+    state: '',
+    lat: '',
+    lng: '',
+    description: '',
+    name: '',
+    price: '',
+  };
+
   return (
-    <h1>create spot form!</h1>
-  )
-}
+    <SpotForm
+      report={spot}
+      formType="Create Spot"
+    />
+    // <h1>creat spot</h1>
+  );
+};
+
+export default CreateSpot
