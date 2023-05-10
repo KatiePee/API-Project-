@@ -25,7 +25,7 @@ export default function SpotReviews({ spotId }) {
       <h1>TES TEST TEST</h1>
       {reviews.map(review => {
         return (
-          <div className='reviews__card'>
+          <div className='reviews__card' key={review.id}>
             <p className='reviews__name'>{review.User.firstName}</p>
             <p className='reviews__date'>{_getMonth(review.createdAt)}</p>
             <p className='reviews__review'>{review.review}</p>
