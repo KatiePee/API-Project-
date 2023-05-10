@@ -18,7 +18,7 @@ export default function SpotForm({ spot, formType }) {
   // const history = useHistory();
   const history = useHistory();
 
-  console.log('spot prop from create form ------->', spot)
+  // console.log('spot prop from create form ------->', spot)
 
   const [country, setCountry] = useState(spot?.country)
   const [address, setAddress] = useState(spot?.address)
@@ -30,7 +30,7 @@ export default function SpotForm({ spot, formType }) {
   const [name, setName] = useState(spot?.name)
   const [price, setPrice] = useState(spot?.price)
   const [errors, setErrors] = useState({});
-  const [hasErrors, setHasErrors] = useState(true)
+  const [hasErrors, setHasErrors] = useState(false)
 
 
 
@@ -41,15 +41,47 @@ export default function SpotForm({ spot, formType }) {
     e.preventDefault();
 
     setErrors({});
+    const testSpot = {
+      "address": "",
+      "city": "San Francisco",
+      "state": "California",
+      "country": "United States of America",
+      "lat": 37.7645358,
+      "lng": -122.4730327,
+      "name": "App Academy",
+      "description": "Place where web developers are created",
+      "price": 123
+    }
 
-    const newSpot = await dispatch(createSpot({}))
-      .catch(async res => {
-        const data = await res.json();
-        if (data && data.errors);
-        setErrors(data.errors)
-        console.log('data errors inside catch---->', data.errors)
-        console.log('data rrors city inside catch ---------> ', data.errors.city)
-      })
+    const previewImg = { url: 'https://bit.ly/fcc-relaxing-cat', "preview": false }
+    const testImages = [previewImg, previewImg, previewImg, previewImg]
+
+    const newSpot = await dispatch(createSpot({}, testImages))
+
+    if (newSpot.errors) {
+      setErrors(newSpot.errors)
+    } else {
+      history.push(`/spots/${newSpot.id}`)
+    }
+
+
+
+
+
+
+
+
+
+
+    // .catch(async res => {
+    //   console.log('~~~~~~~~~~~~ res-  inside catch~~~~~~~~~~>', res)
+
+    //   const data = await res.json();
+    //   if (data && data.errors);
+    //   setErrors(data.errors)
+    //   console.log('data errors inside catch---->', data.errors)
+    //   console.log('data rrors city inside catch ---------> ', data.errors.city)
+    // })
 
 
   }

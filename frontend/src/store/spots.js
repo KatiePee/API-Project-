@@ -24,13 +24,6 @@ const addSpot = (spot) => {
   }
 }
 
-const addImage = (spotImage) => {
-  return {
-    type: ADD_IMG,
-    payload: spotImage
-  }
-}
-
 export const fetchAllSpots = () => async dispatch => {
   const res = await csrfFetch('/api/spots');
   if (res.ok) {
@@ -53,42 +46,49 @@ export const fetchSpot = (spotId) => async dispatch => {
   }
 }
 
-export const createSpot = (spot, spotImages) => async (dispatch) => {
-  const res = await csrfFetch('/api/spots', {
-    method: 'POST',
-    body: JSON.stringify(spot)
-  });
+export const createSpot = (spot, spotImages, user) => async (dispatch) => {
 
-  if (res.ok) {
+  try {
+    const res = await csrfFetch('/api/spots', {
+      method: 'POST',
+      body: JSON.stringify(spot)
+    });
     const newSpot = await res.json();
-
-    dispatch(addSpot(newSpot)).then(() => {
-      for (let i = 0; i < spotImages.length; i++) {
-        dispatch(addImageThunk(newSpot.id, spotImages[i]))
-      }
-    })
-
+    dispatch(addImageThunk(newSpot, spotImages, user))
     return newSpot;
-  } else {
-    const errors = await res.json();
-    return errors;
+
+  } catch (e) {
+    const errors = await e.json()
+    console.log('inside catch create spot thunk~~~~~~~~~~~~', e, errors)
+    return errors
   }
+
 }
 
-export const addImageThunk = (spotId, image) => async (dispatch) => {
-  const res = await csrfFetch(` /api/spots/${spotId}/images`, {
-    method: 'POST',
-    body: JSON.stringify(image)
-  });
+export const addImageThunk = (spot, spotImages, user) => async (dispatch) => {
+  spot.SpotImages = []
+  for (let i = 0; i < spotImages.length; i++) {
+    const image = spotImages[i]
+    const res = await csrfFetch(`/api/spots/${spot.id}/images`, {
+      method: 'POST',
+      body: JSON.stringify(image)
+    });
 
-  if (res.ok) {
-    const newImage = await res.json();
-    dispatch(addImage(newImage))
-    return newImage;
-  } else {
-    const errors = await res.json();
-    return errors;
+    if (res.ok) {
+      const newImage = await res.json();
+      spot.SpotImages.push(newImage)
+    }
   }
+  spot.Owner = user;
+  spot.numReviews = null;
+  spot.avgStarRating = null;
+  dispatch(addSpot(spot));
+  return spot
+
+
+
+
+
 }
 
 const initialState = { allSpots: {}, singleSpot: {} }
@@ -107,10 +107,6 @@ const spotReducer = (state = initialState, action) => {
       newState = { ...state, allSpots: { ...state.allSpots }, singleSpot: { ...action.payload } };
       newState.allSpots[action.payload.id] = action.payload
       return newState;
-    case ADD_IMG:
-      newState = { ...state, allSpots: { ...state.allSpots }, singleSpot: { ...state.singleSpot } };
-      newState.singleSpot.SpotImages.push(action.payload)
-      return newState
     default:
       return state;
   }
