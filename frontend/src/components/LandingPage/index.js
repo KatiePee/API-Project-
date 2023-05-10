@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchAllSpots } from "../../store/spots";
 import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import SpotCard from "./SpotCard";
+import SpotCard from "../Spots/SpotCard";
 
 const LandingPage = () => {
   const spotsState = useSelector((state => state.spots.allSpots))

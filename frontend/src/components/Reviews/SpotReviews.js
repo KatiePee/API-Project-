@@ -12,16 +12,13 @@ export default function SpotReviews({ spotId }) {
     dispatch(fetchSpotReviews(spotId))
   }, [dispatch])
 
-  console.log('spot reviews---------', reviews)
   if (!reviews.length) return null
-  let review = reviews[0]
-  let date = review.createdAt
-  console.log('---- date month thing ---', date.toLocaleString('default', { month: 'long' }))
+
   const _getMonth = (date) => {
     const event = new Date(date);
     const month = event.toLocaleString('default', { month: 'long' });
     const year = event.toLocaleString('default', { year: 'numeric' });
-    return `${month}, ${year}`
+    return `${month} ${year}`
   }
   return (
     <div className='spotDetails__reviews reviews'>
@@ -31,6 +28,7 @@ export default function SpotReviews({ spotId }) {
           <div className='reviews__card'>
             <p className='reviews__name'>{review.User.firstName}</p>
             <p className='reviews__date'>{_getMonth(review.createdAt)}</p>
+            <p className='reviews__review'>{review.review}</p>
           </div>
         )
       })}
