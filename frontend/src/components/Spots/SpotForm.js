@@ -1,4 +1,30 @@
+import { useState } from "react";
+
 export default function SpotForm({ spot, formType }) {
+  // const {
+  //   country,
+  //   address,
+  //   city,
+  //   state,
+  //   lat,
+  //   lng,
+  //   description,
+  //   name,
+  //   price,
+  // } = spot;
+  const history = useHistory();
+
+  const [country, setCountry] = useState(spot?.country)
+  const [address, setAddress] = useState(spot?.address)
+  const [city, setCity] = useState(spot?.city)
+  const [state, setState] = useState(spot?.state)
+  const [lat, setLat] = useState(spot?.lat)
+  const [lgn, setLgn] = useState(spot?.lgn)
+  const [description, setDescription] = useState(spot?.description)
+  const [name, setName] = useState(spot?.name)
+  const [price, setPrice] = useState(spot?.price)
+
+
   return (
     <form className='creat-spot'>
       <h1>create spot form!</h1>
