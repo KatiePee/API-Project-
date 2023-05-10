@@ -3,6 +3,7 @@ import { csrfFetch } from "./csrf";
 const GET_ALL_SPOTS = 'spots/allSpots';
 const GET_SPOT = 'spots/singleSpot';
 const ADD_SPOT = 'spots/addSpot';
+const ADD_IMG = 'spots/addImage'
 
 const getAllSpots = (spots) => ({
   type: GET_ALL_SPOTS,
@@ -20,6 +21,13 @@ const addSpot = (spot) => {
   return {
     type: ADD_SPOT,
     payload: spot
+  }
+}
+
+const addImage = (spotImage) => {
+  return {
+    type: ADD_IMG,
+    payload: spotImage
   }
 }
 
@@ -45,7 +53,7 @@ export const fetchSpot = (spotId) => async dispatch => {
   }
 }
 
-export const createSpot = spot => async (dispatch) => {
+export const createSpot = (spot, spotImages) => async (dispatch) => {
   const res = await csrfFetch('/api/spots', {
     method: 'POST',
     body: JSON.stringify(spot)
@@ -53,8 +61,30 @@ export const createSpot = spot => async (dispatch) => {
 
   if (res.ok) {
     const newSpot = await res.json();
-    dispatch(addSpot(newSpot))
+
+    dispatch(addSpot(newSpot)).then(() => {
+      for (let i = 0; i < spotImages.length; i++) {
+        dispatch(addImageThunk(newSpot.id, spotImages[i]))
+      }
+    })
+
     return newSpot;
+  } else {
+    const errors = await res.json();
+    return errors;
+  }
+}
+
+export const addImageThunk = (spotId, image) => async (dispatch) => {
+  const res = await csrfFetch(` /api/spots/${spotId}/images`, {
+    method: 'POST',
+    body: JSON.stringify(image)
+  });
+
+  if (res.ok) {
+    const newImage = await res.json();
+    dispatch(addImage(newImage))
+    return newImage;
   } else {
     const errors = await res.json();
     return errors;
@@ -77,6 +107,10 @@ const spotReducer = (state = initialState, action) => {
       newState = { ...state, allSpots: { ...state.allSpots }, singleSpot: { ...action.payload } };
       newState.allSpots[action.payload.id] = action.payload
       return newState;
+    case ADD_IMG:
+      newState = { ...state, allSpots: { ...state.allSpots }, singleSpot: { ...state.singleSpot } };
+      newState.singleSpot.SpotImages.push(action.payload)
+      return newState
     default:
       return state;
   }
