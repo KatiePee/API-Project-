@@ -14,7 +14,7 @@ const LandingPage = () => {
     dispatch(fetchAllSpots());
   }, [dispatch])
 
-  // if (!spots.length) return null;
+  if (!spots.length) return null;
   return (
     <div className="landing-page-wrapper">
       {spots.map(spot => (

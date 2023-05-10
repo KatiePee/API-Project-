@@ -68,9 +68,7 @@ export default function SpotDetail() {
         </div>
       </div>
       <div className='spotDetails__review-info'>review info</div>
-      <div className="spotDetails__reviews">
-        <SpotReviews />
-      </div>
+      <SpotReviews spotId={spotId} />
     </div>
   )
 }
