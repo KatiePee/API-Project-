@@ -15,7 +15,7 @@ const CreateSpot = () => {
 
   return (
     <SpotForm
-      report={spot}
+      spot={spot}
       formType="Create Spot"
     />
     // <h1>creat spot</h1>
