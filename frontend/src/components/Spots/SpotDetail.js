@@ -1,19 +1,32 @@
 import { useDispatch, useSelector } from "react-redux";
 import { fetchSpot } from "../../store/spots";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import SpotReviews from "../Reviews/SpotReviews";
 
 export default function SpotDetail() {
   const { spotId } = useParams()
 
+  const [isLoading, setIsLoading] = useState(true);
   const dispatch = useDispatch();
   const spot = useSelector(state => state.spots.singleSpot)
+  console.log('~~~~~~~ SPOT --spate detail ~~~~~~~~~~~~>', spot)
+  // useEffect(() => {
+  //   dispatch(fetchSpot(spotId));
+  // }, [dispatch])
 
   useEffect(() => {
-    dispatch(fetchSpot(spotId));
-  }, [dispatch])
+    async function fetchData() {
+      await dispatch(fetchSpot(spotId));
+      setIsLoading(false);
+    }
+    fetchData();
+  }, [dispatch, spotId]);
 
+  if (isLoading) return <div>Loading...</div>;
+
+
+  if (!Object.values(spot)) return null
 
   const {
     name,

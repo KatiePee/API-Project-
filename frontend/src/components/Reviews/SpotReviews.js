@@ -1,18 +1,28 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { fetchSpotReviews } from "../../store/reviews";
 console.log('hits spot review file')
 
 export default function SpotReviews({ spotId }) {
+  const [isLoading, setIsLoading] = useState(true);
+
   const dispatch = useDispatch();
   const reviewsState = useSelector(state => state.reviews.spot);
-  const reviews = Object.values(reviewsState);
+  const reviews = reviewsState ? Object.values(reviewsState) : [];
 
   useEffect(() => {
-    dispatch(fetchSpotReviews(spotId))
-  }, [dispatch])
+    async function fetchData() {
+      await dispatch(fetchSpotReviews(spotId))
+      setIsLoading(false);
+    }
+    fetchData();
+  }, [dispatch]);
+
+  if (isLoading) return <div>Loading...</div>;
+
 
   if (!reviews.length) return null
+
 
   const _getMonth = (date) => {
     const event = new Date(date);
