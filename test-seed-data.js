@@ -1,5 +1,6 @@
-[
+const images = [
   {
+    spotId: 1,
     "images": [
       "https://a0.muscache.com/im/pictures/a8ef5d47-0b5a-4189-abaf-322753e942b2.jpg?im_w=960",
       "https://a0.muscache.com/im/pictures/2477d0d5-7d92-43ca-a144-3c934dc57770.jpg?im_w=1200",
@@ -9,6 +10,7 @@
     "description": "This tree house is very unique. It features two separate sleeping quarters to give renters the ability to accommodate more friends and enjoy time together but also have private time at night. Its 25 feet up in the trees and has plenty of nature coming through and around the decks. Its also has all the amenities one would want for comfort in the main house with heat/ AC, TV, Shower, and Toilet. The bunk house also has TV/DVD, heat and AC. Come enjoy nature at its best."
   },
   {
+    spotId: 2,
     "images": [
       "https://a0.muscache.com/im/pictures/9c6f8dd9-9758-4ef3-80b0-16cdbbda5118.jpg?im_w=1200",
       "https://a0.muscache.com/im/pictures/miso/Hosting-48089233/original/32e6234f-2f32-4b7c-8137-ee81e9f6c7d1.jpeg?im_w=720",
@@ -19,6 +21,7 @@
     "description": "Stunning Tree house looking over the Strait of Juan De Fuca is a total North-West Washington experience. It is made of cedar with rustic touches. Once you are inside you will never want to leave as the floor to ceiling window looks onto the straight and with constant moving landscape of cruise ships, wildlife, and bald eagles soaring across your window. Who needs TV when you have such a captivating changing scenery. Never miss the Sunset as you snuggle on the couch or private porch."
   },
   {
+    spotId: 3,
     "images": [
       "https://a0.muscache.com/im/pictures/c79965b5-9b22-4504-af7b-3131f5c25dfa.jpg?im_w=720",
       "https://a0.muscache.com/im/pictures/a37685ad-4b8f-402d-b9f8-d408e1e9b809.jpg?im_w=720",
@@ -30,6 +33,7 @@
     "description": "Hidden amidst the dense foliage of Baguio City’s pinewood forest, Tudor in the Pines is a remarkable estate in the Philippines compromising of seven (7) unique residences within a gated property, accommodating a maximum of 30 guests. With the convenience of multiple road accesses to and from the city, and to different highland provinces of the Cordilleras. Tudor in the Pines is perfectly located as your home base to travel the Northern wonders of the Philippines."
   },
   {
+    spotId: 4,
     "images": [
       "https://a0.muscache.com/im/pictures/miso/Hosting-53113872/original/808f1ec1-c1a1-47fe-828b-ff319a9edf02.jpeg?im_w=720",
       "https://a0.muscache.com/im/pictures/miso/Hosting-53113872/original/94011cb0-a6bf-4722-b4b5-c87c1e9dca42.jpeg?im_w=1200",
@@ -41,6 +45,7 @@
     "description": "Imagine being immersed in a small enchanted forest only 100’s of feet off of Main street. Nestled into live oak trees that gently sway in the breeze, under dark skies with bright stars, and curated to both inspire joy and create presence. Welcome to our little magical treehouse and landscape resort in Fredericksburg. The amazing stays in our secluded forest are only minutes to all of the beautiful shops, cafes, restaurants, bars, and Vineyards. A magical stay that we hope you will love."
   },
   {
+    spotId: 5,
     "images": [
       "https://a0.muscache.com/im/pictures/ad85d477-6bfa-4153-8319-680ddd2bad3e.jpg?im_w=1200",
       "https://a0.muscache.com/im/pictures/31f0573d-856a-4277-b3ef-fcba13e7bb61.jpg?im_w=720",
@@ -50,6 +55,7 @@
     "description": "Aptly named the Osprey Treehouse because of the multiple Osprey that spent the summer hovering and watching us build this 20-foot octagon building around a single grand 42-inch old Douglas Fir. Oversized windows and a sliding door give you the feeling of being high up in the trees. Sleeps 2 adults. For safety reasons, we do not allow pets or children younger than 12. The entrance is level and parking close. Cleaning fee is $50 and applicable taxes are already added to your bill."
   },
   {
+    spotId: 6,
     "images": [
       "https://a0.muscache.com/im/pictures/80e82bbd-8a43-44cb-86ec-e4c03bb25d7d.jpg?im_w=1200",
       "https://a0.muscache.com/im/pictures/51e8dcb7-6624-4e19-b215-e01fc3495797.jpg?im_w=720",
@@ -62,6 +68,7 @@
     "description": "Montana Treehouse Retreat as featured in: Zillow, DIY Network, HGTV, Time, Outside Mag. Nestled on 5 wooded acres, this artistically designed two story treehouse has all the luxury amenities. Within 30 minutes to Glacier National Park, minutes from Whitefish Mtn Ski Resort. Best of both worlds if you want to experience Montana nature as well have access to restaurants/shopping/ activities in Whitefish and Columbia Falls (within a 5 min drive). Glacier Park International Airport is 10 miles away."
   },
   {
+    spotId: 7,
     "images": [
       "https://a0.muscache.com/im/pictures/miso/Hosting-49924321/original/bca57cdc-bc62-4366-91e9-03ba6c4059ee.jpeg?im_w=720",
       "https://a0.muscache.com/im/pictures/miso/Hosting-49924321/original/9348db93-1b50-47c0-9aff-11ead5facd22.jpeg?im_w=720",
@@ -77,6 +84,7 @@
     "description": "Outrageously beautiful modern treehouse aframe cabin perched 13ft off the ground between 4 evergreen trees. Brand new with luxurious finishes, a two person hot tub, full bathroom, fireplace, giant skylights, and a king bed sleeping loft. We proudly donate portions of guest proceeds to The Sierra Club, Forterra (saved Lake Serene Trail), WTA, and The Tulalip Foundation."
   },
   {
+    spotId: 8,
     "images": [
       "https://a0.muscache.com/im/pictures/miso/Hosting-53296516/original/5620caea-dc37-400f-8147-49f3db0d819b.jpeg?im_w=1200",
       "https://a0.muscache.com/im/pictures/a91c95db-aaea-4906-bfdc-a2f8f50680ef.jpg?im_w=720",
@@ -88,6 +96,7 @@
     "description": "Fall asleep to the sounds of Bear Creek and views of towering hemlocks in this treehouse built within a grove of old growth. A massive deck 20’ up provides elevated creek views while private hiking trails lead to thousands of acres to explore. The cabin opens to the wilderness with a 9’ folding door and full glass custom shower. Making the most of this small footprint with a Smart projector, convertible sofa bed, and queen loft. Add-on sauna is available is only available late May-October"
   },
   {
+    spotId: 9,
     "images": [
       "https://a0.muscache.com/im/pictures/miso/Hosting-24359721/original/587754cc-0b01-4ff5-a212-426608714f22.jpeg?im_w=1200",
       "https://a0.muscache.com/im/pictures/miso/Hosting-24359721/original/be95c02d-f4b8-4ad3-a10a-24902132b885.jpeg?im_w=720",
@@ -100,6 +109,7 @@
     "description": "Designed as a gathering space to inspire the artists' heart and freethinkers mind, Made for large groups and entertaining, there are 2 indoor fireplaces along with 3 outdoor fire pits. An entire living room suite is set up on the deck outdoors with a perfect view of a wood shaded sunset. Multilevel connected decks let you explore nature from above. Inside, there are elements of nature in ironwork and finely matted art and stained glass. Truly a work of art in architecture, with mystical art and nature magick elements throughout. The kitchen is fully stocked with beautiful artistic ceramics, appliances and utensils for cooking up a feast, including a grill just outside the kitchen door. There is a sound system throughout the space that works with airplay. Each shower and sunken tub is its own joy. There is a media room with a projector screen equipped with a Roku and a cushioned foam rug to turn it into a fun group movie night (with heated bamboo floors) The library room is filled with vintage eclectic tomes and eccentricities and a faux fireplace heater. Skylights and windows through-out bring the outdoors within."
   },
   {
+    spotId: 10,
     "images": [
       "https://a0.muscache.com/im/pictures/miso/Hosting-16515298/original/34706494-daf1-4625-8e50-1557452dec5d.jpeg?im_w=960",
       "https://a0.muscache.com/im/pictures/d9d27d27-8fcc-4385-996a-087bccf79ab5.jpg?im_w=720",
@@ -112,3 +122,116 @@
     "description": "The dream has come true! This fabulous suite is totally eco-friendly, built 100% on top of an old jack-o-lanter, it did not use any nails in the tree and not a gram of cement! Being in the treetops of the Atlantic forest, it is very cool and a great viewpoint with fabulous view of the sea of Paraty-mirim, in addition to seeing many birds and animals. This suite is great for couples of any age who enjoy a deep contact with nature. Easy access by trail and ramp!"
   }
 ]
+
+const locations = [
+  {
+    ownerId: 1,
+    name: 'Serenity Treehouse',
+    address: '6969 Maple Grove Pl',
+    city: 'Portland',
+    state: 'OR',
+    country: 'USA',
+    lat: 45.5231,
+    lng: -122.6765,
+    price: 345.67
+  },
+  {
+    ownerId: 4,
+    name: 'Majestic Treehouse',
+    address: '777 Lucky St',
+    city: 'Seattle',
+    state: 'WA',
+    country: 'USA',
+    lat: 47.6062,
+    lng: -122.3321,
+    price: 124.99
+  },
+  {
+    ownerId: 3,
+    name: 'Enchanted Forest Retreat',
+    address: '1234 Magic Ln',
+    city: 'Eugene',
+    state: 'OR',
+    country: 'USA',
+    lat: 44.0521,
+    lng: -123.0868,
+    price: 568.32
+  },
+  {
+    ownerId: 2,
+    name: 'Whispering Studs Cabin',
+    address: '5678 Mountain Rd',
+    city: 'Asheville',
+    state: 'NC',
+    country: 'USA',
+    lat: 35.5951,
+    lng: -82.5515,
+    price: 145.0
+  },
+  {
+    ownerId: 5,
+    name: 'Mystical Treehouse',
+    address: '4321 Enchantment Dr',
+    city: 'Bellingham',
+    state: 'WA',
+    country: 'USA',
+    lat: 48.7519,
+    lng: -122.4787,
+    price: 299.0
+  },
+  {
+    ownerId: 6,
+    name: 'Rustic Retreat',
+    address: '3698 Woodland Rd',
+    city: 'Bend',
+    state: 'OR',
+    country: 'USA',
+    lat: 44.0582,
+    lng: -121.3153,
+    price: 189.99
+  },
+  {
+    ownerId: 7,
+    name: 'Wildwood Treehouse',
+    address: '9876 Cedar Ave',
+    city: 'Portland',
+    state: 'OR',
+    country: 'USA',
+    lat: 45.5231,
+    lng: -122.6765,
+    price: 99.99
+  },
+  {
+    ownerId: 4,
+    name: 'Fern Grotto Cabin',
+    address: '4567 Forest Rd',
+    city: 'Salem',
+    state: 'OR',
+    country: 'USA',
+    lat: 44.9429,
+    lng: -123.0351,
+    price: 219.99
+  },
+  {
+    ownerId: 2,
+    name: 'Mountain View Retreat',
+    address: '2468 Hilltop Way',
+    city: 'Asheville',
+    state: 'NC',
+    country: 'USA',
+    lat: 35.5951,
+    lng: -82.5515,
+    price: 399.0
+  },
+  {
+    ownerId: 4,
+    name: 'Cozy Cottage',
+    address: '1357 Lakeview Dr',
+    city: 'Bellingham',
+    state: 'WA',
+    country: 'USA',
+    lat: 48.7519,
+    lng: -122.4787,
+    price: 69.99
+  }
+];
