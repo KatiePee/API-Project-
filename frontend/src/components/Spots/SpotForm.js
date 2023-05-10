@@ -36,25 +36,17 @@ export default function SpotForm({ spot, formType }) {
     e.preventDefault();
 
     setErrors({});
-    try {
-      // const newSpot = await dispatch(createSpot({
 
-      //   "address": "123 Disney Lane",
-      //   "city": "San Francisco1",
-      //   "state": "California1",
-      //   "country": "United States of America1",
-      //   "lat": 37.7645358,
-      //   "lng": -122.4730327,
-      //   "name": "App Academy",
-      //   "description": "Place where web developers are created1",
-      //   "price": 123
+    const newSpot = await dispatch(createSpot({}))
+      .catch(async res => {
+        const data = await res.json();
+        if (data && data.errors);
+        setErrors(data.errors)
+        console.log(data.errors)
+        console.log(data.errors.city)
+      })
 
-      // }))
-      const newSpot = await dispatch(createSpot({}))
-      console.log(newSpot)
-    } catch (er) {
-      console.log('---error---> ', er)
-    }
+
   }
 
   // return (
@@ -78,6 +70,7 @@ export default function SpotForm({ spot, formType }) {
             placeholder='Country'
           />
         </label>
+        <p>{errors.country}</p>
         <label>
           Street Address<span className='required-star'>*</span>
           <input
@@ -85,7 +78,7 @@ export default function SpotForm({ spot, formType }) {
             // value={address}
             // onChange={(e) => setAddress(e.target.value)}
             placeholder='Address'
-          />
+          /><p className='errors spot-form__errors'>{errors.country}</p>
         </label>
         <label>
           City<span className='required-star'>*</span>
@@ -94,7 +87,7 @@ export default function SpotForm({ spot, formType }) {
             // value={city}
             // onChange={(e) => setCity(e.target.value)}
             placeholder='City'
-          />
+          /><p className='errors spot-form__errors'>{errors.country}</p>
         </label>
         <label>
           State<span className='required-star'>*</span>
@@ -103,7 +96,7 @@ export default function SpotForm({ spot, formType }) {
             // value={state}
             // onChange={(e) => setState(e.target.value)}
             placeholder='State'
-          />
+          /><p className='errors spot-form__errors'>{errors.country}</p>
         </label>
         <label>
           Latitude<span className='required-star'>*</span>
@@ -112,7 +105,7 @@ export default function SpotForm({ spot, formType }) {
             // value={lat}
             // onChange={(e) => setLat(e.target.value)}
             placeholder='Latitude'
-          />
+          /><p className='errors spot-form__errors'>{errors.country}</p>
         </label>
         <label>
           Longitude<span className='required-star'>*</span>
@@ -121,7 +114,7 @@ export default function SpotForm({ spot, formType }) {
             // value={lng}
             // onChange={(e) => setLng(e.target.value)}
             placeholder='Longitude'
-          />
+          /><p className='errors spot-form__errors'>{errors.country}</p>
         </label>
       </div>
 
@@ -132,7 +125,7 @@ export default function SpotForm({ spot, formType }) {
           // value={description}
           // onChange={(e) => setDescription(e.target.value)}
           placeholder="Please write at least 30 characters"
-        />
+        /><p className='errors spot-form__errors'>{errors.country}</p>
       </div>
 
       <div className='create-spot__header'>
@@ -143,7 +136,7 @@ export default function SpotForm({ spot, formType }) {
           // value={name}
           // onChange={(e) => setName(e.target.value)}
           placeholder='Name your spot'
-        />
+        /><p className='errors spot-form__errors'>{errors.country}</p>
       </div>
       <div className='create-spot__header'>
         <h3>Set a base price for your spot</h3>
@@ -154,7 +147,7 @@ export default function SpotForm({ spot, formType }) {
           // value={price}
           // onChange={(e) => setPrice(e.target.value)}
           placeholder='Price per night (USD)'
-        />
+        /><p className='errors spot-form__errors'>{errors.country}</p>
       </div>
       <div className='create-spot__header'>
         <h3>Liven up your spot with photos</h3>
