@@ -12,7 +12,7 @@ const UpdateSpot = () => {
     dispatch(fetchSpot(spotId));
   }, [dispatch]);
 
-  if (!spot.SpotImages) return < div > Loading...</div >;
+  if (!spot.name) return < div > Loading...</div >;
   console.log('----------- spot from outter update component ------------>', spot)
   const {
     country,
