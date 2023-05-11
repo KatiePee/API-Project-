@@ -110,6 +110,8 @@ export const updateSpotThunk = (spot, spotId, user) => async (dispatch) => {
   }
 }
 
+// export const currentUserSpots = (user)
+
 const initialState = { allSpots: {}, singleSpot: {} }
 const spotReducer = (state = initialState, action) => {
   let newState;
