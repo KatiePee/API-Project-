@@ -8,6 +8,7 @@ import LandingPage from "./components/LandingPage";
 import SpotDetail from "./components/Spots/SpotDetail";
 import CreateSpot from "./components/Spots/CreateSpot";
 import UpdateSpot from "./components/Spots/UpdateSpot";
+import CurrentUserSpots from "./components/Spots/CurrentUserSpots";
 
 function App() {
   const dispatch = useDispatch();
@@ -26,6 +27,9 @@ function App() {
           </Route>
           <Route path='/spots/new'>
             <CreateSpot />
+          </Route>
+          <Route path='/spots/current'>
+            <CurrentUserSpots />
           </Route>
           <Route path='/spots/:spotId/edit'>
             <UpdateSpot />
