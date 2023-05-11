@@ -3,7 +3,7 @@ import UpdateSpotForm from "./UpdateSpotForm";
 import { useSate, useEffect } from 'react';
 import { useParams } from "react-router-dom";
 import { fetchSpot } from "../../store/spots";
-
+//test!
 const UpdateSpot = () => {
   const { spotId } = useParams();
   const dispatch = useDispatch();
@@ -12,7 +12,7 @@ const UpdateSpot = () => {
     dispatch(fetchSpot(spotId));
   }, [dispatch]);
 
-  if (!spot.SpotImages) return < div > Loading...</div >;
+  if (!spot.name) return < div > Loading...</div >;
   console.log('----------- spot from outter update component ------------>', spot)
   const {
     country,

@@ -104,7 +104,7 @@ export default function SpotForm({ spot }) {
       const newSpot = await dispatch(createSpot(addSpot, imagesArray))
       newErrors = { ...newErrors, ...newSpot.errors }
 
-      if (Object.values(newErrors).length) {
+      if (newSpot.errors) {
         console.log('^^^^^^^^^^^^^^^^^^^^^^^ inside err if ^^^^^^^^^^', newErrors)
         setErrors(newErrors)
       } else {
