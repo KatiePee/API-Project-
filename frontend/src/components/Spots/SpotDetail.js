@@ -29,7 +29,7 @@ export default function SpotDetail() {
 
 
   // if (!Object.values(spot).length) return null
-  if (!spot.SpotImages) return < div > Loading...</div >;
+  if (!spot.name) return < div > Loading...</div >;
 
   const {
     name,

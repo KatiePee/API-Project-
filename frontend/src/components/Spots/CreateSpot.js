@@ -47,7 +47,7 @@ export default function SpotForm({ spot }) {
   let newErrors = {}
 
   const _handelImagesErrors = (imageUrls) => {
-    newErrors.images = false
+
     const validEndings = ['png', 'jpg', 'jpeg'];
 
     if (!imageUrls[0]) {
@@ -58,7 +58,7 @@ export default function SpotForm({ spot }) {
     imageUrls.forEach((img, i) => {
       if (img) {
         let arr = img.split('.')
-        if (!(arr.length === 2 && validEndings.includes(arr[1]))) {
+        if (!validEndings.includes(arr[arr.length - 1])) {
           newErrors[`image${i}`] = 'Image URL must end in .png, .jpg, or .jpeg'
           newErrors.images = true
         }
@@ -105,6 +105,7 @@ export default function SpotForm({ spot }) {
       newErrors = { ...newErrors, ...newSpot.errors }
 
       if (Object.values(newErrors).length) {
+        console.log('^^^^^^^^^^^^^^^^^^^^^^^ inside err if ^^^^^^^^^^', newErrors)
         setErrors(newErrors)
       } else {
         history.push(`/spots/${newSpot.id}`)
