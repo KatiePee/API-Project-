@@ -23,10 +23,13 @@ export default function SpotDetail() {
     fetchData();
   }, [dispatch, spotId]);
 
-  if (isLoading) return <div>Loading...</div>;
+  //this bit is not needed
+  //can use a set timeout inside useeffectwith anon call to set loading and this bit to make a longer loader
+  // if (isLoading) return <div>Loading...</div>;
 
 
-  if (!Object.values(spot)) return null
+  // if (!Object.values(spot).length) return null
+  if (!spot.name) return < div > Loading...</div >;
 
   const {
     name,
@@ -61,13 +64,13 @@ export default function SpotDetail() {
           <img src={previewImg.url} className="spot-image" />
         </div>
         <div className='spotDetails__image-tiles'>
-          {/* {SpotImages1.map((el, i) => {
+          {SpotImages1.map((el, i) => {
             if (i <= 4) {
               return (
                 <img src={el.url} />
               )
             }
-          })} */}
+          })}
         </div>
       </div>
       <div className='spotDetails__details'>
