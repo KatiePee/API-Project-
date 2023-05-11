@@ -1,19 +1,35 @@
 import { useDispatch, useSelector } from "react-redux";
 import { fetchSpot } from "../../store/spots";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import SpotReviews from "../Reviews/SpotReviews";
 
 export default function SpotDetail() {
   const { spotId } = useParams()
 
+  const [isLoading, setIsLoading] = useState(true);
   const dispatch = useDispatch();
   const spot = useSelector(state => state.spots.singleSpot)
+  console.log('~~~~~~~ SPOT --spate detail ~~~~~~~~~~~~>', spot)
+  // useEffect(() => {
+  //   dispatch(fetchSpot(spotId));
+  // }, [dispatch])
 
   useEffect(() => {
-    dispatch(fetchSpot(spotId));
-  }, [dispatch])
+    async function fetchData() {
+      await dispatch(fetchSpot(spotId));
+      setIsLoading(false);
+    }
+    fetchData();
+  }, [dispatch, spotId]);
 
+  //this bit is not needed
+  //can use a set timeout inside useeffectwith anon call to set loading and this bit to make a longer loader
+  // if (isLoading) return <div>Loading...</div>;
+
+
+  // if (!Object.values(spot).length) return null
+  if (!spot.name) return < div > Loading...</div >;
 
   const {
     name,
@@ -48,13 +64,13 @@ export default function SpotDetail() {
           <img src={previewImg.url} className="spot-image" />
         </div>
         <div className='spotDetails__image-tiles'>
-          {/* {SpotImages1.map((el, i) => {
+          {SpotImages1.map((el, i) => {
             if (i <= 4) {
               return (
                 <img src={el.url} />
               )
             }
-          })} */}
+          })}
         </div>
       </div>
       <div className='spotDetails__details'>
