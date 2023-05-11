@@ -29,7 +29,7 @@ export default function SpotDetail() {
 
 
   // if (!Object.values(spot).length) return null
-  if (!spot.SpotImages) return < div > Loading...</div >;;
+  if (!spot.SpotImages) return < div > Loading...</div >;
 
   const {
     name,
@@ -64,13 +64,13 @@ export default function SpotDetail() {
           <img src={previewImg.url} className="spot-image" />
         </div>
         <div className='spotDetails__image-tiles'>
-          {/* {SpotImages1.map((el, i) => {
+          {SpotImages1.map((el, i) => {
             if (i <= 4) {
               return (
                 <img src={el.url} />
               )
             }
-          })} */}
+          })}
         </div>
       </div>
       <div className='spotDetails__details'>
