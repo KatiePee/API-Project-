@@ -1,10 +1,13 @@
 import { useDispatch, useSelector } from "react-redux";
 import { fetchSpot } from "../../store/spots";
 import { useEffect, useState } from "react";
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory, useParams, Link } from "react-router-dom";
 import SpotReviews from "../Reviews/SpotReviews";
+import CreateReview from "../Reviews/CreateReview";
 
-export default function SpotDetail() {
+
+export default function SpotDetail({ user }) {
+  console.log('_________SPOT DETAIL USER_________', user)
   const { spotId } = useParams()
 
   const [isLoading, setIsLoading] = useState(true);
@@ -84,7 +87,8 @@ export default function SpotDetail() {
         </div>
       </div>
       <div className='spotDetails__review-info'>review info</div>
-      <SpotReviews spotId={spotId} />
+      <CreateReview props={{ spot, user }} />
+      <SpotReviews props={{ spotId, user }} />
     </div>
   )
 }

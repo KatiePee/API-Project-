@@ -122,13 +122,15 @@ export const currentUserSpots = () => async (dispatch) => {
 
 export const deleteSpotThunk = (spotId) => async (dispatch) => {
   try {
-    const res = await csrfFetch(`/api/reports/${spotId}`, {
+    console.log('~~~~~~~~~~ dleete thunk ~~~~~ path ~~~~~~>', `/api/reports/${spotId}`)
+    const res = await csrfFetch(`/api/spots/${spotId}`, {
       method: 'DELETE',
     });
-
     dispatch(deleteSpot(spotId));
+    return res
   } catch (e) {
     const errors = await e.json()
+    console.log('thunk catch block~~~~~~~~~~~~~~~~ errors ~~~~~> ', errors)
     return errors
   }
 };

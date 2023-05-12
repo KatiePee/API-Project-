@@ -1,7 +1,11 @@
 import { useHistory } from "react-router-dom";
+import { deleteSpotThunk } from "../../store/spots";
+import { useDispatch } from 'react-redux';
+
 
 export default function CurrentUserSpotCard({ spot }) {
   const { id, name, previewImage, city, state, avgRating, price } = spot;
+  const dispatch = useDispatch()
   const history = useHistory()
   const handleClick = () => {
     history.push(`/spots/${id}`)
@@ -11,7 +15,10 @@ export default function CurrentUserSpotCard({ spot }) {
     console.log('~~~~~~~~~ handle update ~~~~~~', `/spots/${id}/edit`)
   }
 
-  const handleDelete = () => {
+  const handleDelete = (e) => {
+    console.log('~~~~~~handle delete - delete button ~~~~~~~~~~~~')
+    e.preventDefault();
+    dispatch(deleteSpotThunk(id));
     history.push('/spots/current')
   }
 

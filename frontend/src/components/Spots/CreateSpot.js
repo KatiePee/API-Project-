@@ -7,24 +7,6 @@ export default function SpotForm({ spot }) {
 
   const history = useHistory();
 
-  // const [country, setCountry] = useState(spot?.country)
-  // const [address, setAddress] = useState(spot?.address)
-  // const [city, setCity] = useState(spot?.city)
-  // const [state, setState] = useState(spot?.state)
-  // const [lat, setLat] = useState(spot?.lat)
-  // const [lng, setLng] = useState(spot?.lng)
-  // const [description, setDescription] = useState(spot?.description)
-  // const [name, setName] = useState(spot?.name)
-  // const [price, setPrice] = useState(spot?.price)
-  // const [image0, setImage0] = useState()
-  // const [image1, setImage1] = useState()
-  // const [image2, setImage2] = useState()
-  // const [image3, setImage3] = useState()
-  // const [image4, setImage4] = useState()
-  // const [errors, setErrors] = useState({});
-  // const [hasErrors, setHasErrors] = useState(false)
-
-
   const [country, setCountry] = useState('')
   const [address, setAddress] = useState('')
   const [city, setCity] = useState('')
@@ -41,15 +23,14 @@ export default function SpotForm({ spot }) {
   const [image4, setImage4] = useState('')
   const [errors, setErrors] = useState({});
   const [hasErrors, setHasErrors] = useState(false)
-  const dispatch = useDispatch();
 
+  const dispatch = useDispatch();
 
   let newErrors = {}
 
   const _handelImagesErrors = (imageUrls) => {
 
     const validEndings = ['png', 'jpg', 'jpeg'];
-
     if (!imageUrls[0]) {
       newErrors.image0 = 'Preview Image is required'
       newErrors.images = true
@@ -67,8 +48,8 @@ export default function SpotForm({ spot }) {
   }
 
   const handleSubmit = async (e) => {
-
     e.preventDefault();
+
     const imageUrls = [image0, image1, image2, image3, image4]
     _handelImagesErrors(imageUrls)
 
