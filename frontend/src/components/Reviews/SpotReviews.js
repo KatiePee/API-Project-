@@ -54,7 +54,8 @@ export default function SpotReviews({ props }) {
             <p className='reviews__review'>{review.review}</p>
             <OpenModalButton
               buttonText="Delete Review"
-              modalComponent={<DeleteReviewModal reviewId={review.id} />}
+              // modalComponent={<DeleteReviewModal reviewId={review.id} />}
+              modalComponent={<DeleteReviewModal props={{ reviewId: review.id, spotId, user }} />}
             />
           </div>
 

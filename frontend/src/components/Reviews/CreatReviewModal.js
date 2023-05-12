@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { createReviewThunk } from "../../store/reviews";
 import { useModal } from "../../context/Modal";
+import { fetchSpot } from "../../store/spots";
 
 export default function CreateReviewModal({ props: { spot, user } }) {
   const [review, setReview] = useState('');
@@ -15,6 +16,7 @@ export default function CreateReviewModal({ props: { spot, user } }) {
     //need to handle errors
     e.preventDefault();
     return dispatch(createReviewThunk({ review, stars }, spot.id, user))
+      .then(() => dispatch(fetchSpot(spot.id)))
       .then(closeModal)
   }
   return (

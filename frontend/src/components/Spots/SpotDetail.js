@@ -3,7 +3,6 @@ import { fetchSpot } from "../../store/spots";
 import { useEffect, useState } from "react";
 import { useHistory, useParams, Link } from "react-router-dom";
 import SpotReviews from "../Reviews/SpotReviews";
-import CreateReview from "../Reviews/CreateReview";
 import CreateReviewModal from "../Reviews/CreatReviewModal";
 import OpenModalButton from "../OpenModalButton";
 

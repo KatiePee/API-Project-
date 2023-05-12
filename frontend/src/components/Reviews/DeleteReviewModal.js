@@ -1,18 +1,17 @@
 import React, { useState } from "react";
-import * as sessionActions from "../../store/session";
 import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../../context/Modal";
 import { deleteReviewThunk } from "../../store/reviews";
+import { fetchSpot } from "../../store/spots";
 
-
-const DeleteReviewModal = ({ reviewId }) => {
+const DeleteReviewModal = ({ props: { reviewId, spotId, user } }) => {
   const dispatch = useDispatch();
-  const user = useSelector(state => state.session.user)
   const { closeModal } = useModal();
 
   const handleDelete = (e) => {
     e.preventDefault();
     return dispatch(deleteReviewThunk(reviewId))
+      .then(() => dispatch(fetchSpot(spotId)))
       .then(closeModal)
   }
   return (
