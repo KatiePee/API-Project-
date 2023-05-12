@@ -1,16 +1,21 @@
 import { useDispatch, useSelector } from "react-redux";
 import { fetchSpot } from "../../store/spots";
 import { useEffect, useState } from "react";
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory, useParams, Link } from "react-router-dom";
 import SpotReviews from "../Reviews/SpotReviews";
+import CreateReview from "../Reviews/CreateReview";
+import CreateReviewModal from "../Reviews/CreatReviewModal";
+import OpenModalButton from "../OpenModalButton";
 
-export default function SpotDetail() {
+
+export default function SpotDetail({ user }) {
+
   const { spotId } = useParams()
 
   const [isLoading, setIsLoading] = useState(true);
   const dispatch = useDispatch();
   const spot = useSelector(state => state.spots.singleSpot)
-  console.log('~~~~~~~ SPOT --spate detail ~~~~~~~~~~~~>', spot)
+
   // useEffect(() => {
   //   dispatch(fetchSpot(spotId));
   // }, [dispatch])
@@ -84,7 +89,12 @@ export default function SpotDetail() {
         </div>
       </div>
       <div className='spotDetails__review-info'>review info</div>
-      <SpotReviews spotId={spotId} />
+      <CreateReview props={{ spot, user }} />
+      <OpenModalButton
+        buttonText="Create Review Modal"
+        modalComponent={<CreateReviewModal props={{ spot, user }} />}
+      />
+      <SpotReviews props={{ spotId, user }} />
     </div>
   )
 }

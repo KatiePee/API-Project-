@@ -3,7 +3,7 @@ import { csrfFetch } from "./csrf";
 const GET_ALL_SPOTS = 'spots/allSpots';
 const GET_SPOT = 'spots/singleSpot';
 const ADD_SPOT = 'spots/addSpot';
-const UPDATE_SPOT = 'spots/updateSpot'
+const DELETE_SPOT = 'spots/deleteSpot'
 
 const getAllSpots = (spots) => ({
   type: GET_ALL_SPOTS,
@@ -24,13 +24,12 @@ const addSpot = (spot) => {
   }
 }
 
-const updateSpot = (spot) => {
+const deleteSpot = (spotId) => {
   return {
-    type: UPDATE_SPOT,
-    payload: spot
+    type: DELETE_SPOT,
+    payload: spotId
   }
 }
-
 
 
 export const fetchAllSpots = () => async dispatch => {
@@ -66,7 +65,6 @@ export const createSpot = (spot, spotImages, user) => async (dispatch) => {
 
   } catch (e) {
     const errors = await e.json()
-    console.log('inside catch create spot thunk~~~~~~~~~~~~', e, errors)
     return errors
   }
 }
@@ -75,7 +73,6 @@ export const addImageThunk = (spot, spotImages, user) => async (dispatch) => {
   spot.SpotImages = []
   for (let i = 0; i < spotImages.length; i++) {
     const image = spotImages[i]
-    console.log('~~~~~~~~~~ image from add image thing~~~~~~~~~', image)
     const res = await csrfFetch(`/api/spots/${spot.id}/images`, {
       method: 'POST',
       body: JSON.stringify(image)
@@ -93,7 +90,6 @@ export const addImageThunk = (spot, spotImages, user) => async (dispatch) => {
 }
 
 export const updateSpotThunk = (spot, spotId, user) => async (dispatch) => {
-  console.log('~~~~~~~~~spot passed into update tunk~~~~~~~~>', spot)
   try {
     const res = await csrfFetch(`/api/spots/${spotId}`, {
       method: 'PUT',
@@ -105,10 +101,33 @@ export const updateSpotThunk = (spot, spotId, user) => async (dispatch) => {
 
   } catch (e) {
     const errors = await e.json()
-    console.log('inside catch update spot thunk~~~~~~~~~~~~', e, errors)
     return errors
   }
 }
+
+export const currentUserSpots = () => async (dispatch) => {
+  try {
+    const res = await csrfFetch('/api/spots/current');
+    const spots = await res.json()
+    dispatch(getAllSpots(spots.Spots))
+    return res
+  } catch (e) {
+    return null
+  }
+}
+
+export const deleteSpotThunk = (spotId) => async (dispatch) => {
+  try {
+    const res = await csrfFetch(`/api/spots/${spotId}`, {
+      method: 'DELETE',
+    });
+    dispatch(deleteSpot(spotId));
+    return res
+  } catch (e) {
+    const errors = await e.json()
+    return errors
+  }
+};
 
 const initialState = { allSpots: {}, singleSpot: {} }
 const spotReducer = (state = initialState, action) => {
@@ -126,11 +145,15 @@ const spotReducer = (state = initialState, action) => {
       newState = { ...state, allSpots: { ...state.allSpots }, singleSpot: { ...action.payload } };
       newState.allSpots[action.payload.id] = action.payload
       return newState;
-    // case UPDATE_SPOT:
-    //   newState = { ...state, allSpots: { ...state.allSpots }, singleSpot: { ...state.singleSpot, ...action.payload } };
+    case DELETE_SPOT:
+      newState = { ...state, allSpots: { ...state.allSpots }, singleSpot: {} }
+      delete newState.allSpots[action.payload];
+      return newState
     default:
       return state;
   }
 }
+
+
 
 export default spotReducer
