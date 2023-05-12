@@ -11,11 +11,10 @@ export default function CreateReviewModal({ props: { spot, user } }) {
   const dispatch = useDispatch();
   const history = useHistory();
   const { closeModal } = useModal()
-
   const handleSubmit = (e) => {
     //need to handle errors
     e.preventDefault();
-    return dispatch(createReviewThunk({ review, stars }, spot.id))
+    return dispatch(createReviewThunk({ review, stars }, spot.id, user))
       .then(closeModal)
   }
   return (

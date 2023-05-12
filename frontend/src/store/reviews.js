@@ -58,8 +58,9 @@ export const createReviewThunk = (review, spotId, user) => async (dispatch) => {
       method: 'POST',
       body: JSON.stringify(review)
     })
-
     const newReview = await res.json()
+    newReview.User = { id: user.id, firstName: user.firstName, lastName: user.lastName };
+    newReview.ReviewImages = [];
     dispatch(addReview(newReview))
     return newReview
   } catch (e) {
@@ -69,7 +70,6 @@ export const createReviewThunk = (review, spotId, user) => async (dispatch) => {
 }
 export const deleteReviewThunk = (reviewId) => async (dispatch) => {
   try {
-    console.log('_______DELETE THUNK PATH _______________', reviewId)
     const res = await csrfFetch(`/api/reviews/${reviewId}`, {
       method: 'DELETE',
     })
@@ -77,7 +77,6 @@ export const deleteReviewThunk = (reviewId) => async (dispatch) => {
     return res
   } catch (e) {
     const errors = await e.json()
-    console.log('thunk catch block~~~~~~~~~~~~~~~~ errors ~~~~~> ', errors)
     return errors
   }
 }
@@ -92,6 +91,11 @@ const reviewReducer = (state = initialState, action) => {
     case ADD_REVIEW:
       newState = { ...state, spot: { ...state.spot }, user: { ...state.user, ...action.payload } }
       newState.spot[action.payload.id] = action.payload
+      return newState
+    case DELETE_REVIEW:
+      newState = { ...state, spot: { ...state.spot }, user: { ...state.user } }
+      delete newState.spot[action.payload];
+      return newState
     default:
       return state;
   }

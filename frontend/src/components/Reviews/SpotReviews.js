@@ -43,9 +43,9 @@ export default function SpotReviews({ props }) {
     // <h1>TES TEST TEST</h1>
     <div className='spotDetails__reviews reviews'>
       {reviews.map(review => {
-        if (review.User.id === user.id) {
-          // setIsAuth(true)
-        }
+        // if (review.User.id === user.id) {
+        //   // setIsAuth(true)
+        // }
 
         return (
           <div className='reviews__card' key={review.id}>
