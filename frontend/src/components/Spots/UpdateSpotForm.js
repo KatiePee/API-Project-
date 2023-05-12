@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { updateSpotThunk } from "../../store/spots";
 
-export default function SpotForm({ spot, formType }) {
+export default function SpotForm({ spot }) {
 
   const history = useHistory();
 
@@ -51,7 +51,7 @@ export default function SpotForm({ spot, formType }) {
 
   return (
     <form className='creat-spot'>
-      <h1>create spot form!</h1>
+      <h1>Update your Spot!</h1>
 
       <div className='create-spot__header'>
         <h3>Where's your place located?</h3>
@@ -152,7 +152,7 @@ export default function SpotForm({ spot, formType }) {
         <p className='errors spot-form__errors'>{errors.price}</p>
       </div>
 
-      <button type="submit" onClick={handleSubmit} disabled={hasErrors}>{formType}</button>
+      <button type="submit" onClick={handleSubmit} disabled={hasErrors}>Update Spot</button>
 
     </form>
 
