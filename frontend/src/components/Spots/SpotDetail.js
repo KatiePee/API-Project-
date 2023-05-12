@@ -7,13 +7,13 @@ import CreateReview from "../Reviews/CreateReview";
 
 
 export default function SpotDetail({ user }) {
-  console.log('_________SPOT DETAIL USER_________', user)
+
   const { spotId } = useParams()
 
   const [isLoading, setIsLoading] = useState(true);
   const dispatch = useDispatch();
   const spot = useSelector(state => state.spots.singleSpot)
-  console.log('~~~~~~~ SPOT --spate detail ~~~~~~~~~~~~>', spot)
+
   // useEffect(() => {
   //   dispatch(fetchSpot(spotId));
   // }, [dispatch])
@@ -88,6 +88,7 @@ export default function SpotDetail({ user }) {
       </div>
       <div className='spotDetails__review-info'>review info</div>
       <CreateReview props={{ spot, user }} />
+
       <SpotReviews props={{ spotId, user }} />
     </div>
   )

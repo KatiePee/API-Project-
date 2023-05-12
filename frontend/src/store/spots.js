@@ -65,7 +65,6 @@ export const createSpot = (spot, spotImages, user) => async (dispatch) => {
 
   } catch (e) {
     const errors = await e.json()
-    console.log('inside catch create spot thunk~~~~~~~~~~~~', e, errors)
     return errors
   }
 }
@@ -74,7 +73,6 @@ export const addImageThunk = (spot, spotImages, user) => async (dispatch) => {
   spot.SpotImages = []
   for (let i = 0; i < spotImages.length; i++) {
     const image = spotImages[i]
-    console.log('~~~~~~~~~~ image from add image thing~~~~~~~~~', image)
     const res = await csrfFetch(`/api/spots/${spot.id}/images`, {
       method: 'POST',
       body: JSON.stringify(image)
@@ -92,7 +90,6 @@ export const addImageThunk = (spot, spotImages, user) => async (dispatch) => {
 }
 
 export const updateSpotThunk = (spot, spotId, user) => async (dispatch) => {
-  console.log('~~~~~~~~~spot passed into update tunk~~~~~~~~>', spot)
   try {
     const res = await csrfFetch(`/api/spots/${spotId}`, {
       method: 'PUT',
@@ -104,7 +101,6 @@ export const updateSpotThunk = (spot, spotId, user) => async (dispatch) => {
 
   } catch (e) {
     const errors = await e.json()
-    console.log('inside catch update spot thunk~~~~~~~~~~~~', e, errors)
     return errors
   }
 }
@@ -122,7 +118,6 @@ export const currentUserSpots = () => async (dispatch) => {
 
 export const deleteSpotThunk = (spotId) => async (dispatch) => {
   try {
-    console.log('~~~~~~~~~~ dleete thunk ~~~~~ path ~~~~~~>', `/api/reports/${spotId}`)
     const res = await csrfFetch(`/api/spots/${spotId}`, {
       method: 'DELETE',
     });
@@ -130,18 +125,9 @@ export const deleteSpotThunk = (spotId) => async (dispatch) => {
     return res
   } catch (e) {
     const errors = await e.json()
-    console.log('thunk catch block~~~~~~~~~~~~~~~~ errors ~~~~~> ', errors)
     return errors
   }
 };
-
-//     if (res.ok) {
-//       const spots = await res.json()
-//       dispatch(getAllSpots(spots.Spots))
-//       return res
-
-
-// }
 
 const initialState = { allSpots: {}, singleSpot: {} }
 const spotReducer = (state = initialState, action) => {

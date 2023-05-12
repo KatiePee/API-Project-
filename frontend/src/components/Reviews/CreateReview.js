@@ -16,9 +16,7 @@ export default function CreateReview({ props }) {
     e.preventDefault();
 
     const newReview = await dispatch(createReviewThunk({ review, stars }, spot.id))
-    console.log('~~~~~~~~~~~~~~~~ new review~~~~~~~~~~~', newReview)
     if (newReview.errors) {
-      console.log('^^^^^^^^^^^^^^^^^^^^^^^ inside err if new review ^^^^^^^^^^')
       setErrors(newReview.errors)
     } else {
       history.push(`/spots/${spot.id}`)

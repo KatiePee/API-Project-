@@ -64,12 +64,12 @@ export const createReviewThunk = (review, spotId, user) => async (dispatch) => {
     return newReview
   } catch (e) {
     const errors = await e.json()
-    console.log('inside catch create spot thunk~~~~~~~~~~~~', e, errors)
     return errors
   }
 }
 export const deleteReviewThunk = (reviewId) => async (dispatch) => {
   try {
+    console.log('_______DELETE THUNK PATH _______________', reviewId)
     const res = await csrfFetch(`/api/reviews/${reviewId}`, {
       method: 'DELETE',
     })
