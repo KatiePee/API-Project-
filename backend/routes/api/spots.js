@@ -75,7 +75,7 @@ router.get('/', validateSpotQuery, async (req, res, next) => {
         if (spot.Reviews.length) {
             starAvg = spot.Reviews.reduce((acc, curr) => acc + (curr.stars) / spot.Reviews.length, 0)
         };
-        spot.avgRating = starAvg;
+        spot.avgRating = starAvg ? starAvg.toFixed(2) : null;
 
         let url = null
         if (spot.SpotImages.length) {
@@ -125,7 +125,7 @@ router.get('/current', requireAuth, async (req, res, next) => {
         if (spot.Reviews.length) {
             starAvg = spot.Reviews.reduce((acc, curr) => acc + (curr.stars) / spot.Reviews.length, 0)
         };
-        spot.avgRating = starAvg;
+        spot.avgRating = starAvg ? starAvg.toFixed(2) : null;
 
         let url = null
         if (spot.SpotImages.length) {
@@ -177,7 +177,7 @@ router.get('/:spotId', async (req, res, next) => {
         starAvg = spot.Reviews.reduce((acc, curr) => acc + (curr.stars) / spot.Reviews.length, 0)
     };
     spot.numReviews = spot.Reviews.length;
-    spot.avgStarRating = starAvg;
+    spot.avgStarRating = starAvg ? starAvg.toFixed(2) : null;
     delete spot.Reviews;
     return res.json(spot)
 })
