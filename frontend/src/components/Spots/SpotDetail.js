@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { useHistory, useParams, Link } from "react-router-dom";
 import SpotReviews from "../Reviews/SpotReviews";
 import CreateReview from "../Reviews/CreateReview";
+import CreateReviewModal from "../Reviews/CreatReviewModal";
+import OpenModalButton from "../OpenModalButton";
 
 
 export default function SpotDetail({ user }) {
@@ -88,7 +90,10 @@ export default function SpotDetail({ user }) {
       </div>
       <div className='spotDetails__review-info'>review info</div>
       <CreateReview props={{ spot, user }} />
-
+      <OpenModalButton
+        buttonText="Create Review Modal"
+        modalComponent={<CreateReviewModal props={{ spot, user }} />}
+      />
       <SpotReviews props={{ spotId, user }} />
     </div>
   )
