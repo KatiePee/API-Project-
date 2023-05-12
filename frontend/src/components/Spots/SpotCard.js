@@ -21,13 +21,13 @@ export default function SpotCard({ spot }) {
       <div className='spotsCard__place'>
         <span>{city}</span>, <span>{state}</span>
       </div>
-      <div className='spotsCard__star-rating'>
+      <div className='spotsCard__star-rating rating-info'>
         <span ><i className="fa-sharp fa-solid fa-star"></i></span>
         <span className={avgRating ? '' : 'new-rating'}>{avgRating ? avgRating : 'New!'}</span>
       </div>
       <div className='spotsCard__price'>
         <span className='spotsCard__price--price'>${price}</span>
-        <span > night</span>
+        <span className='spotsCard__price--night'> night</span>
       </div>
 
     </div >

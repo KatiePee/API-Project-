@@ -12,6 +12,7 @@ export default function CreateReviewModal({ props: { spot, user } }) {
   const dispatch = useDispatch();
   const history = useHistory();
   const { closeModal } = useModal()
+
   const handleSubmit = (e) => {
     //need to handle errors
     e.preventDefault();
