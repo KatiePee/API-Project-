@@ -89,7 +89,6 @@ export default function SpotDetail({ user }) {
         </div>
       </div>
       <div className='spotDetails__review-info'>review info</div>
-      <CreateReview props={{ spot, user }} />
       <OpenModalButton
         buttonText="Create Review Modal"
         modalComponent={<CreateReviewModal props={{ spot, user }} />}

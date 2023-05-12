@@ -10,15 +10,13 @@ export default function CreateReviewModal({ props: { spot, user } }) {
   const [errors, setErrors] = useState({});
   const dispatch = useDispatch();
   const history = useHistory();
-  const closeModal = useModal()
+  const { closeModal } = useModal()
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     //need to handle errors
     e.preventDefault();
-
     return dispatch(createReviewThunk({ review, stars }, spot.id))
       .then(closeModal)
-
   }
   return (
     <div className='addReview-card'>
