@@ -4,24 +4,23 @@ import { fetchSpotReviews } from "../../store/reviews";
 console.log('hits spot review file')
 
 export default function SpotReviews({ spotId }) {
+  console.log('~~~~~~~~ hits spot review component ~~~~~~~~~~~~~~~')
   const [isLoading, setIsLoading] = useState(true);
 
   const dispatch = useDispatch();
   const reviewsState = useSelector(state => state.reviews.spot);
   const reviews = reviewsState ? Object.values(reviewsState) : [];
-
+  console.log('~~~~~~~~~~ review state from use selector~~~~~~~~~', reviewsState)
   useEffect(() => {
-    async function fetchData() {
-      await dispatch(fetchSpotReviews(spotId))
-      setIsLoading(false);
-    }
-    fetchData();
+    dispatch(fetchSpotReviews(spotId))
+    setIsLoading(false);
+
   }, [dispatch]);
 
   if (isLoading) return <div>Loading...</div>;
 
 
-  if (!reviews.length) return null
+  if (!reviews.length) return null;
 
 
   const _getMonth = (date) => {

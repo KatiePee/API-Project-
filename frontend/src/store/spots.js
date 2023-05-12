@@ -110,7 +110,24 @@ export const updateSpotThunk = (spot, spotId, user) => async (dispatch) => {
   }
 }
 
-// export const currentUserSpots = (user)
+export const currentUserSpots = () => async (dispatch) => {
+  try {
+    const res = await csrfFetch('/api/spots/current');
+    const spots = await res.json()
+    dispatch(getAllSpots(spots.Spots))
+    return res
+  } catch (e) {
+    return null
+  }
+}
+
+//     if (res.ok) {
+//       const spots = await res.json()
+//       dispatch(getAllSpots(spots.Spots))
+//       return res
+
+
+// }
 
 const initialState = { allSpots: {}, singleSpot: {} }
 const spotReducer = (state = initialState, action) => {
