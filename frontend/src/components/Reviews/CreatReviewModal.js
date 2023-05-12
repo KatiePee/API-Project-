@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { createReviewThunk } from "../../store/reviews";
 import { useModal } from "../../context/Modal";
+import { fetchSpot } from "../../store/spots";
 
 export default function CreateReviewModal({ props: { spot, user } }) {
   const [review, setReview] = useState('');
@@ -10,15 +11,14 @@ export default function CreateReviewModal({ props: { spot, user } }) {
   const [errors, setErrors] = useState({});
   const dispatch = useDispatch();
   const history = useHistory();
-  const closeModal = useModal()
+  const { closeModal } = useModal()
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     //need to handle errors
     e.preventDefault();
-
-    return dispatch(createReviewThunk({ review, stars }, spot.id))
+    return dispatch(createReviewThunk({ review, stars }, spot.id, user))
+      .then(() => dispatch(fetchSpot(spot.id)))
       .then(closeModal)
-
   }
   return (
     <div className='addReview-card'>
