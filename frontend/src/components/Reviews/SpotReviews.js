@@ -25,8 +25,6 @@ export default function SpotReviews({ props }) {
 
   if (isLoading) return <div>Loading...</div>;
 
-  // if (!reviews.length) return null;
-
   const _getMonth = (date) => {
     const event = new Date(date);
     const month = event.toLocaleString('default', { month: 'long' });
@@ -35,23 +33,14 @@ export default function SpotReviews({ props }) {
   }
 
   const handleDelete = (e, reviewId) => {
-
     e.preventDefault();
     dispatch(deleteReviewThunk(reviewId));
     history.push(`/spots/${spotId}`)
   }
 
-  console.log('________________ SpotDetail--spot owner ______________', spot.Owner)
-  console.log('________________ SpotDetail--user ______________', user)
-
   const isSpotOwner = user && user.id === spot.Owner.id
-  console.log('_______is spot owner? _________ -> ', isSpotOwner)
-  console.log('review: ', reviews[0])
 
   const hasLeftReview = user && reviews.find(review => review.User.id === user.id)
-  console.log('_____________has left a review?_____', hasLeftReview)
-
-
 
   return (
     <div className='spotDetails__reviews reviews'>

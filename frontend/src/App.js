@@ -31,7 +31,7 @@ function App() {
             <CreateSpot />
           </Route>
           <Route path='/spots/current'>
-            <CurrentUserSpots />
+            <CurrentUserSpots user={user} />
           </Route>
           <Route path='/spots/:spotId/edit'>
             <UpdateSpot />

@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { createSpot } from "../../store/spots";
+import { createSpotThunk } from "../../store/spots";
 
-export default function SpotForm({ spot }) {
+export default function SpotForm({ user }) {
 
   const history = useHistory();
 
@@ -22,11 +22,30 @@ export default function SpotForm({ spot }) {
   const [image3, setImage3] = useState('')
   const [image4, setImage4] = useState('')
   const [errors, setErrors] = useState({});
-  const [hasErrors, setHasErrors] = useState(false)
+
 
   const dispatch = useDispatch();
 
   let newErrors = {}
+
+  // const _handelImagesErrors = (imageUrls) => {
+
+  //   const validEndings = ['png', 'jpg', 'jpeg'];
+  //   if (!imageUrls[0]) {
+  //     newErrors.image0 = 'Preview Image is required'
+  //     newErrors.images = true
+  //   }
+
+  //   imageUrls.forEach((img, i) => {
+  //     if (img) {
+  //       let arr = img.split('.')
+  //       if (!validEndings.includes(arr[arr.length - 1])) {
+  //         newErrors[`image${i}`] = 'Image URL must end in .png, .jpg, or .jpeg'
+  //         newErrors.images = true
+  //       }
+  //     }
+  //   })
+  // }
 
   const _handelImagesErrors = (imageUrls) => {
 
@@ -82,10 +101,11 @@ export default function SpotForm({ spot }) {
         }
       })
 
-      const newSpot = await dispatch(createSpot(addSpot, imagesArray))
+      const newSpot = await dispatch(createSpotThunk(addSpot, imagesArray, user))
       newErrors = { ...newErrors, ...newSpot.errors }
 
       if (newSpot.errors) {
+        // if (true) {
         console.log('^^^^^^^^^^^^^^^^^^^^^^^ inside err if ^^^^^^^^^^', newErrors)
         setErrors(newErrors)
       } else {
@@ -97,7 +117,7 @@ export default function SpotForm({ spot }) {
 
   return (
     <form className='creat-spot'>
-      <h1>create spot form!</h1>
+      <h1>Create a New Spot!</h1>
 
       <div className='create-spot__header'>
         <h3>Where's your place located?</h3>
@@ -235,7 +255,7 @@ export default function SpotForm({ spot }) {
         /> <p className='errors spot-form__errors'>{errors.image4}</p>
       </div>
 
-      <button type="submit" onClick={handleSubmit} disabled={hasErrors}>Create Spot</button>
+      <button type="submit" onClick={handleSubmit}>Create Spot</button>
 
     </form>
 
