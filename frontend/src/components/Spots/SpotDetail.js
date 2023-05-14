@@ -6,6 +6,7 @@ import SpotReviews from "../Reviews/SpotReviews";
 import CreateReviewModal from "../Reviews/CreatReviewModal";
 import OpenModalButton from "../OpenModalButton";
 import ComingSoon from "../Utils/ComingSoon";
+import { fetchUserReviews } from "../../store/reviews";
 
 
 export default function SpotDetail({ user }) {
@@ -13,16 +14,12 @@ export default function SpotDetail({ user }) {
   const { spotId } = useParams()
 
   const [isLoading, setIsLoading] = useState(true);
-  const [isOwner, setIsOwner] = useState(false)
   const dispatch = useDispatch();
   const spot = useSelector(state => state.spots.singleSpot)
 
   useEffect(() => {
-    async function fetchData() {
-      await dispatch(fetchSpot(spotId));
-      setIsLoading(false);
-    }
-    fetchData();
+    dispatch(fetchSpot(spotId));
+    setIsLoading(false);
   }, [dispatch, spotId]);
 
   //this bit is not needed
@@ -47,7 +44,7 @@ export default function SpotDetail({ user }) {
     numReviews,
   } = spot
 
-  if (!SpotImages) return null
+  if (!Owner) return < div > Loading...</div >;
   //------------------------------------------------------------------keep this---------------------------------------------------------
   // SpotImages = [{ url: 'https://bit.ly/fcc-relaxing-cat' }]
   // const previewImg = SpotImages.find(img => img.preview === true) ? SpotImages.find(img => img.preview === true) : SpotImages[0]
@@ -55,8 +52,6 @@ export default function SpotDetail({ user }) {
   //for testing code above works! -- replace SpotImages1 with actual Spotimages
   const previewImg = { url: 'https://bit.ly/fcc-relaxing-cat' }
   const SpotImages1 = [previewImg, previewImg, previewImg, previewImg]
-  console.log('________________ SpotDetail--spot owner ______________', Owner)
-  console.log('________________ SpotDetail--user ______________', user)
 
   return (
     <div className='spotDetails'>
@@ -73,7 +68,7 @@ export default function SpotDetail({ user }) {
           {SpotImages1.map((el, i) => {
             if (i <= 4) {
               return (
-                <img src={el.url} />
+                <img src={el.url} key={i} />
               )
             }
           })}
@@ -97,7 +92,7 @@ export default function SpotDetail({ user }) {
                 </span>
               </span>
               <span className={numReviews ? '' : 'hidden'}>.</span>
-              <span className={numReviews ? '' : 'hidden'}>{numReviews === 1 ? 'review' : 'reviews'}</span>
+              <span className={numReviews ? '' : 'hidden'}>{numReviews === 1 ? `${numReviews} review` : `${numReviews} reviews`}</span>
 
             </div>
           </div>
@@ -108,22 +103,7 @@ export default function SpotDetail({ user }) {
         </div>
       </div>
 
-      <div className='spotDetails__reviews reviews-details'>
-        <span>
-          <i className="fa-sharp fa-solid fa-star"></i>
-          <span className={avgStarRating ? '' : 'new-rating'}>
-            {avgStarRating ? avgStarRating : 'New!'}
-          </span>
-        </span>
-        <span className={numReviews ? '' : 'hidden'}>.</span>
-        <span className={numReviews ? '' : 'hidden'}>{numReviews === 1 ? 'review' : 'reviews'}</span>
-      </div>
-
-      <OpenModalButton
-        buttonText="Create Review Modal"
-        modalComponent={<CreateReviewModal props={{ spot, user }} />}
-      />
-      <SpotReviews props={{ spotId, user }} />
+      <SpotReviews props={{ spotId, user, avgStarRating, numReviews, spot }} />
     </div>
   )
 }

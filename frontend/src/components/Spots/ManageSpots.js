@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link, Redirect } from "react-router-dom";
 import CurrentUserSpotCard from "./CurrentUserSpotCard";
 import { currentUserSpots } from "../../store/spots";
 
-const CurrentUserSpots = () => {
+
+const ManageSpots = ({ user }) => {
+
   const [isLoading, setIsLoading] = useState(true);
 
   const spotsState = useSelector((state => state.spots.allSpots))
@@ -12,7 +14,6 @@ const CurrentUserSpots = () => {
 
   const dispatch = useDispatch();
   const history = useHistory();
-  console.log(spotsState)
 
   useEffect(() => {
     async function fetchData() {
@@ -21,13 +22,15 @@ const CurrentUserSpots = () => {
     }
     fetchData()
   }, [dispatch])
-
+  if (!user) return <Redirect to='/' />
   if (isLoading) return <div>Loading...</div>;
-
-  if (!spots.length) return null;
 
   return (
     <div className="landing-page-wrapper">
+      <h1>Manage Spots</h1>
+      <Link to='/spots/new'>
+        <button>Create a new spot!</button>
+      </Link>
       {spots.map(spot => (
         <CurrentUserSpotCard spot={spot} key={spot.id} />
       ))}
@@ -35,4 +38,4 @@ const CurrentUserSpots = () => {
   )
 }
 
-export default CurrentUserSpots
+export default ManageSpots

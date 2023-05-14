@@ -3,7 +3,6 @@ import thunk from 'redux-thunk';
 import sessionReducer from './session';
 import spotReducer from './spots';
 import reviewReducer from './reviews';
-console.log('store index~~~~~~~~~~~~~~~', reviewReducer)
 const rootReducer = combineReducers({
   session: sessionReducer,
   spots: spotReducer,

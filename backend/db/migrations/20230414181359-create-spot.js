@@ -1,7 +1,7 @@
 'use strict';
 /** @type {import('sequelize-cli').Migration} */
 let options = {};
-if(process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === 'production') {
   options.schema = process.env.SCHEMA;
 }
 
@@ -40,11 +40,9 @@ module.exports = {
       },
       lat: {
         type: Sequelize.DECIMAL,
-        allowNull: false,
       },
       lng: {
         type: Sequelize.DECIMAL,
-        allowNull: false,
       },
       name: {
         type: Sequelize.STRING(50),

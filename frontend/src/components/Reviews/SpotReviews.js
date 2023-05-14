@@ -4,26 +4,26 @@ import { deleteReviewThunk, fetchSpotReviews } from "../../store/reviews";
 import { useHistory } from "react-router-dom";
 import DeleteReviewModal from './DeleteReviewModal'
 import OpenModalButton from "../OpenModalButton";
+import CreateReviewModal from "../Reviews/CreatReviewModal";
 
 
 export default function SpotReviews({ props }) {
-  const { spotId, user } = props
+  const { spotId, user, avgStarRating, numReviews, spot } = props
 
   const [isLoading, setIsLoading] = useState(true);
   const [isAuth, setIsAuth] = useState(true);
   const history = useHistory();
-
   const dispatch = useDispatch();
   const reviewsState = useSelector(state => state.reviews.spot);
-  const reviews = reviewsState ? Object.values(reviewsState) : [];
+
+  const reviews = reviewsState ? Object.values(reviewsState).reverse() : [];
+
   useEffect(() => {
     dispatch(fetchSpotReviews(spotId))
     setIsLoading(false);
   }, [dispatch]);
 
   if (isLoading) return <div>Loading...</div>;
-
-  if (!reviews.length) return null;
 
   const _getMonth = (date) => {
     const event = new Date(date);
@@ -33,32 +33,50 @@ export default function SpotReviews({ props }) {
   }
 
   const handleDelete = (e, reviewId) => {
-
     e.preventDefault();
     dispatch(deleteReviewThunk(reviewId));
     history.push(`/spots/${spotId}`)
   }
 
-  return (
-    // <h1>TES TEST TEST</h1>
-    <div className='spotDetails__reviews reviews'>
-      {reviews.map(review => {
-        // if (review.User.id === user.id) {
-        //   // setIsAuth(true)
-        // }
+  const isSpotOwner = user && user.id === spot.Owner.id
 
+  const hasLeftReview = user && reviews.find(review => review.User.id === user.id)
+
+  return (
+    <div className='spotDetails__reviews reviews'>
+
+      <div className='spotDetails__reviews reviews-details'>
+        <span>
+          <i className="fa-sharp fa-solid fa-star"></i>
+          <span className={avgStarRating ? '' : 'new-rating'}>
+            {avgStarRating ? avgStarRating : 'New!'}
+          </span>
+        </span>
+        <span className={numReviews ? '' : 'hidden'}>.</span>
+        <span className={numReviews ? '' : 'hidden'}>{numReviews === 1 ? `${numReviews} review` : `${numReviews} reviews`}</span>
+      </div>
+
+      {user && !(hasLeftReview || isSpotOwner) && (
+        <OpenModalButton
+          buttonText="Post Your Review"
+          modalComponent={<CreateReviewModal props={{ spot, user }} />}
+        />
+      )}
+      {user && !(hasLeftReview || isSpotOwner || reviews.length > 0) && (<p>Be the first to post a review!</p>)}
+
+      {(reviews.length > 0 && !isSpotOwner) && reviews.map(review => {
         return (
           <div className='reviews__card' key={review.id}>
             <p className='reviews__name'>{review.User.firstName}</p>
             <p className='reviews__date'>{_getMonth(review.createdAt)}</p>
             <p className='reviews__review'>{review.review}</p>
-            <OpenModalButton
-              buttonText="Delete Review"
-              // modalComponent={<DeleteReviewModal reviewId={review.id} />}
-              modalComponent={<DeleteReviewModal props={{ reviewId: review.id, spotId, user }} />}
-            />
+            {user && review.User.id === user.id && (
+              <OpenModalButton
+                buttonText="Delete Review"
+                modalComponent={<DeleteReviewModal props={{ reviewId: review.id, spotId, user }} />}
+              />
+            )}
           </div>
-
         )
       })}
     </div>
