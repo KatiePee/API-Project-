@@ -78,13 +78,16 @@ export default function SpotDetail({ user }) {
 
       <div className='spotDetails__details'>
         <div className='spotDetails__details-description'>
-          <p>Hosted by {Owner.firstName} {Owner.lastName}</p>
+          <h3>Hosted by {Owner.firstName} {Owner.lastName}</h3>
           <p>{description}</p>
         </div>
 
         <div className='spotDetails__details-booking'>
           <div className='spotDetails__details-booking-info'>
-            <div>${price} <span className="night">night</span></div>
+            <div>
+              <span className='spotsCard__price--price'>${price}</span>
+              <span className='spotsCard__price--night'> night</span>
+            </div>
             <div className='spotDetails__details-reviews reviews-details'>
               <span>
                 <i className="fa-sharp fa-solid fa-star"></i>

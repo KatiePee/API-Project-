@@ -109,3 +109,13 @@
 .spotDetails__image-preview {
   width: 100%;
 }
+
+.spotDetails__details {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1rem;
+}
+
+.spotDetails__details-booking {
+  border: 2px solid black;
+}
