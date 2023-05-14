@@ -5,7 +5,7 @@
   --heading-font: 24px;
   --heading-weight: bold;
   --sub-heading-font: 18px;
-  --sub-heading-weight: bold;
+  /* --sub-heading-weight: 200; */
   --normal-font: 14px;
   --button-font: 16px
 }
@@ -16,6 +16,11 @@
   padding: 0px;
   font-family: 'Manrope', sans-serif;
 }
+
+/* body {
+  max-width: 1120;
+  margin: 0 auto;
+} */
 
 button {
   font-size: var(--button-font);
@@ -51,4 +56,15 @@ ul {
 
 .hidden {
   display: none
+}
+
+h1 {
+  font-size: var(--heading-font);
+  font-weight: var(--heading-weight);
+}
+
+h3 {
+  font-size: var(--sub-heading-font);
+  font-weight: 500;
+  /* font-weight: 200; */
 }

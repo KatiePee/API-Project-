@@ -1,6 +1,7 @@
 import { useHistory } from "react-router-dom";
 import React from 'react';
 import Tippy from '@tippyjs/react';
+import 'tippy.js/dist/tippy.css';
 import './spots.css'
 
 
@@ -14,11 +15,11 @@ export default function SpotCard({ spot }) {
 
   return (
     <div className='spotsCard' key={id} onClick={handleClick}>
-      <div className='spotsCard__image'>
-        <Tippy content={<span>{name}</span>}>
+      <Tippy content={<span>{name}</span>}>
+        <div className='spotsCard__image'>
           <img src={previewImage} alt={`${name} image`} className="spot-image" />
-        </Tippy>
-      </div>
+        </div>
+      </Tippy>
 
       <div className='spotsCard__details'>
         <div className='spotsCard__place'>
