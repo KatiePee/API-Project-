@@ -12,7 +12,6 @@ const CurrentUserSpots = () => {
 
   const dispatch = useDispatch();
   const history = useHistory();
-  console.log(spotsState)
 
   useEffect(() => {
     async function fetchData() {

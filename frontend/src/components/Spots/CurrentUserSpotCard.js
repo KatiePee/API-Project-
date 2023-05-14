@@ -12,11 +12,9 @@ export default function CurrentUserSpotCard({ spot }) {
   }
   const handleUpdate = () => {
     history.push(`/spots/${id}/edit`)
-    console.log('~~~~~~~~~ handle update ~~~~~~', `/spots/${id}/edit`)
   }
 
   const handleDelete = (e) => {
-    console.log('~~~~~~handle delete - delete button ~~~~~~~~~~~~')
     e.preventDefault();
     dispatch(deleteSpotThunk(id));
     history.push('/spots/current')

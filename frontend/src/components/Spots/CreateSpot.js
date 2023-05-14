@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { createSpotThunk } from "../../store/spots";
 
-export default function SpotForm({ user }) {
+export default function CreateSpot({ user }) {
 
   const history = useHistory();
 
@@ -11,8 +11,6 @@ export default function SpotForm({ user }) {
   const [address, setAddress] = useState('')
   const [city, setCity] = useState('')
   const [state, setState] = useState('')
-  const [lat, setLat] = useState('')
-  const [lng, setLng] = useState('')
   const [description, setDescription] = useState('')
   const [name, setName] = useState('')
   const [price, setPrice] = useState('')
@@ -28,73 +26,61 @@ export default function SpotForm({ user }) {
 
   let newErrors = {}
 
-  // const _handelImagesErrors = (imageUrls) => {
 
-  //   const validEndings = ['png', 'jpg', 'jpeg'];
-  //   if (!imageUrls[0]) {
-  //     newErrors.image0 = 'Preview Image is required'
-  //     newErrors.images = true
-  //   }
+  let formErrors = {}
 
-  //   imageUrls.forEach((img, i) => {
-  //     if (img) {
-  //       let arr = img.split('.')
-  //       if (!validEndings.includes(arr[arr.length - 1])) {
-  //         newErrors[`image${i}`] = 'Image URL must end in .png, .jpg, or .jpeg'
-  //         newErrors.images = true
-  //       }
-  //     }
-  //   })
-  // }
+  const _handelErrors = (imageUrls) => {
 
-  const _handelImagesErrors = (imageUrls) => {
+    country || (formErrors.country = 'Country is required.');
+    address || (formErrors.address = 'Address is required.');
+    city || (formErrors.city = 'City is required.');
+    state || (formErrors.state = 'State is required.');
+    description.length > 30 || (formErrors.description = 'Description is required and must be at least 30 character.');
+    price || (formErrors.price = 'price is required.');
+    name || (formErrors.name = 'name is required.');
+    image0 || (formErrors.image0 = 'Preview Image is required.');
 
     const validEndings = ['png', 'jpg', 'jpeg'];
-    if (!imageUrls[0]) {
-      newErrors.image0 = 'Preview Image is required'
-      newErrors.images = true
-    }
-
     imageUrls.forEach((img, i) => {
       if (img) {
         let arr = img.split('.')
         if (!validEndings.includes(arr[arr.length - 1])) {
-          newErrors[`image${i}`] = 'Image URL must end in .png, .jpg, or .jpeg'
-          newErrors.images = true
+          formErrors[`image${i}`] = 'Image url must end in .png, .jpg, or .jpeg.'
         }
       }
     })
+    setErrors(formErrors)
+    console.log('____________FORM ERRORS______________', formErrors)
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const imageUrls = [image0, image1, image2, image3, image4]
-    _handelImagesErrors(imageUrls)
+    _handelErrors(imageUrls)
 
     const addSpot = {
       country,
       address,
       city,
       state,
-      lat,
-      lng,
       description,
       name,
       price,
     }
 
     const imagesArray = []
-
-    if (!newErrors.images) {
+    console.log('_______inside if onj ________, ', Object.values(formErrors).length)
+    if (!Object.values(formErrors).length) {
       imageUrls.forEach((img, i) => {
         let obj = {}
         if (i === 0) {
           obj.url = img
           obj.preview = true
           imagesArray.push(obj)
-        } else if (img !== undefined) {
-          console.log('in else if', i)
+        }
+
+        else if (img) {
           obj.url = img
           obj.preview = false
           imagesArray.push(obj)
@@ -102,16 +88,21 @@ export default function SpotForm({ user }) {
       })
 
       const newSpot = await dispatch(createSpotThunk(addSpot, imagesArray, user))
-      newErrors = { ...newErrors, ...newSpot.errors }
-
+      formErrors = { ...formErrors, resErrors: newSpot.errors }
+      console.log('______________-CREAT SPOT FORM - iamge array____________', imagesArray)
       if (newSpot.errors) {
-        // if (true) {
         console.log('^^^^^^^^^^^^^^^^^^^^^^^ inside err if ^^^^^^^^^^', newErrors)
-        setErrors(newErrors)
+        setErrors(formErrors)
       } else {
+        console.log('^^^^^^^^^^^^^^ HITS THE ELSE ^^^^^^^^^^^^^^')
         history.push(`/spots/${newSpot.id}`)
       }
-    } else setErrors(newErrors)
+    } else setErrors(formErrors)
+
+    console.log('^^^^^^^^^^^^^^^^^^^^^^^errors^^^^^^^^^^^^^^^^^^^^^', errors)
+    //ok i need to change up how im doing this conditional because things are only hitting all that stuff if there
+
+
 
   }
 
@@ -161,25 +152,6 @@ export default function SpotForm({ user }) {
             placeholder='State'
           /><p className='errors spot-form__errors'>{errors.state}</p>
         </label>
-        <label>
-          Latitude<span className='required-star'>*</span>
-          <input
-            type="text"
-            value={lat}
-            onChange={(e) => setLat(e.target.value)}
-            placeholder='Latitude'
-          /><p className='errors spot-form__errors'>{errors.lat}</p>
-        </label>
-        <label>
-          Longitude<span className='required-star'>*</span>
-          <input
-            type="text"
-            value={lng}
-            onChange={(e) => setLng(e.target.value)}
-            placeholder='Longitude'
-          />
-          <p className='errors spot-form__errors'>{errors.lng}</p>
-        </label>
       </div>
 
       <div className='create-spot__header'>
@@ -210,7 +182,7 @@ export default function SpotForm({ user }) {
         <p>Competitive pricing can help your listing stand out and rank higher in search results.</p>
         <span>$</span>
         <input
-          type="text"
+          type="number"
           value={price}
           onChange={(e) => setPrice(e.target.value)}
           placeholder='Price per night (USD)'

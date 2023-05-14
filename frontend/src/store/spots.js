@@ -54,7 +54,7 @@ export const fetchSpot = (spotId) => async dispatch => {
 }
 
 export const createSpotThunk = (spot, spotImages, user) => async (dispatch) => {
-  console.log('hits creat spot thunk')
+  console.log('^^^^^^^^^^^^ hits create spot thunk')
   try {
     const res = await csrfFetch('/api/spots', {
       method: 'POST',
@@ -71,6 +71,7 @@ export const createSpotThunk = (spot, spotImages, user) => async (dispatch) => {
 }
 
 export const addImageThunk = (spot, spotImages, user) => async (dispatch) => {
+  console.log('_____________- SPOT IMAGES - image thunk ______________', spotImages)
   spot.SpotImages = []
   for (let i = 0; i < spotImages.length; i++) {
     const image = spotImages[i]

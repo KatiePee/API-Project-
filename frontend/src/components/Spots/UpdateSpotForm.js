@@ -43,7 +43,6 @@ export default function SpotForm({ spot }) {
     if (newSpot.errors) {
       setErrors(newSpot.errors)
     } else {
-      console.log('################### inside else conditional ########################')
       history.push(`/spots/${newSpot.id}`)
     }
 

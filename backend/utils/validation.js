@@ -96,12 +96,6 @@ const validateCreateSpot = [
   check('country')
     .not().isEmpty()
     .isLength({ min: 1, max: 30 }).withMessage('country is required and must be between 1 and 30 characters'),
-  check('lat')
-    .not().isEmpty()
-    .isFloat({ min: -90, max: 90 }).withMessage('Invalid latitude. lat must be between -90 and 90'),
-  check('lng')
-    .not().isEmpty()
-    .isFloat({ min: -180, max: 180 }).withMessage('Invalid longitude. lng must be between -180 and 180'),
   check('name')
     .not().isEmpty()
     .isLength({ min: 1, max: 50 }).withMessage('name is required and must be between 1 and 50 characters'),

@@ -5,7 +5,6 @@ const GET_USER_REVIEWS = 'reviews/user';
 const ADD_REVIEW = 'reviews/addReview';
 const DELETE_REVIEW = 'reviews/deleteReview'
 
-console.log('hits review store file')
 
 const getSpotReviews = (reviews) => {
   return {

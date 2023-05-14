@@ -44,7 +44,7 @@ export default function SpotDetail({ user }) {
     numReviews,
   } = spot
 
-  if (!SpotImages) return null
+  if (!Owner) return null
   //------------------------------------------------------------------keep this---------------------------------------------------------
   // SpotImages = [{ url: 'https://bit.ly/fcc-relaxing-cat' }]
   // const previewImg = SpotImages.find(img => img.preview === true) ? SpotImages.find(img => img.preview === true) : SpotImages[0]
