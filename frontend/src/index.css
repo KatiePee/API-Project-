@@ -1,5 +1,5 @@
 /* TODO Add site wide styles */
-@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&family=Outfit:wght@400;700&display=swap');
 
 :root {
   --heading-font: 24px;
@@ -43,10 +43,6 @@ input {
 input:focus {
   outline: none;
   border-radius: 2px;
-}
-
-p {
-  font-size: var(--normal-font);
 }
 
 ul {

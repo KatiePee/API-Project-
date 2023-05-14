@@ -1,6 +1,7 @@
 import { useHistory } from "react-router-dom";
 import React from 'react';
 import Tippy from '@tippyjs/react';
+import './spots.css'
 
 
 
@@ -21,7 +22,7 @@ export default function SpotCard({ spot }) {
 
       <div className='spotsCard__details'>
         <div className='spotsCard__place'>
-          <span>{city}</span>, <span>{state}</span>
+          <p>{city}, {state}</p>
         </div>
         <div className='spotsCard__star-rating'>
           <span ><i className="fa-sharp fa-solid fa-star"></i></span>
