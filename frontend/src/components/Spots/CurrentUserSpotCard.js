@@ -1,7 +1,7 @@
 import { useHistory } from "react-router-dom";
-import { deleteSpotThunk } from "../../store/spots";
 import { useDispatch } from 'react-redux';
-
+import DeleteSpotModal from "./DeleteSpotModal";
+import OpenModalButton from "../OpenModalButton";
 
 export default function CurrentUserSpotCard({ spot }) {
   const { id, name, previewImage, city, state, avgRating, price } = spot;
@@ -14,13 +14,13 @@ export default function CurrentUserSpotCard({ spot }) {
     history.push(`/spots/${id}/edit`)
   }
 
-  const handleDelete = (e) => {
-    e.preventDefault();
-    dispatch(deleteSpotThunk(id));
-    history.push('/spots/current')
-  }
+  // const handleDelete = (e) => {
+  //   e.preventDefault();
+  //   dispatch(deleteSpotThunk(id));
+  //   history.push('/spots/current')
+  // }
 
-
+  console.log('----------manage spot card - spot', spot)
   return (
     <div className='spotsCard-wrapper'>
 
@@ -47,7 +47,11 @@ export default function CurrentUserSpotCard({ spot }) {
       </div >
       <div className='spotsCard__buttons'>
         <span><button onClick={handleUpdate}>Update Spot</button></span>
-        <span><button onClick={handleDelete}>Delete Spot</button></span>
+        <span>
+          <OpenModalButton
+            buttonText="Delete Spot"
+            modalComponent={<DeleteSpotModal spot={spot} />}
+          /></span>
       </div>
 
     </div>
