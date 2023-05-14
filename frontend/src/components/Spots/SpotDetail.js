@@ -44,7 +44,7 @@ export default function SpotDetail({ user }) {
     numReviews,
   } = spot
 
-  if (!Owner) return null
+  if (!Owner) return < div > Loading...</div >;
   //------------------------------------------------------------------keep this---------------------------------------------------------
   // SpotImages = [{ url: 'https://bit.ly/fcc-relaxing-cat' }]
   // const previewImg = SpotImages.find(img => img.preview === true) ? SpotImages.find(img => img.preview === true) : SpotImages[0]
@@ -68,7 +68,7 @@ export default function SpotDetail({ user }) {
           {SpotImages1.map((el, i) => {
             if (i <= 4) {
               return (
-                <img src={el.url} />
+                <img src={el.url} key={i} />
               )
             }
           })}

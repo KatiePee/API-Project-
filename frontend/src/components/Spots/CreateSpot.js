@@ -50,7 +50,6 @@ export default function CreateSpot({ user }) {
       }
     })
     setErrors(formErrors)
-    console.log('____________FORM ERRORS______________', formErrors)
   }
 
   const handleSubmit = async (e) => {
@@ -89,18 +88,13 @@ export default function CreateSpot({ user }) {
 
       const newSpot = await dispatch(createSpotThunk(addSpot, imagesArray, user))
       formErrors = { ...formErrors, resErrors: newSpot.errors }
-      console.log('______________-CREAT SPOT FORM - iamge array____________', imagesArray)
       if (newSpot.errors) {
-        console.log('^^^^^^^^^^^^^^^^^^^^^^^ inside err if ^^^^^^^^^^', newErrors)
         setErrors(formErrors)
       } else {
-        console.log('^^^^^^^^^^^^^^ HITS THE ELSE ^^^^^^^^^^^^^^')
         history.push(`/spots/${newSpot.id}`)
       }
     } else setErrors(formErrors)
 
-    console.log('^^^^^^^^^^^^^^^^^^^^^^^errors^^^^^^^^^^^^^^^^^^^^^', errors)
-    //ok i need to change up how im doing this conditional because things are only hitting all that stuff if there
 
 
 

@@ -24,28 +24,45 @@ export default function SpotForm({ spot }) {
 
   let newErrors = {}
 
+  let formErrors = {}
+
+  const _handelErrors = () => {
+
+    country || (formErrors.country = 'Country is required.');
+    address || (formErrors.address = 'Address is required.');
+    city || (formErrors.city = 'City is required.');
+    state || (formErrors.state = 'State is required.');
+    description.length > 30 || (formErrors.description = 'Description is required and must be at least 30 character.');
+    price || (formErrors.price = 'price is required.');
+    name || (formErrors.name = 'name is required.');
+    setErrors(formErrors)
+
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    _handelErrors();
+
     const addSpot = {
       country,
       address,
       city,
       state,
-      lat,
-      lng,
       description,
       name,
       price,
     }
 
-    const newSpot = await dispatch(updateSpotThunk(addSpot, spot.id))
-
-    if (newSpot.errors) {
-      setErrors(newSpot.errors)
-    } else {
-      history.push(`/spots/${newSpot.id}`)
+    if (!Object.values(formErrors).length) {
+      const newSpot = await dispatch(updateSpotThunk(addSpot, spot.id))
+      console.log('-----------------new spot - update form -------------', newSpot)
+      if (newSpot.errors) {
+        setErrors(newSpot.errors)
+      } else {
+        history.push(`/spots/${newSpot.id}`)
+      }
     }
-
+    console.log(errors)
   }
 
   return (
@@ -94,25 +111,6 @@ export default function SpotForm({ spot }) {
             placeholder='State'
           /><p className='errors form__errors'>{errors.state}</p>
         </label>
-        <label>
-          Latitude<span className='required-star'>*</span>
-          <input
-            type="text"
-            value={lat}
-            onChange={(e) => setLat(e.target.value)}
-            placeholder='Latitude'
-          /><p className='errors form__errors'>{errors.lat}</p>
-        </label>
-        <label>
-          Longitude<span className='required-star'>*</span>
-          <input
-            type="text"
-            value={lng}
-            onChange={(e) => setLng(e.target.value)}
-            placeholder='Longitude'
-          />
-          <p className='errors form__errors'>{errors.lng}</p>
-        </label>
       </div>
 
       <div className='create-spot__header'>
@@ -151,7 +149,7 @@ export default function SpotForm({ spot }) {
         <p className='errors form__errors'>{errors.price}</p>
       </div>
 
-      <button type="submit" onClick={handleSubmit} disabled={hasErrors}>Update Spot</button>
+      <button type="submit" onClick={handleSubmit} >Update Your Spot</button>
 
     </form>
 
