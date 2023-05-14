@@ -122,7 +122,7 @@ export default function CreateSpot({ user }) {
             onChange={(e) => setCountry(e.target.value)}
             placeholder='Country'
           />
-          <p className='errors spot-form__errors'>{errors.country}</p>
+          <p className='errors form__errors'>{errors.country}</p>
         </label>
         <label>
           Street Address<span className='required-star'>*</span>
@@ -132,7 +132,7 @@ export default function CreateSpot({ user }) {
             onChange={(e) => setAddress(e.target.value)}
             placeholder='Address'
           />
-          <p className='errors spot-form__errors'>{errors.address}</p>
+          <p className='errors form__errors'>{errors.address}</p>
         </label>
         <label>
           City<span className='required-star'>*</span>
@@ -141,7 +141,7 @@ export default function CreateSpot({ user }) {
             value={city}
             onChange={(e) => setCity(e.target.value)}
             placeholder='City'
-          /><p className='errors spot-form__errors'>{errors.city}</p>
+          /><p className='errors form__errors'>{errors.city}</p>
         </label>
         <label>
           State<span className='required-star'>*</span>
@@ -150,7 +150,7 @@ export default function CreateSpot({ user }) {
             value={state}
             onChange={(e) => setState(e.target.value)}
             placeholder='State'
-          /><p className='errors spot-form__errors'>{errors.state}</p>
+          /><p className='errors form__errors'>{errors.state}</p>
         </label>
       </div>
 
@@ -162,7 +162,7 @@ export default function CreateSpot({ user }) {
           onChange={(e) => setDescription(e.target.value)}
           placeholder="Please write at least 30 characters"
         />
-        <p className='errors spot-form__errors'>{errors.description}</p>
+        <p className='errors form__errors'>{errors.description}</p>
       </div>
 
       <div className='create-spot__header'>
@@ -174,7 +174,7 @@ export default function CreateSpot({ user }) {
           onChange={(e) => setName(e.target.value)}
           placeholder='Name your spot'
         />
-        <p className='errors spot-form__errors'>{errors.name}</p>
+        <p className='errors form__errors'>{errors.name}</p>
       </div>
 
       <div className='create-spot__header'>
@@ -187,7 +187,7 @@ export default function CreateSpot({ user }) {
           onChange={(e) => setPrice(e.target.value)}
           placeholder='Price per night (USD)'
         />
-        <p className='errors spot-form__errors'>{errors.price}</p>
+        <p className='errors form__errors'>{errors.price}</p>
       </div>
 
       <div className='create-spot__header'>
@@ -199,32 +199,32 @@ export default function CreateSpot({ user }) {
           onChange={(e) => setImage0(e.target.value)}
           placeholder='Preview Image URL'
         />
-        <p className='errors spot-form__errors'>{errors.image0}</p>
+        <p className='errors form__errors'>{errors.image0}</p>
         <input
           type="text"
           value={image1}
           onChange={(e) => setImage1(e.target.value)}
           placeholder='Image URL'
         />
-        <p className='errors spot-form__errors'>{errors.image1}</p>
+        <p className='errors form__errors'>{errors.image1}</p>
         <input
           type="text"
           value={image2}
           onChange={(e) => setImage2(e.target.value)}
           placeholder='Image URL'
-        /> <p className='errors spot-form__errors'>{errors.image2}</p>
+        /> <p className='errors form__errors'>{errors.image2}</p>
         <input
           type="text"
           value={image3}
           onChange={(e) => setImage3(e.target.value)}
           placeholder='Image URL'
-        /> <p className='errors spot-form__errors'>{errors.image3}</p>
+        /> <p className='errors form__errors'>{errors.image3}</p>
         <input
           type="text"
           value={image4}
           onChange={(e) => setImage4(e.target.value)}
           placeholder='Image URL'
-        /> <p className='errors spot-form__errors'>{errors.image4}</p>
+        /> <p className='errors form__errors'>{errors.image4}</p>
       </div>
 
       <button type="submit" onClick={handleSubmit}>Create Spot</button>
