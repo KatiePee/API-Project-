@@ -103,6 +103,7 @@ export default function SpotDetail({ user }) {
           <OpenModalButton
             buttonText="Reserve"
             modalComponent={<ComingSoon />}
+            className='button-action'
           />
         </div>
       </div>

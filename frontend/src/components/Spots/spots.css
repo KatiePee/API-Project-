@@ -118,4 +118,15 @@
 
 .spotDetails__details-booking {
   border: 2px solid black;
+  padding: 1rem
+}
+
+.spotDetails__details-booking-info {
+  display: flex;
+  justify-content: space-between;
+}
+
+.button-action {
+  width: 100%;
+  background-color: red;
 }
