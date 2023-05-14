@@ -92,7 +92,7 @@ export default function SpotDetail({ user }) {
                 </span>
               </span>
               <span className={numReviews ? '' : 'hidden'}>.</span>
-              <span className={numReviews ? '' : 'hidden'}>{numReviews === 1 ? 'review' : 'reviews'}</span>
+              <span className={numReviews ? '' : 'hidden'}>{numReviews === 1 ? `${numReviews} review` : `${numReviews} reviews`}</span>
 
             </div>
           </div>

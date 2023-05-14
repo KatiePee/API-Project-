@@ -53,17 +53,18 @@ export default function SpotReviews({ props }) {
           </span>
         </span>
         <span className={numReviews ? '' : 'hidden'}>.</span>
-        <span className={numReviews ? '' : 'hidden'}>{numReviews === 1 ? 'review' : 'reviews'}</span>
+        <span className={numReviews ? '' : 'hidden'}>{numReviews === 1 ? `${numReviews} review` : `${numReviews} reviews`}</span>
       </div>
 
       {user && !(hasLeftReview || isSpotOwner) && (
         <OpenModalButton
-          buttonText="Create Review Modal"
+          buttonText="Post Your Review"
           modalComponent={<CreateReviewModal props={{ spot, user }} />}
         />
       )}
+      {user && !(hasLeftReview || isSpotOwner || reviews.length > 0) && (<p>Be the first to post a review!</p>)}
 
-      {reviews.length && !isSpotOwner ? reviews.map(review => {
+      {(reviews.length > 0 && !isSpotOwner) && reviews.map(review => {
         return (
           <div className='reviews__card' key={review.id}>
             <p className='reviews__name'>{review.User.firstName}</p>
@@ -74,11 +75,10 @@ export default function SpotReviews({ props }) {
                 buttonText="Delete Review"
                 modalComponent={<DeleteReviewModal props={{ reviewId: review.id, spotId, user }} />}
               />
-
             )}
           </div>
         )
-      }) : (<p>Be the first to post a review!</p>)}
+      })}
     </div>
   )
 }
