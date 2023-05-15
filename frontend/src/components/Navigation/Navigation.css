@@ -23,3 +23,9 @@
   max-width: 1120px;
   margin: 0 auto;
 } */
+
+.nav-logo>* {
+  font-size: 30px;
+  color: #ff385c;
+  text-decoration: none;
+}

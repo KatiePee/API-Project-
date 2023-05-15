@@ -1,0 +1,31 @@
+.creat-spot {
+  margin: 0 auto;
+  width: 30rem;
+  display: flex;
+  gap: 1rem;
+  flex-direction: column;
+}
+
+.creat-spot label {
+  display: block;
+}
+
+.creat-spot input {
+  display: block;
+  width: 100%;
+}
+
+.create-spot__header {
+  display: flex;
+  gap: .1rem;
+  flex-direction: column;
+  border-bottom: 1px solid lightgray;
+  padding-bottom: 5px;
+}
+
+.form__errors {
+  color: red;
+  font-size: 11px;
+  padding-left: 5px;
+  padding-bottom: 5px;
+}

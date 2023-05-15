@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory, Link, Redirect } from "react-router-dom";
 import CurrentUserSpotCard from "./CurrentUserSpotCard";
 import { currentUserSpots } from "../../store/spots";
-
+import './spots.css'
 
 const ManageSpots = ({ user }) => {
 
@@ -26,14 +26,19 @@ const ManageSpots = ({ user }) => {
   if (isLoading) return <div>Loading...</div>;
 
   return (
-    <div className="landing-page-wrapper">
+    <div className="manage-spots-wrapper">
       <h1>Manage Spots</h1>
       <Link to='/spots/new'>
         <button>Create a new spot!</button>
       </Link>
-      {spots.map(spot => (
-        <CurrentUserSpotCard spot={spot} key={spot.id} />
-      ))}
+      <div className="landing-page-wrapper">
+        {spots.map(spot => (
+          <div>
+
+            <CurrentUserSpotCard spot={spot} key={spot.id} />
+          </div>
+        ))}
+      </div>
     </div>
   )
 }

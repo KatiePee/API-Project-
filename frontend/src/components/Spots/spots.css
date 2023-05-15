@@ -17,12 +17,16 @@
   border-radius: 10px;
   overflow: hidden;
 
+  height: fit-content;
+  /* max-height: 350px; */
+
 }
 
 .spotsCard__image {
-  border: 1px solid green;
   width: 100%;
-  /* max-height: 500px; */
+  height: 100%;
+  /* max-height: 250px; */
+
 }
 
 .spot-image {
@@ -33,7 +37,6 @@
 }
 
 .spotsCard__details {
-  border: 1px solid steelblue;
   display: flex;
   justify-content: space-between;
   font-size: var(--normal-font);
@@ -57,7 +60,6 @@
 }
 
 .spotsCard__price {
-  border: 1px solid purple;
   font-size: var(--normal-font);
   /* font-weight: bold; */
 }
@@ -165,4 +167,12 @@
   color: black;
   font-weight: bold;
   font-size: 20px;
+}
+
+.landing-page-wrapper {}
+
+.manage-spots-wrapper {}
+
+.spotsCard__buttons button {
+  font-size: 12px;
 }

@@ -39,7 +39,7 @@ function Navigation({ isLoaded }) {
     <ul className='nav-bar'>
       <li className='nav-logo'>
         <NavLink exact to="/">
-          Home
+          <i class="fa-brands fa-airbnb"></i> spotbnb
         </NavLink>
       </li>
       {isLoaded && sessionLinks}
