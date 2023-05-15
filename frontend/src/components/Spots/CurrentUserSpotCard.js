@@ -38,12 +38,12 @@ export default function CurrentUserSpotCard({ spot }) {
       </div>
 
       {/* <div className='spotsCard__buttons'>
-        <span><button onClick={handleUpdate}>Update Spot</button></span>
-        <span>
-          <OpenModalButton
-            buttonText="Delete Spot"
-            modalComponent={<DeleteSpotModal spot={spot} />}
-          /></span>
+        <button onClick={handleUpdate}>Update Spot</button>
+
+        <OpenModalButton
+          buttonText="Delete Spot"
+          modalComponent={<DeleteSpotModal spot={spot} />}
+        />
       </div> */}
     </div >
 

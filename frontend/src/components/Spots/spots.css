@@ -137,7 +137,9 @@
   border: 2px solid black;
   border-radius: 5px;
   box-shadow: 0px 0px 5px lightgray;
-  padding: 1rem
+  padding: 1rem;
+  /* width: 100%; */
+
 }
 
 .spotDetails__details-booking-info {
@@ -169,9 +171,9 @@
   font-size: 20px;
 }
 
-.landing-page-wrapper {}
-
-.manage-spots-wrapper {}
+.spotDetails__details-reviews .hidden {
+  display: none;
+}
 
 .spotsCard__buttons button {
   font-size: 12px;

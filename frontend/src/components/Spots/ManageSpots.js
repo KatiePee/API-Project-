@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory, Link, Redirect } from "react-router-dom";
 import CurrentUserSpotCard from "./CurrentUserSpotCard";
 import { currentUserSpots } from "../../store/spots";
+import DeleteSpotModal from "./DeleteSpotModal";
+import OpenModalButton from "../OpenModalButton";
 import './spots.css'
 
 const ManageSpots = ({ user }) => {
@@ -25,6 +27,9 @@ const ManageSpots = ({ user }) => {
   if (!user) return <Redirect to='/' />
   if (isLoading) return <div>Loading...</div>;
 
+  const handleUpdate = (id) => {
+    history.push(`/spots/${id}/edit`)
+  }
   return (
     <div className="manage-spots-wrapper">
       <h1>Manage Spots</h1>
@@ -34,8 +39,15 @@ const ManageSpots = ({ user }) => {
       <div className="landing-page-wrapper">
         {spots.map(spot => (
           <div>
-
             <CurrentUserSpotCard spot={spot} key={spot.id} />
+            <div className='spotsCard__buttons'>
+              <button onClick={() => handleUpdate(spot.id)}>Update Spot</button>
+
+              <OpenModalButton
+                buttonText="Delete Spot"
+                modalComponent={<DeleteSpotModal spot={spot} />}
+              />
+            </div>
           </div>
         ))}
       </div>

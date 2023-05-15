@@ -97,6 +97,8 @@ export default function SpotDetail({ user }) {
                 {avgStarRating ? avgStarRating : 'New!'}
               </span>
               <span className={`dot ${numReviews ? '' : 'hidden'}`}>&#183;</span>
+
+
               <span className={numReviews ? '' : 'hidden'}>{numReviews === 1 ? `${numReviews} review` : `${numReviews} reviews`}</span>
             </div>
           </div>

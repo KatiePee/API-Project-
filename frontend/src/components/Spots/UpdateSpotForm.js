@@ -74,43 +74,47 @@ export default function SpotForm({ spot }) {
         <p>Guests will only get your exact address once they booked a reservation.</p>
 
         <label>
-          Country<span className='required-star'>*</span>
-          <input
-            type="text"
-            value={country}
-            onChange={(e) => setCountry(e.target.value)}
-            placeholder='Country'
-          />
-          <p className='errors form__errors'>{errors.country}</p>
+          Country
         </label>
+        <input
+          type="text"
+          value={country}
+          onChange={(e) => setCountry(e.target.value)}
+          placeholder='Country'
+        />
+        <p className='errors form__errors'>{errors.country}</p>
+
         <label>
-          Street Address<span className='required-star'>*</span>
-          <input
-            type="text"
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
-            placeholder='Address'
-          />
-          <p className='errors form__errors'>{errors.address}</p>
+          Street Address
         </label>
+
+        <input
+          type="text"
+          value={address}
+          onChange={(e) => setAddress(e.target.value)}
+          placeholder='Address'
+        />
+        <p className='errors form__errors'>{errors.address}</p>
         <label>
-          City<span className='required-star'>*</span>
-          <input
-            type="text"
-            value={city}
-            onChange={(e) => setCity(e.target.value)}
-            placeholder='City'
-          /><p className='errors form__errors'>{errors.city}</p>
+          City
         </label>
+
+        <input
+          type="text"
+          value={city}
+          onChange={(e) => setCity(e.target.value)}
+          placeholder='City'
+        /><p className='errors form__errors'>{errors.city}</p>
         <label>
-          State<span className='required-star'>*</span>
-          <input
-            type="text"
-            value={state}
-            onChange={(e) => setState(e.target.value)}
-            placeholder='State'
-          /><p className='errors form__errors'>{errors.state}</p>
+          State
         </label>
+
+        <input
+          type="text"
+          value={state}
+          onChange={(e) => setState(e.target.value)}
+          placeholder='State'
+        /><p className='errors form__errors'>{errors.state}</p>
       </div>
 
       <div className='create-spot__header'>

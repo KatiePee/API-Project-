@@ -36,7 +36,7 @@ export default function CreateReviewModal({ props: { spot, user } }) {
   };
 
   return (
-    <div className='addReview-card'>
+    <div className='modal-card'>
       <h2>How was your stay?</h2>
       {errors.review && <p className='errors form__errors'>{errors.review}</p>}
       <textarea

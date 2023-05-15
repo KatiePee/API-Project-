@@ -74,3 +74,17 @@ h3 {
 p {
   font-size: var(--normal-font);
 }
+
+.modal-card {
+  display: flex;
+  flex-direction: column;
+  gap: .2rem;
+  /* padding: 10px */
+}
+
+.modal-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px;
+  justify-content: space-between;
+}

@@ -64,7 +64,7 @@ export default function SpotReviews({ props }) {
       )}
       {user && !(hasLeftReview || isSpotOwner || reviews.length > 0) && (<p>Be the first to post a review!</p>)}
 
-      {(reviews.length > 0 && !isSpotOwner) && reviews.map(review => {
+      {reviews.map(review => {
         return (
           <div className='reviews__card' key={review.id}>
             <p className='reviews__name'>{review.User.firstName}</p>
