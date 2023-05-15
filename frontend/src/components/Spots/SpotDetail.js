@@ -47,11 +47,12 @@ export default function SpotDetail({ user }) {
   if (!Owner) return < div > Loading...</div >;
   //------------------------------------------------------------------keep this---------------------------------------------------------
   // SpotImages = [{ url: 'https://bit.ly/fcc-relaxing-cat' }]
-  // const previewImg = SpotImages.find(img => img.preview === true) ? SpotImages.find(img => img.preview === true) : SpotImages[0]
+  const previewImg = SpotImages.find(img => img.preview === true) ? SpotImages.find(img => img.preview === true) : SpotImages[0]
+  const SpotImages1 = SpotImages.filter(img => img.preview === false)
   // console.log('---------', previewImg)
   //for testing code above works! -- replace SpotImages1 with actual Spotimages
-  const previewImg = { url: 'https://bit.ly/fcc-relaxing-cat' }
-  const SpotImages1 = [previewImg, previewImg, previewImg, previewImg]
+  // const previewImg = { url: 'https://bit.ly/fcc-relaxing-cat' }
+  // const SpotImages1 = [previewImg, previewImg, previewImg, previewImg]
 
   return (
     <div className='spotDetails'>

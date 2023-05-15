@@ -49,8 +49,26 @@ const usersData = [
     hashedPassword: bcrypt.hashSync('karenPassword'),
   },
   {
-
-  }
+    firstName: "Bob",
+    lastName: "Ross",
+    username: "BobRoss",
+    email: "bobross@gmail.com",
+    hashedPassword: bcrypt.hashSync('password'),
+  },
+  {
+    firstName: "Mike",
+    lastName: "Hunt",
+    username: "MikeHunt",
+    email: "mikehunt@gmail.com",
+    hashedPassword: bcrypt.hashSync('password'),
+  },
+  {
+    firstName: "Demo",
+    lastName: "Licious",
+    username: "DemoLicious",
+    email: "demo@gmail.com",
+    hashedPassword: bcrypt.hashSync('password'),
+  },
 
 ]
 /** @type {import('sequelize-cli').Migration} */
