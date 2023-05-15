@@ -69,7 +69,6 @@ export default function CreateSpot({ user }) {
     }
 
     const imagesArray = []
-    console.log('_______inside if onj ________, ', Object.values(formErrors).length)
     if (!Object.values(formErrors).length) {
       imageUrls.forEach((img, i) => {
         let obj = {}

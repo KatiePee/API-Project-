@@ -5,7 +5,6 @@ import { deleteSpotThunk } from "../../store/spots";
 import { fetchSpot } from "../../store/spots";
 
 const DeleteSpotModal = ({ spot }) => {
-  console.log('-------spot delte modal------', spot)
   const dispatch = useDispatch();
   const { closeModal } = useModal();
 

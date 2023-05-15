@@ -55,14 +55,12 @@ export default function SpotForm({ spot }) {
 
     if (!Object.values(formErrors).length) {
       const newSpot = await dispatch(updateSpotThunk(addSpot, spot.id))
-      console.log('-----------------new spot - update form -------------', newSpot)
       if (newSpot.errors) {
         setErrors(newSpot.errors)
       } else {
         history.push(`/spots/${newSpot.id}`)
       }
     }
-    console.log(errors)
   }
 
   return (
