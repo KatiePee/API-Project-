@@ -15,11 +15,11 @@ export default function SpotCard({ spot }) {
 
   return (
     <div className='spotsCard' key={id} onClick={handleClick}>
-      <Tippy content={<span>{name}</span>}>
-        <div className='spotsCard__image'>
+      <div className='spotsCard__image'>
+        <Tippy content={<span>{name}</span>}>
           <img src={previewImage} alt={`${name} image`} className="spot-image" />
-        </div>
-      </Tippy>
+        </Tippy>
+      </div>
 
       <div className='spotsCard__details'>
         <div className='spotsCard__place'>
