@@ -17,22 +17,24 @@
   font-family: 'Manrope', sans-serif;
 }
 
-/* body {
-  max-width: 1120;
-  margin: 0 auto;
-} */
+body {
+  /* max-width: 1120; */
+  margin-bottom: 2rem
+}
 
 button {
-  font-size: var(--button-font);
+  /* font-size: var(--button-font); */
+  font-size: 14px;
   text-align: center;
   cursor: pointer;
-  color: black;
-  background-color: white;
-  border: 1px solid lightgrey;
-  box-shadow: 5px 5px 5px 0px lightgray;
+  color: white;
+  background-color: #ff385c;
+  border: 1px solid #ff385c;
+  ;
+  box-shadow: 2px 2px 3px 0px lightgray;
   padding: 5px;
-  border-radius: 2px;
-  box-shadow: 2px 4px 5px 0px darkgrey;
+  border-radius: 5px;
+  /* box-shadow: 2px 4px 5px 0px darkgrey; */
 }
 
 button:hover {

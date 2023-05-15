@@ -68,7 +68,9 @@ export default function SpotDetail({ user }) {
           {SpotImages1.map((el, i) => {
             if (i <= 4) {
               return (
-                <img src={el.url} key={i} className="spot-image" />
+                <div className='spotDetails__four-images'>
+                  <img src={el.url} key={i} className="spot-image" />
+                </div>
                 // <div className='test'>Div! </div>
               )
             }
@@ -88,27 +90,27 @@ export default function SpotDetail({ user }) {
               <span className='spotsCard__price--price'>${price}</span>
               <span className='spotsCard__price--night'> night</span>
             </div>
-            <div className='spotDetails__details-reviews reviews-details'>
-              <span>
-                <i className="fa-sharp fa-solid fa-star"></i>
-                <span className={avgStarRating ? '' : 'new-rating'}>
-                  {avgStarRating ? avgStarRating : 'New!'}
-                </span>
-              </span>
-              <span className={numReviews ? '' : 'hidden'}>.</span>
-              <span className={numReviews ? '' : 'hidden'}>{numReviews === 1 ? `${numReviews} review` : `${numReviews} reviews`}</span>
 
+            <div className='spotDetails__details-reviews SpotDetail'>
+              <span><i className="fa-sharp fa-solid fa-star"></i> </span>
+              <span className={avgStarRating ? '' : 'new-rating'}>
+                {avgStarRating ? avgStarRating : 'New!'}
+              </span>
+              <span className={`dot ${numReviews ? '' : 'hidden'}`}>&#183;</span>
+              <span className={numReviews ? '' : 'hidden'}>{numReviews === 1 ? `${numReviews} review` : `${numReviews} reviews`}</span>
             </div>
           </div>
-          <OpenModalButton
-            buttonText="Reserve"
-            modalComponent={<ComingSoon />}
-            className='button-action'
-          />
+          <div className='button-action'>
+            <OpenModalButton
+              buttonText="Reserve"
+              modalComponent={<ComingSoon />}
+
+            />
+          </div>
         </div>
       </div>
 
       <SpotReviews props={{ spotId, user, avgStarRating, numReviews, spot }} />
-    </div>
+    </div >
   )
 }

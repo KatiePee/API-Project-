@@ -5,6 +5,7 @@ import { useHistory } from "react-router-dom";
 import DeleteReviewModal from './DeleteReviewModal'
 import OpenModalButton from "../OpenModalButton";
 import CreateReviewModal from "../Reviews/CreatReviewModal";
+import './reviews.css'
 
 
 export default function SpotReviews({ props }) {
@@ -43,16 +44,15 @@ export default function SpotReviews({ props }) {
   const hasLeftReview = user && reviews.find(review => review.User.id === user.id)
 
   return (
-    <div className='spotDetails__reviews reviews'>
+    <div className='spotReviews'>
 
-      <div className='spotDetails__reviews reviews-details'>
-        <span>
-          <i className="fa-sharp fa-solid fa-star"></i>
-          <span className={avgStarRating ? '' : 'new-rating'}>
-            {avgStarRating ? avgStarRating : 'New!'}
-          </span>
+
+      <div className='spotDetails__details-reviews' id='review-details'>
+        <span><i className="fa-sharp fa-solid fa-star"></i> </span>
+        <span className={avgStarRating ? '' : 'new-rating'}>
+          {avgStarRating ? avgStarRating : 'New!'}
         </span>
-        <span className={numReviews ? '' : 'hidden'}>.</span>
+        <span className={`dot ${numReviews ? '' : 'hidden'}`}>&#183;</span>
         <span className={numReviews ? '' : 'hidden'}>{numReviews === 1 ? `${numReviews} review` : `${numReviews} reviews`}</span>
       </div>
 
