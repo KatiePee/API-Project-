@@ -60,7 +60,7 @@ export const createSpotThunk = (spot, spotImages, user) => async (dispatch) => {
       body: JSON.stringify(spot)
     });
     const newSpot = await res.json();
-    dispatch(addImageThunk(newSpot, spotImages, user))
+    await dispatch(addImageThunk(newSpot, spotImages, user))
     return newSpot;
 
   } catch (e) {
