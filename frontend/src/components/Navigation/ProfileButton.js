@@ -47,11 +47,13 @@ function ProfileButton({ user }) {
   ulClassName += (showMenu ? "" : " hidden")
   return (
     <>
+      {user && <Link to='/spots/new'> Creat new Spot!</Link>}
       <button onClick={openMenu} className={showMenu && 'hidden'}>
         <i className="fas fa-user-circle" />
       </button>
       <ul className={ulClassName} ref={ulRef}>
         {user ? (
+
           <div className="profile-dropdown-div">
             <li>Hello, {user.username}</li>
             <li className="line">{user.email}</li>
@@ -62,6 +64,7 @@ function ProfileButton({ user }) {
               <button onClick={logout}>Log Out</button>
             </li>
           </div>
+
         ) : (
           <>
             <OpenModalMenuItem
