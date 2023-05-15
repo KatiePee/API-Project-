@@ -47,7 +47,7 @@ export default function SpotDetail({ user }) {
   if (!Owner) return < div > Loading...</div >;
   const previewImg = SpotImages.find(img => img.preview === true) ? SpotImages.find(img => img.preview === true) : SpotImages[0]
   const SpotImages1 = SpotImages.filter(img => img.preview === false)
- t SpotImages1 = [previewImg, previewImg, previewImg, previewImg]
+  SpotImages1 = [previewImg, previewImg, previewImg, previewImg]
 
   return (
     <div className='spotDetails'>
