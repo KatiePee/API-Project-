@@ -15,11 +15,13 @@ const DeleteReviewModal = ({ props: { reviewId, spotId, user } }) => {
       .then(closeModal)
   }
   return (
-    <div>
+    <div className='modal-card'>
       <h1>Confirm Delete</h1>
       <p>Are you sure you want to delete this review?</p>
-      <button onClick={handleDelete}>Yes, delete review.</button>
-      <button onClick={closeModal}>No, keep review.</button>
+      <div className='modal-buttons'>
+        <button onClick={handleDelete}>Yes, delete review.</button>
+        <button onClick={closeModal}>No, keep review.</button>
+      </div>
     </div>
   );
 }

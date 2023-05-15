@@ -13,7 +13,6 @@ const UpdateSpot = () => {
   }, [dispatch]);
 
   if (!spot.name) return < div > Loading...</div >;
-  console.log('----------- spot from outter update component ------------>', spot)
   const {
     country,
     address,

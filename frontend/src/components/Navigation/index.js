@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import ProfileButton from "./ProfileButton";
 import OpenModalButton from "../OpenModalButton";
@@ -13,13 +13,16 @@ function Navigation({ isLoaded }) {
   let sessionLinks;
   if (sessionUser) {
     sessionLinks = (
-      <li>
+      <li className='nav-links'>
+        <Link to='/spots/new'>
+          <button>Create a new spot!</button>
+        </Link>
         <ProfileButton user={sessionUser} />
       </li>
     );
   } else {
     sessionLinks = (
-      <li>
+      <li className='nav-links'>
         <OpenModalButton
           buttonText="Log In"
           modalComponent={<LoginFormModal />}
@@ -33,10 +36,10 @@ function Navigation({ isLoaded }) {
   }
 
   return (
-    <ul>
-      <li>
+    <ul className='nav-bar'>
+      <li className='nav-logo'>
         <NavLink exact to="/">
-          Home
+          <i class="fa-brands fa-airbnb"></i> spotbnb
         </NavLink>
       </li>
       {isLoaded && sessionLinks}

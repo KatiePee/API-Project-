@@ -13,24 +13,24 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       Spot.hasMany(
         models.Booking,
-        {foreignKey:'spotId',  onDelete:'CASCADE', hooks: true}
+        { foreignKey: 'spotId', onDelete: 'CASCADE', hooks: true }
       );
 
       Spot.hasMany(
         models.Review,
-        {foreignKey:'spotId',  onDelete:'CASCADE', hooks: true}
+        { foreignKey: 'spotId', onDelete: 'CASCADE', hooks: true }
       );
-      
+
       Spot.hasMany(
         models.SpotImage,
-        {foreignKey:'spotId',  onDelete:'CASCADE', hooks: true}
+        { foreignKey: 'spotId', onDelete: 'CASCADE', hooks: true }
       );
 
       Spot.belongsTo(
         models.User,
-        {foreignKey: 'ownerId', as: 'Owner'}
+        { foreignKey: 'ownerId', as: 'Owner' }
       )
-      
+
     }
   }
   Spot.init({
@@ -41,35 +41,34 @@ module.exports = (sequelize, DataTypes) => {
     address: {
       type: DataTypes.STRING(30),
       allowNull: false,
-       validate: {
-        len: [1,30],
+      validate: {
+        len: [1, 30],
         // len: {args: [1, 30], msg: ''}
       },
     },
     city: {
       type: DataTypes.STRING(30),
       allowNull: false,
-       validate: {
+      validate: {
         len: [1, 30]
       },
     },
     state: {
       type: DataTypes.STRING(30),
       allowNull: false,
-       validate: {
+      validate: {
         len: [1, 30]
       },
     },
     country: {
       type: DataTypes.STRING(30),
       allowNull: false,
-       validate: {
+      validate: {
         len: [1, 30]
       },
     },
     lat: {
       type: DataTypes.DECIMAL,
-      allowNull: false,
       validate: {
         max: 90,
         min: -90,
@@ -77,11 +76,11 @@ module.exports = (sequelize, DataTypes) => {
     },
     lng: {
       type: DataTypes.DECIMAL,
-      allowNull: false,
       validate: {
         max: 180,
         min: -180,
-      }},
+      }
+    },
     name: {
       type: DataTypes.STRING(50),
       allowNull: false,
@@ -95,7 +94,7 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         len: [5, 2048]
       }
-      
+
     },
     price: {
       type: DataTypes.DECIMAL,

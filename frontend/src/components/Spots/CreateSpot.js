@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { createSpot } from "../../store/spots";
-
-export default function SpotForm({ spot }) {
+import { createSpotThunk } from "../../store/spots";
+import './forms.css'
+export default function CreateSpot({ user }) {
 
   const history = useHistory();
 
@@ -11,8 +11,6 @@ export default function SpotForm({ spot }) {
   const [address, setAddress] = useState('')
   const [city, setCity] = useState('')
   const [state, setState] = useState('')
-  const [lat, setLat] = useState('')
-  const [lng, setLng] = useState('')
   const [description, setDescription] = useState('')
   const [name, setName] = useState('')
   const [price, setPrice] = useState('')
@@ -22,144 +20,136 @@ export default function SpotForm({ spot }) {
   const [image3, setImage3] = useState('')
   const [image4, setImage4] = useState('')
   const [errors, setErrors] = useState({});
-  const [hasErrors, setHasErrors] = useState(false)
+
 
   const dispatch = useDispatch();
 
   let newErrors = {}
 
-  const _handelImagesErrors = (imageUrls) => {
+
+  let formErrors = {}
+
+  const _handelErrors = (imageUrls) => {
+
+    country || (formErrors.country = 'Country is required.');
+    address || (formErrors.address = 'Address is required.');
+    city || (formErrors.city = 'City is required.');
+    state || (formErrors.state = 'State is required.');
+    description.length > 30 || (formErrors.description = 'Description is required and must be at least 30 character.');
+    price || (formErrors.price = 'price is required.');
+    name || (formErrors.name = 'name is required.');
+    image0 || (formErrors.image0 = 'Preview Image is required.');
 
     const validEndings = ['png', 'jpg', 'jpeg'];
-    if (!imageUrls[0]) {
-      newErrors.image0 = 'Preview Image is required'
-      newErrors.images = true
-    }
-
     imageUrls.forEach((img, i) => {
       if (img) {
         let arr = img.split('.')
         if (!validEndings.includes(arr[arr.length - 1])) {
-          newErrors[`image${i}`] = 'Image URL must end in .png, .jpg, or .jpeg'
-          newErrors.images = true
+          formErrors[`image${i}`] = 'Image url must end in .png, .jpg, or .jpeg.'
         }
       }
     })
+    setErrors(formErrors)
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const imageUrls = [image0, image1, image2, image3, image4]
-    _handelImagesErrors(imageUrls)
+    _handelErrors(imageUrls)
 
     const addSpot = {
       country,
       address,
       city,
       state,
-      lat,
-      lng,
       description,
       name,
       price,
     }
 
     const imagesArray = []
-
-    if (!newErrors.images) {
+    console.log('_______inside if onj ________, ', Object.values(formErrors).length)
+    if (!Object.values(formErrors).length) {
       imageUrls.forEach((img, i) => {
         let obj = {}
         if (i === 0) {
           obj.url = img
           obj.preview = true
           imagesArray.push(obj)
-        } else if (img !== undefined) {
-          console.log('in else if', i)
+        }
+
+        else if (img) {
           obj.url = img
           obj.preview = false
           imagesArray.push(obj)
         }
       })
 
-      const newSpot = await dispatch(createSpot(addSpot, imagesArray))
-      newErrors = { ...newErrors, ...newSpot.errors }
-
+      const newSpot = await dispatch(createSpotThunk(addSpot, imagesArray, user))
+      formErrors = { ...formErrors, resErrors: newSpot.errors }
       if (newSpot.errors) {
-        console.log('^^^^^^^^^^^^^^^^^^^^^^^ inside err if ^^^^^^^^^^', newErrors)
-        setErrors(newErrors)
+        setErrors(formErrors)
       } else {
         history.push(`/spots/${newSpot.id}`)
       }
-    } else setErrors(newErrors)
+    } else setErrors(formErrors)
+
+
+
 
   }
 
   return (
     <form className='creat-spot'>
-      <h1>create spot form!</h1>
+      <h1>Create a New Spot!</h1>
 
       <div className='create-spot__header'>
         <h3>Where's your place located?</h3>
         <p>Guests will only get your exact address once they booked a reservation.</p>
 
         <label>
-          Country<span className='required-star'>*</span>
-          <input
-            type="text"
-            value={country}
-            onChange={(e) => setCountry(e.target.value)}
-            placeholder='Country'
-          />
-          <p className='errors spot-form__errors'>{errors.country}</p>
+          Country
         </label>
+        <input
+          type="text"
+          value={country}
+          onChange={(e) => setCountry(e.target.value)}
+          placeholder='Country'
+        />
+        <p className='errors form__errors'>{errors.country}</p>
+
         <label>
-          Street Address<span className='required-star'>*</span>
-          <input
-            type="text"
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
-            placeholder='Address'
-          />
-          <p className='errors spot-form__errors'>{errors.address}</p>
+          Street Address
         </label>
+        <input
+          type="text"
+          value={address}
+          onChange={(e) => setAddress(e.target.value)}
+          placeholder='Address'
+        />
+        <p className='errors form__errors'>{errors.address}</p>
+
         <label>
-          City<span className='required-star'>*</span>
-          <input
-            type="text"
-            value={city}
-            onChange={(e) => setCity(e.target.value)}
-            placeholder='City'
-          /><p className='errors spot-form__errors'>{errors.city}</p>
+          City
         </label>
+        <input
+          type="text"
+          value={city}
+          onChange={(e) => setCity(e.target.value)}
+          placeholder='City'
+        /><p className='errors form__errors'>{errors.city}</p>
+
         <label>
-          State<span className='required-star'>*</span>
-          <input
-            type="text"
-            value={state}
-            onChange={(e) => setState(e.target.value)}
-            placeholder='State'
-          /><p className='errors spot-form__errors'>{errors.state}</p>
+          State
         </label>
-        <label>
-          Latitude<span className='required-star'>*</span>
-          <input
-            type="text"
-            value={lat}
-            onChange={(e) => setLat(e.target.value)}
-            placeholder='Latitude'
-          /><p className='errors spot-form__errors'>{errors.lat}</p>
-        </label>
-        <label>
-          Longitude<span className='required-star'>*</span>
-          <input
-            type="text"
-            value={lng}
-            onChange={(e) => setLng(e.target.value)}
-            placeholder='Longitude'
-          />
-          <p className='errors spot-form__errors'>{errors.lng}</p>
-        </label>
+        <input
+          type="text"
+          value={state}
+          onChange={(e) => setState(e.target.value)}
+          placeholder='State'
+        /><p className='errors form__errors'>{errors.state}</p>
+
       </div>
 
       <div className='create-spot__header'>
@@ -170,7 +160,7 @@ export default function SpotForm({ spot }) {
           onChange={(e) => setDescription(e.target.value)}
           placeholder="Please write at least 30 characters"
         />
-        <p className='errors spot-form__errors'>{errors.description}</p>
+        <p className='errors form__errors'>{errors.description}</p>
       </div>
 
       <div className='create-spot__header'>
@@ -182,20 +172,19 @@ export default function SpotForm({ spot }) {
           onChange={(e) => setName(e.target.value)}
           placeholder='Name your spot'
         />
-        <p className='errors spot-form__errors'>{errors.name}</p>
+        <p className='errors form__errors'>{errors.name}</p>
       </div>
 
       <div className='create-spot__header'>
         <h3>Set a base price for your spot</h3>
         <p>Competitive pricing can help your listing stand out and rank higher in search results.</p>
-        <span>$</span>
         <input
-          type="text"
+          type="number"
           value={price}
           onChange={(e) => setPrice(e.target.value)}
           placeholder='Price per night (USD)'
         />
-        <p className='errors spot-form__errors'>{errors.price}</p>
+        <p className='errors form__errors'>{errors.price}</p>
       </div>
 
       <div className='create-spot__header'>
@@ -207,35 +196,35 @@ export default function SpotForm({ spot }) {
           onChange={(e) => setImage0(e.target.value)}
           placeholder='Preview Image URL'
         />
-        <p className='errors spot-form__errors'>{errors.image0}</p>
+        <p className='errors form__errors'>{errors.image0}</p>
         <input
           type="text"
           value={image1}
           onChange={(e) => setImage1(e.target.value)}
           placeholder='Image URL'
         />
-        <p className='errors spot-form__errors'>{errors.image1}</p>
+        <p className='errors form__errors'>{errors.image1}</p>
         <input
           type="text"
           value={image2}
           onChange={(e) => setImage2(e.target.value)}
           placeholder='Image URL'
-        /> <p className='errors spot-form__errors'>{errors.image2}</p>
+        /> <p className='errors form__errors'>{errors.image2}</p>
         <input
           type="text"
           value={image3}
           onChange={(e) => setImage3(e.target.value)}
           placeholder='Image URL'
-        /> <p className='errors spot-form__errors'>{errors.image3}</p>
+        /> <p className='errors form__errors'>{errors.image3}</p>
         <input
           type="text"
           value={image4}
           onChange={(e) => setImage4(e.target.value)}
           placeholder='Image URL'
-        /> <p className='errors spot-form__errors'>{errors.image4}</p>
+        /> <p className='errors form__errors'>{errors.image4}</p>
       </div>
 
-      <button type="submit" onClick={handleSubmit} disabled={hasErrors}>Create Spot</button>
+      <button type="submit" onClick={handleSubmit}>Create Spot</button>
 
     </form>
 

@@ -3,6 +3,7 @@ import { fetchAllSpots } from "../../store/spots";
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import SpotCard from "../Spots/SpotCard";
+import './LandingPage.css'
 
 const LandingPage = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -12,7 +13,7 @@ const LandingPage = () => {
 
   const dispatch = useDispatch();
   const history = useHistory();
-  console.log(spotsState)
+
 
   useEffect(() => {
     async function fetchData() {

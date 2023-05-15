@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import * as sessionActions from "../../store/session";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
+import { Link } from "react-router-dom";
 import "./LoginForm.css";
 
 function LoginFormModal() {
@@ -24,6 +25,21 @@ function LoginFormModal() {
         }
       });
   };
+
+  const handleDemo = () => {
+    const demo = {
+      credential: "DemoLicious",
+      password: 'password'
+    }
+    return dispatch(sessionActions.login(demo))
+      .then(closeModal)
+      .catch(async (res) => {
+        const data = await res.json();
+        if (data && data.errors) {
+          setErrors(data.errors);
+        }
+      });
+  }
 
   return (
     <>
@@ -51,7 +67,9 @@ function LoginFormModal() {
           <p>{errors.credential}</p>
         )}
         <button type="submit">Log In</button>
+        <button className='demouser-login' onClick={handleDemo}>Log in as Demo User</button>
       </form>
+
     </>
   );
 }
