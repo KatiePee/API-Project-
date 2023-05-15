@@ -62,17 +62,14 @@ export default function SpotDetail({ user }) {
       </div>
 
       <div className="spotDetails__image-box">
-        <div className='spotsCard__image '>
-          <img src={previewImg.url} className="spot-image" />
+        <div className='spotsDetails__preview'>
+          <img src={previewImg.url} className="preview-image" />
         </div>
         <div className='spotDetails__image-tiles'>
           {SpotImages1.map((el, i) => {
             if (i <= 4) {
               return (
-                <div className='spotDetails__four-images'>
-                  <img src={el.url} key={i} className="spot-image" />
-                </div>
-                // <div className='test'>Div! </div>
+                <img src={el.url} key={i} className="tile-image" />
               )
             }
           })}

@@ -29,5 +29,21 @@
 .reviews__date {
   color: darkgray;
   align-self: center;
+}
 
+.star-filled {
+  color: gold;
+}
+
+.star-empty {
+  color: lightgray;
+}
+
+.star-container {
+  display: flex;
+  justify-content: center;
+}
+
+.star-container>* {
+  padding: 5px;
 }
