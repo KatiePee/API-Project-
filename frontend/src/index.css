@@ -19,7 +19,9 @@
 
 body {
   /* max-width: 1120; */
-  margin-bottom: 2rem
+  margin-bottom: 2rem;
+  margin-right: 1rem;
+  margin-left: 1rem;
 }
 
 button {
@@ -78,7 +80,7 @@ p {
 .modal-card {
   display: flex;
   flex-direction: column;
-  gap: .2rem;
+  gap: .5rem;
   /* padding: 10px */
 }
 

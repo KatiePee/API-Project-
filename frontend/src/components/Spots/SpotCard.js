@@ -3,8 +3,7 @@ import React from 'react';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
 import './spots.css'
-
-
+// import './SpotCard.css'
 
 export default function SpotCard({ spot }) {
   const { id, name, previewImage, city, state, avgRating, price } = spot;
@@ -15,16 +14,14 @@ export default function SpotCard({ spot }) {
 
   return (
     <div className='spotsCard' key={id} onClick={handleClick}>
-      <Tippy content={<span>{name}</span>}>
-        <div className='spotsCard__image'>
+      <div className='spotsCard__image'>
+        <Tippy content={<span>{name}</span>}>
           <img src={previewImage} alt={`${name} image`} className="spot-image" />
-        </div>
-      </Tippy>
+        </Tippy>
+      </div>
 
       <div className='spotsCard__details'>
-        <div className='spotsCard__place'>
-          <p>{city}, {state}</p>
-        </div>
+        <p className='spotsCard__place'>{city}, {state}</p>
         <div className='spotsCard__star-rating'>
           <span ><i className="fa-sharp fa-solid fa-star"></i></span>
           <span className={avgRating ? '' : 'new-rating'}>{avgRating ? avgRating : 'New!'}</span>
