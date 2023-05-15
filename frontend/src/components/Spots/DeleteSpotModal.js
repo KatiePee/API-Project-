@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React from "react";
+import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import { deleteSpotThunk } from "../../store/spots";
-import { fetchSpot } from "../../store/spots";
+
 
 const DeleteSpotModal = ({ spot }) => {
   const dispatch = useDispatch();

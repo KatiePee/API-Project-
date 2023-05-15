@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAllSpots } from "../../store/spots";
 import { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+
 import SpotCard from "../Spots/SpotCard";
 import './LandingPage.css'
 
@@ -12,7 +12,7 @@ const LandingPage = () => {
   const spots = spotsState ? Object.values(spotsState) : [];
 
   const dispatch = useDispatch();
-  const history = useHistory();
+
 
 
   useEffect(() => {

@@ -11,18 +11,13 @@ export default function SpotForm({ spot }) {
   const [address, setAddress] = useState(spot?.address)
   const [city, setCity] = useState(spot?.city)
   const [state, setState] = useState(spot?.state)
-  const [lat, setLat] = useState(spot?.lat)
-  const [lng, setLng] = useState(spot?.lng)
   const [description, setDescription] = useState(spot?.description)
   const [name, setName] = useState(spot?.name)
   const [price, setPrice] = useState(spot?.price)
   const [errors, setErrors] = useState({});
-  const [hasErrors, setHasErrors] = useState(false)
+
 
   const dispatch = useDispatch();
-
-
-  let newErrors = {}
 
   let formErrors = {}
 
