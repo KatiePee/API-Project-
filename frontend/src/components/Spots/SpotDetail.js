@@ -1,12 +1,11 @@
 import { useDispatch, useSelector } from "react-redux";
 import { fetchSpot } from "../../store/spots";
 import { useEffect, useState } from "react";
-import { useHistory, useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import SpotReviews from "../Reviews/SpotReviews";
-import CreateReviewModal from "../Reviews/CreatReviewModal";
 import OpenModalButton from "../OpenModalButton";
 import ComingSoon from "../Utils/ComingSoon";
-import { fetchUserReviews } from "../../store/reviews";
+
 
 
 export default function SpotDetail({ user }) {
@@ -47,7 +46,6 @@ export default function SpotDetail({ user }) {
   if (!Owner) return < div > Loading...</div >;
   const previewImg = SpotImages.find(img => img.preview === true) ? SpotImages.find(img => img.preview === true) : SpotImages[0]
   const SpotImages1 = SpotImages.filter(img => img.preview === false)
-  SpotImages1 = [previewImg, previewImg, previewImg, previewImg]
 
   return (
     <div className='spotDetails'>
@@ -64,7 +62,7 @@ export default function SpotDetail({ user }) {
           {SpotImages1.map((el, i) => {
             if (i <= 4) {
               return (
-                <img src={el.url} key={i} className="tile-image" />
+                <img src={el.url} key={i} className="tile-image" alt={name} />
               )
             }
           })}
