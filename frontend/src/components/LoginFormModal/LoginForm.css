@@ -1,0 +1,9 @@
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: .2rem;
+}
+
+.login-form lable {
+  display: block;
+}
