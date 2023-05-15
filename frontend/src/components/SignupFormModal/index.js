@@ -4,6 +4,7 @@ import { useModal } from "../../context/Modal";
 import * as sessionActions from "../../store/session";
 import "./SignupForm.css";
 
+
 function SignupFormModal() {
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");
@@ -44,68 +45,74 @@ function SignupFormModal() {
   return (
     <>
       <h1>Sign Up</h1>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className='login-form'>
         <label>
           Email
-          <input
-            type="text"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
         </label>
-        {errors.email && <p>{errors.email}</p>}
+        <input
+          type="text"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+
+        {errors.email && <p className='form__errors'>{errors.email}</p>}
         <label>
           Username
-          <input
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
         </label>
-        {errors.username && <p>{errors.username}</p>}
+        <input
+          type="text"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          required
+        />
+
+        {errors.username && <p className='form__errors'>{errors.username}</p>}
         <label>
           First Name
-          <input
-            type="text"
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
-            required
-          />
         </label>
-        {errors.firstName && <p>{errors.firstName}</p>}
+        <input
+          type="text"
+          value={firstName}
+          onChange={(e) => setFirstName(e.target.value)}
+          required
+        />
+
+        {errors.firstName && <p className='form__errors'>{errors.firstName}</p>}
         <label>
           Last Name
-          <input
-            type="text"
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
-            required
-          />
         </label>
-        {errors.lastName && <p>{errors.lastName}</p>}
+        <input
+          type="text"
+          value={lastName}
+          onChange={(e) => setLastName(e.target.value)}
+          required
+        />
+
+        {errors.lastName && <p className='form__errors'>{errors.lastName}</p>}
         <label>
           Password
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
         </label>
-        {errors.password && <p>{errors.password}</p>}
+        <input
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
+
+        {errors.password && <p className='form__errors'>{errors.password}</p>}
         <label>
           Confirm Password
-          <input
-            type="password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            required
-          />
         </label>
+        <input
+          type="password"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+          required
+        />
+
         {errors.confirmPassword && (
-          <p>{errors.confirmPassword}</p>
+          <p className='form__errors'>{errors.confirmPassword}</p>
         )}
         <button type="submit">Sign Up</button>
       </form>
